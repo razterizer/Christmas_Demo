@@ -5,11 +5,42 @@
 //  Created by Rasmus Anthin on 2024-11-07.
 //
 
+#include <Termin8or/GameEngine.h>
 #include <iostream>
 
-int main(int argc, const char * argv[])
+class Game : public GameEngine<>
 {
-  // insert code here...
-  std::cout << "Hello, World!\n";
-  return 0;
+public:
+  Game(int argc, char** argv, const GameEngineParams& params)
+    : GameEngine(argv[0], params)
+  {
+  }
+  
+  virtual void generate_data() override
+  {
+  
+  }
+  
+private:
+  
+  virtual void update() override
+  {
+  
+  }
+};
+
+int main(int argc, char** argv)
+{
+  GameEngineParams params;
+  params.screen_bg_color_default = Color::Blue;
+  params.screen_bg_color_title = Color::Blue;
+  params.screen_bg_color_instructions = Color::Black;
+  
+  Game game(argc, argv, params);
+  
+  game.init();
+  game.generate_data();
+  game.run();
+
+  return EXIT_SUCCESS;
 }
