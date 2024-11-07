@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0788850E2CDD4F960068F108 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0788850D2CDD4F960068F108 /* main.cpp */; };
+		0788850E2CDD4F960068F108 /* christmas_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0788850D2CDD4F960068F108 /* christmas_demo.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +24,7 @@
 
 /* Begin PBXFileReference section */
 		0788850A2CDD4F960068F108 /* Christmas_Demo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Christmas_Demo; sourceTree = BUILT_PRODUCTS_DIR; };
-		0788850D2CDD4F960068F108 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		0788850D2CDD4F960068F108 /* christmas_demo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = christmas_demo.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 		0788850C2CDD4F960068F108 /* Christmas_Demo */ = {
 			isa = PBXGroup;
 			children = (
-				0788850D2CDD4F960068F108 /* main.cpp */,
+				0788850D2CDD4F960068F108 /* christmas_demo.cpp */,
 			);
 			path = Christmas_Demo;
 			sourceTree = "<group>";
@@ -119,7 +119,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0788850E2CDD4F960068F108 /* main.cpp in Sources */,
+				0788850E2CDD4F960068F108 /* christmas_demo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
