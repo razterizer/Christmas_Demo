@@ -139,6 +139,18 @@ public:
     
     sprite_tree2 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree2", "tree0"));
     sprite_tree2->pos.c = 68;
+    
+    sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
+    sprite_snowflake->layer_id = 3;
+    sprite_snowflake->pos = { 0, 40 };
+    sprite_snowflake->init(1, 1);
+    sprite_snowflake->create_frame(0);
+    sprite_snowflake->set_sprite_chars(0, '#');
+    sprite_snowflake->set_sprite_fg_colors(0, Color::White);
+    sprite_snowflake->set_sprite_bg_colors(0, Color::White);
+    sprite_snowflake->set_sprite_materials(0, 1);
+    
+    rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f });
   }
   
 private:
@@ -148,10 +160,15 @@ private:
   dynamics::CollisionHandler coll_handler;
   
   BitmapSprite* sprite_ground = nullptr;
+  dynamics::RigidBody* rb_ground = nullptr;
+  
   BitmapSprite* sprite_tree0 = nullptr;
   BitmapSprite* sprite_tree1 = nullptr;
   BitmapSprite* sprite_tree2 = nullptr;
   BitmapSprite* sprite_moon = nullptr;
+  
+  BitmapSprite* sprite_snowflake = nullptr;
+  dynamics::RigidBody* rb_snowflake = nullptr;
   
   virtual void update() override
   {
