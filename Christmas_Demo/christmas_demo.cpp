@@ -227,6 +227,36 @@ private:
   bool dbg_draw_broad_phase = false;
   bool dbg_draw_narrow_phase = false;
   
+  void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb)
+  {
+    for (int r = 0; r < sprite->get_size().r; ++r)
+    {
+      for (int c = 0; c < sprite->get_size().c; ++c)
+      {
+        auto* texture = sprite->get_curr_frame(get_anim_count(0));
+        auto textel = texture->operator()(r, c);
+        if (textel.bg_color == Color::DarkGreen || textel.bg_color == Color::Green)
+        {
+          textel.fg_color = Color::Green;
+          textel.bg_color = Color::DarkGreen;
+          auto n = rb->fetch_surface_normal({ r, c });
+          if (n.r != 0.f && n.c != 0.f)
+          {
+            auto moon_dir = math::normalize(to_Vec2({
+              sprite->pos.r + r - sprite_moon->pos.r,
+              sprite->pos.c + c - sprite_moon->pos.c }));
+            if (math::dot(n, moon_dir) < -.7f)
+            {
+              textel.fg_color = Color::DarkGreen;
+              textel.bg_color = Color::Green;
+            }
+          }
+          texture->set_textel(r, c, textel);
+        }
+      }
+    }
+  }
+  
   virtual void update() override
   {
     if (use_dynamics_system)
@@ -241,6 +271,10 @@ private:
     float t = get_sim_time_s();
     float alpha = w*t + alpha0;
     sprite_moon->pos = to_RC_round({ pivot.r - 25.f*std::sin(alpha), pivot.c + 30.f*std::cos(alpha) });
+    
+    update_lighting_rb_sprite(sprite_tree0, rb_tree0);
+    update_lighting_rb_sprite(sprite_tree1, rb_tree1);
+    update_lighting_rb_sprite(sprite_tree2, rb_tree2);
   
     if (dbg_draw_rigid_bodies)
       dyn_sys.draw_dbg(sh);
