@@ -151,6 +151,8 @@ public:
     sprite_snowflake->set_sprite_materials(0, 1);
     
     rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f });
+    
+    coll_handler.rebuild_BVH(sh.num_rows(), sh.num_cols(), &dyn_sys);
   }
   
 private:
