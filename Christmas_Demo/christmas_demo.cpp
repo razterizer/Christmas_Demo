@@ -65,7 +65,7 @@ public:
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
     sprite_moon->layer_id = 1;
-    sprite_moon->pos = { 12, 63 };
+    sprite_moon->pos = { 15, 63 };
     sprite_moon->init(5, 10);
     sprite_moon->create_frame(0);
     sprite_moon->set_sprite_chars_from_strings(0,
