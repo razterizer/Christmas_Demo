@@ -181,7 +181,24 @@ private:
   
   virtual void update() override
   {
-    sprh.draw(sh, get_anim_count(0));
+    if (use_dynamics_system)
+    {
+      dyn_sys.update(get_sim_dt_s(), get_anim_count(0));
+      coll_handler.update();
+    }
+  
+    if (dbg_draw_rigid_bodies)
+      dyn_sys.draw_dbg(sh);
+    if (dbg_draw_sprites)
+      sprh.draw_dbg_pts(sh, get_anim_count(0));
+    if (dbg_draw_narrow_phase)
+      coll_handler.draw_dbg_narrow_phase(sh);
+    if (draw_sprites)
+      sprh.draw(sh, get_anim_count(0));
+    if (dbg_draw_sprites)
+      sprh.draw_dbg_bb(sh, get_anim_count(0));
+    if (dbg_draw_broad_phase)
+      coll_handler.draw_dbg_broad_phase(sh, 0);
   }
 };
 
