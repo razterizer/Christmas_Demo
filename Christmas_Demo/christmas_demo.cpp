@@ -172,6 +172,13 @@ private:
   BitmapSprite* sprite_snowflake = nullptr;
   dynamics::RigidBody* rb_snowflake = nullptr;
   
+  bool use_dynamics_system = true;
+  bool dbg_draw_rigid_bodies = false;
+  bool dbg_draw_sprites = false;
+  bool draw_sprites = true;
+  bool dbg_draw_broad_phase = false;
+  bool dbg_draw_narrow_phase = false;
+  
   virtual void update() override
   {
     sprh.draw(sh, get_anim_count(0));
