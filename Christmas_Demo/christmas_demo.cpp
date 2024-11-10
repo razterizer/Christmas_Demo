@@ -41,7 +41,7 @@ public:
     // White          // 16
   
     sprite_ground = sprh.create_bitmap_sprite("ground");
-    sprite_ground->layer_id = 0;
+    sprite_ground->layer_id = 1;
     const int ground_height = 3;
     sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
     sprite_ground->init(ground_height, sh.num_cols());
@@ -64,7 +64,7 @@ public:
     rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f); // Zero mass == immovable.
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
-    sprite_moon->layer_id = 1;
+    sprite_moon->layer_id = 0;
     sprite_moon->pos = { 15, 63 };
     sprite_moon->init(5, 10);
     sprite_moon->create_frame(0);
