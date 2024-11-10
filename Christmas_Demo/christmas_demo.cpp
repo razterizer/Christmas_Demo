@@ -153,6 +153,7 @@ public:
     
     sprite_tree2 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree2", "tree0"));
     sprite_tree2->pos.c = 68;
+    sprite_tree2->flip_lr(0);
     rb_tree2 = dyn_sys.add_rigid_body(sprite_tree2, 0.f);
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
