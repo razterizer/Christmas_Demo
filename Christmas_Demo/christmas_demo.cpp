@@ -157,7 +157,7 @@ public:
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
-    sprite_snowflake->pos = { 0, 20 };
+    sprite_snowflake->pos = { 0, 27 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
     sprite_snowflake->set_sprite_chars(0, '*');
