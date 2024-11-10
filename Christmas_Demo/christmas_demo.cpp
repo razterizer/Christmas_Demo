@@ -160,9 +160,9 @@ public:
     sprite_snowflake->pos = { 0, 20 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
-    sprite_snowflake->set_sprite_chars(0, '#');
+    sprite_snowflake->set_sprite_chars(0, '*');
     sprite_snowflake->set_sprite_fg_colors(0, Color::White);
-    sprite_snowflake->set_sprite_bg_colors(0, Color::White);
+    sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
     
     rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f });
