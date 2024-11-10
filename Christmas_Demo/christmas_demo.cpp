@@ -152,6 +152,33 @@ public:
     
     rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f });
     
+    
+    for (int s_idx = 0; s_idx < 30; ++s_idx)
+    {
+      auto* sprite_star = sprh.create_bitmap_sprite("star" + std::to_string(s_idx));
+      sprite_star->pos.r = rnd::rand_int(0, sh.num_rows()-1);
+      sprite_star->pos.c = rnd::rand_int(0, sh.num_cols()-1);
+      sprite_star->layer_id = 0;
+      sprite_star->init(1, 1);
+      sprite_star->create_frame(0);
+      char star_ch = rnd::rand_select<char>({ '.', '+' });
+      sprite_star->set_sprite_chars(0, star_ch);
+      sprite_star->set_sprite_fg_colors(0, rnd::rand_select<Color>({ Color::White, Color::White, Color::White, Color::White, Color::White, Color::Yellow, Color::Yellow, Color::Yellow, Color::Red, Color::Blue, Color::Blue, Color::Blue }));
+      sprite_star->set_sprite_bg_colors(0, Color::Transparent2);
+      sprite_star->create_frame(1);
+      sprite_star->set_sprite_chars(1, star_ch);
+      sprite_star->set_sprite_fg_colors(1, Color::Black);
+      sprite_star->set_sprite_bg_colors(1, Color::Transparent2);
+      const int max_twinkle = 100;
+      int twinkle_offs = rnd::rand_int(0, max_twinkle);
+      sprite_star->func_calc_anim_frame = [twinkle_offs](int sim_frame)
+      {
+        if ((sim_frame + twinkle_offs) % max_twinkle == 0)
+          return 1;
+        return 0;
+      };
+    }
+    
     coll_handler.rebuild_BVH(sh.num_rows(), sh.num_cols(), &dyn_sys);
   }
   
