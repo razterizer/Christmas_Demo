@@ -234,6 +234,13 @@ private:
       dyn_sys.update(get_sim_dt_s(), get_anim_count(0));
       coll_handler.update();
     }
+    
+    const Vec2& pivot = { 30.f, 35.f };
+    const float w = 5e-4f * math::c_2pi;
+    const float alpha0 = math::deg2rad(10.f);
+    float t = get_sim_time_s();
+    float alpha = w*t + alpha0;
+    sprite_moon->pos = to_RC_round({ pivot.r - 25.f*std::sin(alpha), pivot.c + 30.f*std::cos(alpha) });
   
     if (dbg_draw_rigid_bodies)
       dyn_sys.draw_dbg(sh);
