@@ -145,16 +145,19 @@ public:
        0,  0,  0,  0,  1,  0,  0,  0,  0
     );
     sprite_tree0->func_calc_anim_frame = [](int sim_frame) { return 0; };
+    rb_tree0 = dyn_sys.add_rigid_body(sprite_tree0, 0.f);
     
     sprite_tree1 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree1", "tree0"));
     sprite_tree1->pos.c = 33;
+    rb_tree1 = dyn_sys.add_rigid_body(sprite_tree1, 0.f);
     
     sprite_tree2 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree2", "tree0"));
     sprite_tree2->pos.c = 68;
+    rb_tree2 = dyn_sys.add_rigid_body(sprite_tree2, 0.f);
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
-    sprite_snowflake->pos = { 0, 40 };
+    sprite_snowflake->pos = { 0, 20 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
     sprite_snowflake->set_sprite_chars(0, '#');
@@ -204,8 +207,12 @@ private:
   dynamics::RigidBody* rb_ground = nullptr;
   
   BitmapSprite* sprite_tree0 = nullptr;
+  dynamics::RigidBody* rb_tree0 = nullptr;
   BitmapSprite* sprite_tree1 = nullptr;
+  dynamics::RigidBody* rb_tree1 = nullptr;
   BitmapSprite* sprite_tree2 = nullptr;
+  dynamics::RigidBody* rb_tree2 = nullptr;
+  
   BitmapSprite* sprite_moon = nullptr;
   
   BitmapSprite* sprite_snowflake = nullptr;
