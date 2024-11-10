@@ -166,7 +166,8 @@ public:
     sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
     
-    rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f }, 0.f, 0.f, 0.1f);
+    float e = 0.f;
+    rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f }, 0.f, 0.f, e);
     
     
     for (int s_idx = 0; s_idx < 30; ++s_idx)
