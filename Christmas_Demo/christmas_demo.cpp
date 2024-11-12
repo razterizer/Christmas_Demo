@@ -61,7 +61,10 @@ public:
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     );
-    rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f); // Zero mass == immovable.
+    rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f, // Zero mass == immovable.
+      std::nullopt, {}, {},
+      0.f, 0.f,
+      e_ground, friction_ground);
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
     sprite_moon->layer_id = 0;
@@ -145,29 +148,50 @@ public:
        0,  0,  0,  0,  1,  0,  0,  0,  0
     );
     sprite_tree0->func_calc_anim_frame = [](int sim_frame) { return 0; };
-    rb_tree0 = dyn_sys.add_rigid_body(sprite_tree0, 0.f);
+    rb_tree0 = dyn_sys.add_rigid_body(sprite_tree0, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
     
     sprite_tree1 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree1", "tree0"));
     sprite_tree1->pos.c = 33;
-    rb_tree1 = dyn_sys.add_rigid_body(sprite_tree1, 0.f);
+    rb_tree1 = dyn_sys.add_rigid_body(sprite_tree1, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
     
     sprite_tree2 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree2", "tree0"));
     sprite_tree2->pos.c = 68;
     sprite_tree2->flip_lr(0);
-    rb_tree2 = dyn_sys.add_rigid_body(sprite_tree2, 0.f);
+    rb_tree2 = dyn_sys.add_rigid_body(sprite_tree2, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
     
-    sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
-    sprite_snowflake->layer_id = 3;
-    sprite_snowflake->pos = { 0, 27 };
-    sprite_snowflake->init(1, 1);
-    sprite_snowflake->create_frame(0);
-    sprite_snowflake->set_sprite_chars(0, '*');
-    sprite_snowflake->set_sprite_fg_colors(0, Color::White);
-    sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
-    sprite_snowflake->set_sprite_materials(0, 1);
+    sprite_snowflake_c = sprh.create_bitmap_sprite("snowflake_c");
+    sprite_snowflake_c->layer_id = 3;
+    sprite_snowflake_c->pos = { 0, 27 };
+    sprite_snowflake_c->init(1, 1);
+    sprite_snowflake_c->create_frame(0);
+    sprite_snowflake_c->set_sprite_chars(0, '*');
+    sprite_snowflake_c->set_sprite_fg_colors(0, Color::White);
+    sprite_snowflake_c->set_sprite_bg_colors(0, Color::Transparent2);
+    sprite_snowflake_c->set_sprite_materials(0, 1);
+    dyn_sys.add_rigid_body(sprite_snowflake_c, .5f, std::nullopt,
+      { 0.5f, -3.f }, { 0.1f, 0.12f },
+      0.f, 0.f,
+      e_snowflake, friction_snowflake);
+    snowflakes_coll = sprh.clone_sprite_array<1000>("snowflake_c", "snowflake_c");
+    dyn_sys.add_rigid_bodies<1000>(snowflakes_coll,
+      [](int){ return 0.5f; },
+      [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 81.f) }; }, // pos
+      [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; }, // vel
+      [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
+      [](int){ return 0.f; }, [](int){ return 0.f; },
+      [this](int){ return e_snowflake; }, [this](int){ return friction_snowflake; });
     
-    float e = 0.f;
-    rb_snowflake = dyn_sys.add_rigid_body(sprite_snowflake, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f }, 0.f, 0.f, e);
+    //sprite_snowflake_nc = sprh.create_bitmap_sprite("snowflake_nc");
+    //sprite_snowflake_nc->layer_id = 3;
+    //sprite_snowflake_nc->pos = { 0, 50 };
+    //sprite_snowflake_nc->init(1, 1);
+    //sprite_snowflake_nc->create_frame(0);
+    //sprite_snowflake_nc->set_sprite_chars(0, '*');
+    //sprite_snowflake_nc->set_sprite_fg_colors(0, Color::White);
+    //sprite_snowflake_nc->set_sprite_bg_colors(0, Color::Transparent2);
+    //sprite_snowflake_nc->set_sprite_materials(0, 1);
+    //dyn_sys.add_rigid_body(sprite_snowflake_nc, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f }, 0.f, 0.f, e, friction, { 1 }, {});
+    //snowflakes_non_coll = sprh.clone_sprite_array<50>("snowflake_nc", "snowflake_nc");
     
     
     for (int s_idx = 0; s_idx < 30; ++s_idx)
@@ -217,8 +241,17 @@ private:
   
   BitmapSprite* sprite_moon = nullptr;
   
-  BitmapSprite* sprite_snowflake = nullptr;
-  dynamics::RigidBody* rb_snowflake = nullptr;
+  BitmapSprite* sprite_snowflake_c = nullptr;
+  std::array<Sprite*, 1000> snowflakes_coll;
+  //BitmapSprite* sprite_snowflake_nc = nullptr;
+  //std::array<Sprite*, 50> snowflakes_non_coll;
+  
+  float e_ground = 0.05f;
+  float e_tree = 0.1f;
+  float e_snowflake = 0.07f;
+  float friction_ground = 0.5f;
+  float friction_tree = 0.95f;
+  float friction_snowflake = 0.8f;
   
   bool use_dynamics_system = true;
   bool dbg_draw_rigid_bodies = false;
