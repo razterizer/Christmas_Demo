@@ -314,10 +314,13 @@ private:
           if (texture != nullptr)
           {
             auto curr_textel = (*texture)(0, 0);
-            curr_textel.ch = '#';
-            curr_textel.fg_color = Color::White;
-            curr_textel.bg_color = Color::White;
-            texture->set_textel(0, 0, curr_textel);
+            if (curr_textel.ch != '#')
+            {
+              curr_textel.ch = '#';
+              curr_textel.fg_color = Color::White;
+              curr_textel.bg_color = Color::White;
+              texture->set_textel(0, 0, curr_textel);
+            }
           }
         }
       }
