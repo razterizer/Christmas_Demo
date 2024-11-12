@@ -172,7 +172,7 @@ public:
       0.f, 0.f,
       e_snowflake, friction_snowflake);
     snowflakes_coll = sprh.clone_sprite_array<1000>("snowflake_c", "snowflake_c");
-    dyn_sys.add_rigid_bodies<1000>(snowflakes_coll,
+    rb_snowflakes_coll = dyn_sys.add_rigid_bodies<1000>(snowflakes_coll,
       [](int){ return 0.5f; },
       [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 81.f) }; }, // pos
       [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; }, // vel
@@ -243,6 +243,7 @@ private:
   
   BitmapSprite* sprite_snowflake_c = nullptr;
   std::array<Sprite*, 1000> snowflakes_coll;
+  std::array<dynamics::RigidBody*, 1000> rb_snowflakes_coll;
   //BitmapSprite* sprite_snowflake_nc = nullptr;
   //std::array<Sprite*, 50> snowflakes_non_coll;
   
