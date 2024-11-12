@@ -179,6 +179,10 @@ public:
       [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
       [](int){ return 0.f; }, [](int){ return 0.f; },
       [this](int){ return e_snowflake; }, [this](int){ return friction_snowflake; });
+    for (auto* rb : rb_snowflakes_coll)
+      rb->set_sleeping(true,
+                       0.05f, 0.5f, // vel, time
+                       10.f); // impulse
     
     //sprite_snowflake_nc = sprh.create_bitmap_sprite("snowflake_nc");
     //sprite_snowflake_nc->layer_id = 3;
@@ -295,7 +299,7 @@ private:
   {
     if (use_dynamics_system)
     {
-      dyn_sys.update(get_sim_dt_s(), get_anim_count(0));
+      dyn_sys.update(get_sim_time_s(), get_sim_dt_s(), get_anim_count(0));
       coll_handler.update();
     }
     
