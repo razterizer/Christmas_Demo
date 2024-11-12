@@ -42,7 +42,6 @@ public:
   
     sprite_ground = sprh.create_bitmap_sprite("ground");
     sprite_ground->layer_id = 1;
-    const int ground_height = 3;
     sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
     sprite_ground->init(ground_height, sh.num_cols());
     sprite_ground->create_frame(0);
@@ -229,6 +228,7 @@ private:
   dynamics::DynamicsSystem dyn_sys;
   dynamics::CollisionHandler coll_handler;
   
+  const int ground_height = 3;
   BitmapSprite* sprite_ground = nullptr;
   dynamics::RigidBody* rb_ground = nullptr;
   
