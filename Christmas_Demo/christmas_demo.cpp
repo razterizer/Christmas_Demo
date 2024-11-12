@@ -299,9 +299,9 @@ private:
       coll_handler.update();
     }
     
-    const Vec2& pivot = { 30.f, 35.f };
+    const Vec2& pivot = { 30.f, 37.f };
     const float w = 5e-4f * math::c_2pi;
-    const float alpha0 = math::deg2rad(10.f);
+    const float alpha0 = math::deg2rad(7.5f);
     float t = get_sim_time_s();
     float alpha = w*t + alpha0;
     sprite_moon->pos = to_RC_round({ pivot.r - 25.f*std::sin(alpha), pivot.c + 30.f*std::cos(alpha) });
