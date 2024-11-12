@@ -309,6 +309,10 @@ private:
     update_lighting_rb_sprite(sprite_tree0, rb_tree0);
     update_lighting_rb_sprite(sprite_tree1, rb_tree1);
     update_lighting_rb_sprite(sprite_tree2, rb_tree2);
+    
+    for (auto* rb : rb_snowflakes_coll)
+      if (rb->get_curr_cm().r >= sh.num_rows() - ground_height - 1)
+        rb->reset_curr_cm();
   
     if (dbg_draw_rigid_bodies)
       dyn_sys.draw_dbg(sh);
