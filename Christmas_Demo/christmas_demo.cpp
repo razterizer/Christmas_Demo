@@ -315,8 +315,27 @@ private:
     update_lighting_rb_sprite(sprite_tree2, rb_tree2);
     
     for (auto* rb : rb_snowflakes_coll)
+    {
       if (rb->get_curr_cm().r >= sh.num_rows() - ground_height - 1)
         rb->reset_curr_cm();
+        
+      if (rb->is_sleeping())
+      {
+        auto* sprite = dynamic_cast<BitmapSprite*>(rb->get_sprite());
+        if (sprite != nullptr)
+        {
+          auto* texture = sprite->get_curr_frame(get_anim_count(0));
+          if (texture != nullptr)
+          {
+            auto curr_textel = (*texture)(0, 0);
+            curr_textel.ch = '#';
+            curr_textel.fg_color = Color::White;
+            curr_textel.bg_color = Color::White;
+            texture->set_textel(0, 0, curr_textel);
+          }
+        }
+      }
+    }
   
     if (dbg_draw_rigid_bodies)
       dyn_sys.draw_dbg(sh);
