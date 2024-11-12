@@ -184,18 +184,6 @@ public:
                        0.05f, 0.5f, // vel, time
                        10.f); // impulse
     
-    //sprite_snowflake_nc = sprh.create_bitmap_sprite("snowflake_nc");
-    //sprite_snowflake_nc->layer_id = 3;
-    //sprite_snowflake_nc->pos = { 0, 50 };
-    //sprite_snowflake_nc->init(1, 1);
-    //sprite_snowflake_nc->create_frame(0);
-    //sprite_snowflake_nc->set_sprite_chars(0, '*');
-    //sprite_snowflake_nc->set_sprite_fg_colors(0, Color::White);
-    //sprite_snowflake_nc->set_sprite_bg_colors(0, Color::Transparent2);
-    //sprite_snowflake_nc->set_sprite_materials(0, 1);
-    //dyn_sys.add_rigid_body(sprite_snowflake_nc, .5f, { 0.5f, -3.f }, { 0.1f, 0.12f }, 0.f, 0.f, e, friction, { 1 }, {});
-    //snowflakes_non_coll = sprh.clone_sprite_array<50>("snowflake_nc", "snowflake_nc");
-    
     
     for (int s_idx = 0; s_idx < 30; ++s_idx)
     {
@@ -248,8 +236,6 @@ private:
   BitmapSprite* sprite_snowflake_c = nullptr;
   std::array<Sprite*, 1000> snowflakes_coll;
   std::array<dynamics::RigidBody*, 1000> rb_snowflakes_coll;
-  //BitmapSprite* sprite_snowflake_nc = nullptr;
-  //std::array<Sprite*, 50> snowflakes_non_coll;
   
   float e_ground = 0.05f;
   float e_tree = 0.1f;
