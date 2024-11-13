@@ -172,6 +172,7 @@ public:
       0.f, 0.f,
       e_snowflake, friction_snowflake);
     snowflakes_coll = sprh.clone_sprite_array<1000>("snowflake_c", "snowflake_c");
+    sprite_snowflake_c->enabled = false;
     rb_snowflakes_coll = dyn_sys.add_rigid_bodies<1000>(snowflakes_coll,
       [](int){ return 0.5f; },
       [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 81.f) }; }, // pos
