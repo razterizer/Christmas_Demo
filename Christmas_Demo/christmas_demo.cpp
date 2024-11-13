@@ -167,6 +167,7 @@ public:
     sprite_snowflake_c->set_sprite_fg_colors(0, Color::White);
     sprite_snowflake_c->set_sprite_bg_colors(0, Color::Transparent2);
     sprite_snowflake_c->set_sprite_materials(0, 1);
+    f_snowflake_vel = [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; };
     dyn_sys.add_rigid_body(sprite_snowflake_c, .5f, std::nullopt,
       { 0.5f, -3.f }, { 0.1f, 0.12f },
       0.f, 0.f,
@@ -176,7 +177,7 @@ public:
     rb_snowflakes_coll = dyn_sys.add_rigid_bodies<1000>(snowflakes_coll,
       [](int){ return 0.5f; },
       [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 81.f) }; }, // pos
-      [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; }, // vel
+      f_snowflake_vel, // vel
       [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
       [](int){ return 0.f; }, [](int){ return 0.f; },
       [this](int){ return e_snowflake; }, [this](int){ return friction_snowflake; },
@@ -239,6 +240,8 @@ private:
   std::array<Sprite*, 1000> snowflakes_coll;
   std::array<dynamics::RigidBody*, 1000> rb_snowflakes_coll;
   std::map<RC, std::vector<Sprite*>> snowflake_map;
+  
+  std::function<Vec2(int)> f_snowflake_vel;
   
   float e_ground = 0.05f;
   float e_tree = 0.1f;
@@ -329,7 +332,10 @@ private:
     for (auto* rb : rb_snowflakes_coll)
     {
       if (rb->get_curr_cm().r >= sh.num_rows() - ground_height - 1)
+      {
         rb->reset_curr_cm();
+        rb->set_curr_lin_vel(f_snowflake_vel(0));
+      }
         
       if (rb->is_sleeping())
       {
