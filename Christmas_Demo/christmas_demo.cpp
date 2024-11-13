@@ -180,7 +180,7 @@ public:
       [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
       [](int){ return 0.f; }, [](int){ return 0.f; },
       [this](int){ return e_snowflake; }, [this](int){ return friction_snowflake; },
-      [](int){ return rnd::rand_float(0.2f, 1.8f); });
+      [](int){ return rnd::rand_float(0.2f, 3.f); });
     for (auto* rb : rb_snowflakes_coll)
       rb->set_sleeping(true,
                        0.05f, 0.5f, // vel, time
