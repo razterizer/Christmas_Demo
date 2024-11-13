@@ -236,6 +236,7 @@ private:
   BitmapSprite* sprite_snowflake_c = nullptr;
   std::array<Sprite*, 1000> snowflakes_coll;
   std::array<dynamics::RigidBody*, 1000> rb_snowflakes_coll;
+  std::map<RC, std::vector<Sprite*>> snowflake_map;
   
   float e_ground = 0.05f;
   float e_tree = 0.1f;
@@ -253,6 +254,25 @@ private:
   
   void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb)
   {
+    auto set_snowflake_color = [this](int rw, int cw, Color col)
+    {
+      auto it = snowflake_map.find({rw, cw});
+      if (it == snowflake_map.end())
+        return;
+      for (auto* snowflake_sprite : it->second)
+      {
+        auto* snowflake_texture = dynamic_cast<BitmapSprite*>(snowflake_sprite)->get_curr_frame(get_anim_count(0));
+        if (snowflake_texture != nullptr)
+        {
+          auto sf_textel = (*snowflake_texture)(0, 0);
+          sf_textel.fg_color = col;
+          sf_textel.bg_color = col;
+          snowflake_texture->set_textel(0, 0, sf_textel);
+        }
+      }
+    };
+  
+    auto pos = sprite->pos;
     for (int r = 0; r < sprite->get_size().r; ++r)
     {
       for (int c = 0; c < sprite->get_size().c; ++c)
@@ -263,6 +283,9 @@ private:
         {
           textel.fg_color = Color::Green;
           textel.bg_color = Color::DarkGreen;
+          int rw = r + pos.r;
+          int cw = c + pos.c;
+          set_snowflake_color(rw, cw, Color::LightGray);
           auto n = rb->fetch_surface_normal({ r, c });
           if (n.r != 0.f && n.c != 0.f)
           {
@@ -273,6 +296,7 @@ private:
             {
               textel.fg_color = Color::DarkGreen;
               textel.bg_color = Color::Green;
+              set_snowflake_color(rw, cw, Color::White);
             }
           }
           texture->set_textel(r, c, textel);
@@ -317,9 +341,10 @@ private:
             if (curr_textel.ch != '#')
             {
               curr_textel.ch = '#';
-              curr_textel.fg_color = Color::White;
-              curr_textel.bg_color = Color::White;
+              curr_textel.fg_color = Color::LightGray;
+              curr_textel.bg_color = Color::LightGray;
               texture->set_textel(0, 0, curr_textel);
+              snowflake_map[sprite->pos].emplace_back(sprite);
             }
           }
         }
