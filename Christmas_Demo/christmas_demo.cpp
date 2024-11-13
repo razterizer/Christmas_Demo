@@ -243,6 +243,11 @@ private:
   
   std::function<Vec2(int)> f_snowflake_vel;
   
+  const Vec2 moon_pivot = { 30.f, 37.f };
+  const float moon_w = 5e-4f * math::c_2pi;
+  const float moon_alpha0 = math::deg2rad(7.5f);
+  float moon_alpha = 0.f;
+  
   float e_ground = 0.05f;
   float e_tree = 0.1f;
   float e_snowflake = 0.07f;
@@ -280,23 +285,23 @@ private:
     auto pos = sprite->pos;
     for (int r = 0; r < sprite->get_size().r; ++r)
     {
+      int rw = r + pos.r;
       for (int c = 0; c < sprite->get_size().c; ++c)
       {
+        int cw = c + pos.c;
         auto* texture = sprite->get_curr_frame(get_anim_count(0));
         auto textel = texture->operator()(r, c);
+        auto moon_dir = math::normalize(to_Vec2({
+          rw - sprite_moon->pos.r,
+          cw - sprite_moon->pos.c }));
         if (textel.bg_color == Color::DarkGreen || textel.bg_color == Color::Green)
         {
           textel.fg_color = Color::Green;
           textel.bg_color = Color::DarkGreen;
-          int rw = r + pos.r;
-          int cw = c + pos.c;
           set_snowflake_color(rw, cw, Color::LightGray);
           auto n = rb->fetch_surface_normal({ r, c });
           if (n.r != 0.f && n.c != 0.f)
           {
-            auto moon_dir = math::normalize(to_Vec2({
-              sprite->pos.r + r - sprite_moon->pos.r,
-              sprite->pos.c + c - sprite_moon->pos.c }));
             if (math::dot(n, moon_dir) < -.7f)
             {
               textel.fg_color = Color::DarkGreen;
@@ -305,6 +310,21 @@ private:
             }
           }
           texture->set_textel(r, c, textel);
+        }
+        if (textel.bg_color != Color::Transparent2)
+        {
+          auto gnd_lvl = sh.num_rows() - ground_height;
+          // End of shadow.
+          auto t = math::lerp(static_cast<float>(std::sin(moon_alpha)), 20.f, 2.f);
+          auto gnd_rw1 = math::roundI(static_cast<float>(rw) + t*moon_dir.r);
+          auto gnd_cw1 = math::roundI(static_cast<float>(cw) + t*moon_dir.c);
+          // Start of shadow.
+          // sh.num_rows() - ground_height = rw + t*moon_dir.r;
+          t = (gnd_lvl - static_cast<float>(rw))/moon_dir.r;
+          auto gnd_rw0 = math::roundI(static_cast<float>(rw) + t*moon_dir.r);
+          auto gnd_cw0 = math::roundI(static_cast<float>(cw) + t*moon_dir.c);
+          if (gnd_rw1 >= gnd_lvl && gnd_rw0 >= gnd_lvl)
+            bresenham::plot_line(sh, { gnd_rw0, gnd_cw0 }, { gnd_rw1, gnd_cw1 }, "#", Color::DarkGray, Color::DarkGray);
         }
       }
     }
@@ -318,12 +338,13 @@ private:
       coll_handler.update();
     }
     
-    const Vec2& pivot = { 30.f, 37.f };
-    const float w = 5e-4f * math::c_2pi;
-    const float alpha0 = math::deg2rad(7.5f);
+
     float t = get_sim_time_s();
-    float alpha = w*t + alpha0;
-    sprite_moon->pos = to_RC_round({ pivot.r - 25.f*std::sin(alpha), pivot.c + 30.f*std::cos(alpha) });
+    moon_alpha = moon_w*t + moon_alpha0;
+    sprite_moon->pos = to_RC_round({
+      moon_pivot.r - 25.f*std::sin(moon_alpha),
+      moon_pivot.c + 30.f*std::cos(moon_alpha)
+    });
     
     update_lighting_rb_sprite(sprite_tree0, rb_tree0);
     update_lighting_rb_sprite(sprite_tree1, rb_tree1);
