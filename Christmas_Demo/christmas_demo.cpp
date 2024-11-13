@@ -226,23 +226,23 @@ public:
     sprite_tree2->flip_lr(0);
     rb_tree2 = dyn_sys.add_rigid_body(sprite_tree2, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
     
-    sprite_snowflake_c = sprh.create_bitmap_sprite("snowflake_c");
-    sprite_snowflake_c->layer_id = 3;
-    sprite_snowflake_c->pos = { 0, 27 };
-    sprite_snowflake_c->init(1, 1);
-    sprite_snowflake_c->create_frame(0);
-    sprite_snowflake_c->set_sprite_chars(0, '*');
-    sprite_snowflake_c->set_sprite_fg_colors(0, Color::White);
-    sprite_snowflake_c->set_sprite_bg_colors(0, Color::Transparent2);
-    sprite_snowflake_c->set_sprite_materials(0, 1);
+    sprite_snowflake = sprh.create_bitmap_sprite("snowflake_c");
+    sprite_snowflake->layer_id = 3;
+    sprite_snowflake->pos = { 0, 27 };
+    sprite_snowflake->init(1, 1);
+    sprite_snowflake->create_frame(0);
+    sprite_snowflake->set_sprite_chars(0, '*');
+    sprite_snowflake->set_sprite_fg_colors(0, Color::White);
+    sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
+    sprite_snowflake->set_sprite_materials(0, 1);
     f_snowflake_vel = [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; };
-    dyn_sys.add_rigid_body(sprite_snowflake_c, .5f, std::nullopt,
+    dyn_sys.add_rigid_body(sprite_snowflake, .5f, std::nullopt,
       { 0.5f, -3.f }, { 0.1f, 0.12f },
       0.f, 0.f,
       e_snowflake, friction_snowflake);
-    snowflakes_coll = sprh.clone_sprite_array<1000>("snowflake_c", "snowflake_c");
-    sprite_snowflake_c->enabled = false;
-    rb_snowflakes_coll = dyn_sys.add_rigid_bodies<1000>(snowflakes_coll,
+    sprite_snowflake_arr = sprh.clone_sprite_array<1000>("snowflake_c", "snowflake_c");
+    sprite_snowflake->enabled = false;
+    rb_snowflake_arr = dyn_sys.add_rigid_bodies<1000>(sprite_snowflake_arr,
       [](int){ return 0.5f; },
       [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 81.f) }; }, // pos
       f_snowflake_vel, // vel
@@ -250,7 +250,7 @@ public:
       [](int){ return 0.f; }, [](int){ return 0.f; },
       [this](int){ return e_snowflake; }, [this](int){ return friction_snowflake; },
       [](int){ return rnd::rand_float(0.2f, 3.f); });
-    for (auto* rb : rb_snowflakes_coll)
+    for (auto* rb : rb_snowflake_arr)
       rb->set_sleeping(true,
                        0.05f, 0.5f, // vel, time
                        10.f); // impulse
@@ -304,9 +304,9 @@ private:
   
   BitmapSprite* sprite_moon = nullptr;
   
-  BitmapSprite* sprite_snowflake_c = nullptr;
-  std::array<Sprite*, 1000> snowflakes_coll;
-  std::array<dynamics::RigidBody*, 1000> rb_snowflakes_coll;
+  BitmapSprite* sprite_snowflake = nullptr;
+  std::array<Sprite*, 1000> sprite_snowflake_arr;
+  std::array<dynamics::RigidBody*, 1000> rb_snowflake_arr;
   std::map<RC, std::vector<Sprite*>> snowflake_map;
   
   std::function<Vec2(int)> f_snowflake_vel;
@@ -350,7 +350,7 @@ private:
     update_lighting_rb_sprite(sprite_tree1, rb_tree1);
     update_lighting_rb_sprite(sprite_tree2, rb_tree2);
     
-    for (auto* rb : rb_snowflakes_coll)
+    for (auto* rb : rb_snowflake_arr)
     {
       if (rb->get_curr_cm().r >= sh.num_rows() - ground_height - 1)
       {
