@@ -215,9 +215,9 @@ public:
        0,  0,  0,  0,  1,  0,  0,  0,  0
     );
     sprite_tree->func_calc_anim_frame = [](int sim_frame) { return 0; };
-    sprite_tree_arr = sprh.clone_sprite_array<5>("tree", "tree");
+    sprite_tree_arr = sprh.clone_sprite_array<20>("tree", "tree");
     sprite_tree->enabled = false;
-    rb_tree_arr = dyn_sys.add_rigid_bodies<5>(sprite_tree_arr,
+    rb_tree_arr = dyn_sys.add_rigid_bodies<20>(sprite_tree_arr,
       [](int){ return 0.f; }, // mass
       [](int){ return std::nullopt; }, // pos
       [](int){ return Vec2 {}; }, // vel
@@ -233,7 +233,7 @@ public:
     for (auto* sprite : sprite_tree_arr)
     {
       auto* bmp_sprite = static_cast<BitmapSprite*>(sprite);
-      bmp_sprite->pos.c = rnd::rand_float(0.f, 80.f);
+      bmp_sprite->pos.c = rnd::rand_float(0.f, 160.f);
       if (rnd::one_in(3))
         bmp_sprite->flip_lr(0);
     }
@@ -309,8 +309,8 @@ private:
   dynamics::RigidBody* rb_ground = nullptr;
   
   BitmapSprite* sprite_tree = nullptr;
-  std::array<Sprite*, 5> sprite_tree_arr;
-  std::array<dynamics::RigidBody*, 5> rb_tree_arr;
+  std::array<Sprite*, 20> sprite_tree_arr;
+  std::array<dynamics::RigidBody*, 20> rb_tree_arr;
 
   BitmapSprite* sprite_moon = nullptr;
   
