@@ -251,6 +251,24 @@ public:
         bmp_sprite->flip_lr(0);
     }
     
+    sprite_fireplace = sprh.create_bitmap_sprite("fireplace");
+    sprite_fireplace->layer_id = 2;
+    sprite_fireplace->init(2, 8);
+    sprite_fireplace->pos = { sh.num_rows() - ground_height + 1, 35 };
+    sprite_fireplace->create_frame(0);
+    sprite_fireplace->set_sprite_chars_from_strings(0,
+      R"( //Oo\\ )",
+      R"(/()==\O))"
+    );
+    sprite_fireplace->set_sprite_fg_colors(0,
+      Color::Transparent2, Color::DarkRed, Color::Red, Color::DarkRed, Color::DarkRed, Color::Red, Color::DarkRed, Color::Transparent2,
+      Color::DarkRed, Color::Red, Color::Red, Color::Red, Color::Red, Color::Red, Color::Red, Color::DarkRed
+    );
+    sprite_fireplace->set_sprite_bg_colors(0,
+      Color::Transparent2, Color::Transparent2, Color::DarkRed, Color::Black, Color::Black, Color::DarkRed, Color::Transparent2, Color::Transparent2,
+      Color::Transparent2, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::Transparent2
+    );
+    
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
     sprite_snowflake->pos = { 0, 27 };
@@ -326,6 +344,8 @@ private:
   std::array<dynamics::RigidBody*, 20> rb_tree_arr;
 
   BitmapSprite* sprite_moon = nullptr;
+  
+  BitmapSprite* sprite_fireplace = nullptr;
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 1000> sprite_snowflake_arr;
