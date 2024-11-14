@@ -176,8 +176,8 @@ public:
   
     sprite_tree = sprh.create_bitmap_sprite("tree");
     sprite_tree->layer_id = 2;
-    sprite_tree->pos = { 17, 5 };
     sprite_tree->init(10, 9);
+    sprite_tree->pos = { sh.num_rows() - sprite_tree->get_size().r - ground_height, 5 };
     sprite_tree->create_frame(0);
     sprite_tree->set_sprite_chars_from_strings(0,
       R"(    ^    )",
@@ -253,7 +253,7 @@ public:
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
-    sprite_snowflake->pos = { 0, sh.num_rows() - sprite_snowflake->get_size().r - ground_height };
+    sprite_snowflake->pos = { 0, 27 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
     sprite_snowflake->set_sprite_chars(0, '*');
@@ -317,7 +317,7 @@ private:
   dynamics::DynamicsSystem dyn_sys;
   dynamics::CollisionHandler coll_handler;
   
-  const int ground_height = 3;
+  const int ground_height = 5;
   BitmapSprite* sprite_ground = nullptr;
   dynamics::RigidBody* rb_ground = nullptr;
   
@@ -326,7 +326,7 @@ private:
   std::array<dynamics::RigidBody*, 20> rb_tree_arr;
 
   BitmapSprite* sprite_moon = nullptr;
-  
+    
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 1000> sprite_snowflake_arr;
   std::array<dynamics::RigidBody*, 1000> rb_snowflake_arr;
