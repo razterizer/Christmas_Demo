@@ -161,12 +161,12 @@ public:
     );
     
   
-    sprite_tree0 = sprh.create_bitmap_sprite("tree0");
-    sprite_tree0->layer_id = 2;
-    sprite_tree0->pos = { 17, 5 };
-    sprite_tree0->init(10, 9);
-    sprite_tree0->create_frame(0);
-    sprite_tree0->set_sprite_chars_from_strings(0,
+    sprite_tree = sprh.create_bitmap_sprite("tree");
+    sprite_tree->layer_id = 2;
+    sprite_tree->pos = { 17, 5 };
+    sprite_tree->init(10, 9);
+    sprite_tree->create_frame(0);
+    sprite_tree->set_sprite_chars_from_strings(0,
       R"(    ^    )",
       R"(   //\   )",
       R"(  //\\\  )",
@@ -178,7 +178,7 @@ public:
       R"(    |    )",
       R"(    |    )"
     );
-    sprite_tree0->set_sprite_fg_colors(0,
+    sprite_tree->set_sprite_fg_colors(0,
        0,  0,  0,  0, 11,  0,  0,  0, 0,
        0,  0,  0, 11, 11,  3,  0,  0, 0,
        0,  0, 11, 11, 11, 11,  3,  0, 0,
@@ -190,7 +190,7 @@ public:
        0,  0,  0,  0, 10,  0,  0,  0, 0,
        0,  0,  0,  0, 10,  0,  0,  0, 0
     );
-    sprite_tree0->set_sprite_bg_colors(0,
+    sprite_tree->set_sprite_bg_colors(0,
       -2, -2, -2, -2,  3, -2, -2, -2, -2,
       -2, -2, -2,  3,  3, 11, -2, -2, -2,
       -2, -2,  3,  3,  3,  3, 11, -2, -2,
@@ -202,7 +202,7 @@ public:
       -2, -2, -2, -2,  2, -2, -2, -2, -2,
       -2, -2, -2, -2,  2, -2, -2, -2, -2
     );
-    sprite_tree0->set_sprite_materials(0,
+    sprite_tree->set_sprite_materials(0,
        0,  0,  0,  0,  1,  0,  0,  0,  0,
        0,  0,  0,  1,  1,  1,  0,  0,  0,
        0,  0,  1,  1,  1,  1,  1,  0,  0,
@@ -214,19 +214,31 @@ public:
        0,  0,  0,  0,  1,  0,  0,  0,  0,
        0,  0,  0,  0,  1,  0,  0,  0,  0
     );
-    sprite_tree0->func_calc_anim_frame = [](int sim_frame) { return 0; };
-    rb_tree0 = dyn_sys.add_rigid_body(sprite_tree0, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
+    sprite_tree->func_calc_anim_frame = [](int sim_frame) { return 0; };
+    sprite_tree_arr = sprh.clone_sprite_array<5>("tree", "tree");
+    sprite_tree->enabled = false;
+    rb_tree_arr = dyn_sys.add_rigid_bodies<5>(sprite_tree_arr,
+      [](int){ return 0.f; }, // mass
+      [](int){ return std::nullopt; }, // pos
+      [](int){ return Vec2 {}; }, // vel
+      [](int){ return Vec2 {}; }, // force
+      [](int){ return 0.f; }, // ang_vel
+      [](int){ return 0.f; }, // torque
+      [this](int){ return e_tree; },
+      [this](int){ return friction_tree; },
+      [](int){ return 0.f; }, // crit speed
+      [](int){ return std::vector { 1 }; }, // inertia mats
+      [](int){ return std::vector { 1 }; } // coll mats
+    );
+    for (auto* sprite : sprite_tree_arr)
+    {
+      auto* bmp_sprite = static_cast<BitmapSprite*>(sprite);
+      bmp_sprite->pos.c = rnd::rand_float(0.f, 80.f);
+      if (rnd::one_in(3))
+        bmp_sprite->flip_lr(0);
+    }
     
-    sprite_tree1 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree1", "tree0"));
-    sprite_tree1->pos.c = 33;
-    rb_tree1 = dyn_sys.add_rigid_body(sprite_tree1, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
-    
-    sprite_tree2 = dynamic_cast<BitmapSprite*>(sprh.clone_sprite("tree2", "tree0"));
-    sprite_tree2->pos.c = 68;
-    sprite_tree2->flip_lr(0);
-    rb_tree2 = dyn_sys.add_rigid_body(sprite_tree2, 0.f, std::nullopt, {}, {}, 0.f, 0.f, e_tree, friction_tree);
-    
-    sprite_snowflake = sprh.create_bitmap_sprite("snowflake_c");
+    sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
     sprite_snowflake->pos = { 0, 27 };
     sprite_snowflake->init(1, 1);
@@ -240,7 +252,7 @@ public:
       { 0.5f, -3.f }, { 0.1f, 0.12f },
       0.f, 0.f,
       e_snowflake, friction_snowflake);
-    sprite_snowflake_arr = sprh.clone_sprite_array<1000>("snowflake_c", "snowflake_c");
+    sprite_snowflake_arr = sprh.clone_sprite_array<1000>("snowflake", "snowflake");
     sprite_snowflake->enabled = false;
     rb_snowflake_arr = dyn_sys.add_rigid_bodies<1000>(sprite_snowflake_arr,
       [](int){ return 0.5f; },
@@ -282,6 +294,7 @@ public:
       };
     }
     
+    coll_handler.exclude_all_rigid_bodies_of_prefix(&dyn_sys, "tree", "tree");
     coll_handler.rebuild_BVH(sh.num_rows(), sh.num_cols(), &dyn_sys);
   }
   
@@ -295,13 +308,10 @@ private:
   BitmapSprite* sprite_ground = nullptr;
   dynamics::RigidBody* rb_ground = nullptr;
   
-  BitmapSprite* sprite_tree0 = nullptr;
-  dynamics::RigidBody* rb_tree0 = nullptr;
-  BitmapSprite* sprite_tree1 = nullptr;
-  dynamics::RigidBody* rb_tree1 = nullptr;
-  BitmapSprite* sprite_tree2 = nullptr;
-  dynamics::RigidBody* rb_tree2 = nullptr;
-  
+  BitmapSprite* sprite_tree = nullptr;
+  std::array<Sprite*, 5> sprite_tree_arr;
+  std::array<dynamics::RigidBody*, 5> rb_tree_arr;
+
   BitmapSprite* sprite_moon = nullptr;
   
   BitmapSprite* sprite_snowflake = nullptr;
@@ -346,9 +356,9 @@ private:
       moon_pivot.c + 30.f*std::cos(moon_angle)
     });
     
-    update_lighting_rb_sprite(sprite_tree0, rb_tree0);
-    update_lighting_rb_sprite(sprite_tree1, rb_tree1);
-    update_lighting_rb_sprite(sprite_tree2, rb_tree2);
+    for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
+      update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
+                                rb_tree_arr[tree_idx]);
     
     for (auto* rb : rb_snowflake_arr)
     {
