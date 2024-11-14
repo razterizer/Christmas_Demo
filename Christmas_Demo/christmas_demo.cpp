@@ -33,6 +33,13 @@ class Game : public GameEngine<>
         }
       }
     };
+    
+    auto gnd_lvl = sh.num_rows() - ground_height;
+    auto moon_top_mid = sprite_moon->pos + RC { 0, 4 };
+    auto moon_btm_mid = sprite_moon->pos + RC { 4, 4 };
+    auto moon_mid_left = sprite_moon->pos + RC { 2, 0 };
+    auto moon_mid_right = sprite_moon->pos + RC { 2, 9 };
+    auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
   
     auto pos = sprite->pos;
     for (int r = 0; r < sprite->get_size().r; ++r)
@@ -43,18 +50,18 @@ class Game : public GameEngine<>
         int cw = c + pos.c;
         auto* texture = sprite->get_curr_frame(get_anim_count(0));
         auto textel = texture->operator()(r, c);
-        auto moon_dir = math::normalize(to_Vec2({
-          rw - sprite_moon->pos.r,
-          cw - sprite_moon->pos.c }));
         if (textel.bg_color == Color::DarkGreen || textel.bg_color == Color::Green)
         {
+          auto moon_dir_center = math::normalize(to_Vec2({
+            rw - moon_centroid.r,
+            cw - moon_centroid.c }));
           textel.fg_color = Color::Green;
           textel.bg_color = Color::DarkGreen;
           set_snowflake_color(rw, cw, Color::LightGray);
           auto n = rb->fetch_surface_normal({ r, c });
           if (n.r != 0.f && n.c != 0.f)
           {
-            if (math::dot(n, moon_dir) < -.7f)
+            if (math::dot(n, moon_dir_center) < -.7f)
             {
               textel.fg_color = Color::DarkGreen;
               textel.bg_color = Color::Green;
@@ -65,18 +72,36 @@ class Game : public GameEngine<>
         }
         if (textel.bg_color != Color::Transparent2)
         {
-          auto gnd_lvl = sh.num_rows() - ground_height;
+          auto moon_dir_tm = math::normalize(to_Vec2({
+            rw - moon_top_mid.r,
+            cw - moon_top_mid.c}));
+          auto moon_dir_bm = math::normalize(to_Vec2({
+            rw - moon_btm_mid.r,
+            cw - moon_btm_mid.c}));
+          auto moon_dir_ml = math::normalize(to_Vec2({
+            rw - moon_mid_left.r,
+            cw - moon_mid_left.c}));
+          auto moon_dir_mr = math::normalize(to_Vec2({
+            rw - moon_mid_right.r,
+            cw - moon_mid_right.c}));
           // End of shadow.
-          auto t = math::lerp(static_cast<float>(std::sin(moon_angle)), 20.f, 2.f);
-          auto gnd_rw1 = math::roundI(static_cast<float>(rw) + t*moon_dir.r);
-          auto gnd_cw1 = math::roundI(static_cast<float>(cw) + t*moon_dir.c);
-          // Start of shadow.
-          // sh.num_rows() - ground_height = rw + t*moon_dir.r;
-          t = (gnd_lvl - static_cast<float>(rw))/moon_dir.r;
-          auto gnd_rw0 = math::roundI(static_cast<float>(rw) + t*moon_dir.r);
-          auto gnd_cw0 = math::roundI(static_cast<float>(cw) + t*moon_dir.c);
-          if (gnd_rw1 >= gnd_lvl && gnd_rw0 >= gnd_lvl)
-            bresenham::plot_line(sh, { gnd_rw0, gnd_cw0 }, { gnd_rw1, gnd_cw1 }, "#", Color::DarkGray, Color::DarkGray);
+          auto t1 = math::lerp(static_cast<float>(std::sin(moon_angle)), 20.f, 2.f);
+          auto draw_shadow_line = [t1, gnd_lvl, rw, cw, this](const Vec2& moon_dir)
+          {
+            auto gnd_rw1 = math::roundI(static_cast<float>(rw) + t1*moon_dir.r);
+            auto gnd_cw1 = math::roundI(static_cast<float>(cw) + t1*moon_dir.c);
+            // Start of shadow.
+            // sh.num_rows() - ground_height = rw + t*moon_dir.r;
+            auto t0 = (gnd_lvl - static_cast<float>(rw))/moon_dir.r;
+            auto gnd_rw0 = math::roundI(static_cast<float>(rw) + t0*moon_dir.r);
+            auto gnd_cw0 = math::roundI(static_cast<float>(cw) + t0*moon_dir.c);
+            if (gnd_rw1 >= gnd_lvl && gnd_rw0 >= gnd_lvl)
+              bresenham::plot_line(sh, { gnd_rw0, gnd_cw0 }, { gnd_rw1, gnd_cw1 }, "#", Color::DarkGray, Color::DarkGray);
+          };
+          draw_shadow_line(moon_dir_tm);
+          draw_shadow_line(moon_dir_bm);
+          draw_shadow_line(moon_dir_ml);
+          draw_shadow_line(moon_dir_mr);
         }
       }
     }
