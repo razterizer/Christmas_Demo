@@ -35,10 +35,10 @@ class Game : public GameEngine<>
     };
     
     auto gnd_lvl = sh.num_rows() - ground_height;
-    auto moon_top_mid = sprite_moon->pos + RC { 0, 4 };
-    auto moon_btm_mid = sprite_moon->pos + RC { 4, 4 };
-    auto moon_mid_left = sprite_moon->pos + RC { 2, 0 };
-    auto moon_mid_right = sprite_moon->pos + RC { 2, 9 };
+    auto moon_top_mid = sprite_moon->pos + RC { 1, 4 };
+    auto moon_btm_mid = sprite_moon->pos + RC { 3, 4 };
+    auto moon_mid_left = sprite_moon->pos + RC { 2, 1 };
+    auto moon_mid_right = sprite_moon->pos + RC { 2, 8 };
     auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
   
     auto pos = sprite->pos;
