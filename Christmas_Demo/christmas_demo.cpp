@@ -247,7 +247,8 @@ public:
     for (auto* sprite : sprite_tree_arr)
     {
       auto* bmp_sprite = static_cast<BitmapSprite*>(sprite);
-      bmp_sprite->pos.c = rnd::rand_float(0.f, 160.f);
+      bmp_sprite->pos.r = sh.num_rows() - sprite_tree->get_size().r - ground_height + rnd::rand_int(0, 1);
+      bmp_sprite->pos.c = rnd::rand_int(0, 160);
       if (rnd::one_in(3))
         bmp_sprite->flip_lr(0);
     }
