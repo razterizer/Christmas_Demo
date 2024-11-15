@@ -146,6 +146,54 @@ public:
       std::nullopt, {}, {},
       0.f, 0.f,
       e_ground, friction_ground);
+      
+    sprite_mountains = sprh.create_bitmap_sprite("mountain");
+    sprite_mountains->layer_id = 1;
+    sprite_mountains->init(13, 70);
+    sprite_mountains->pos = { sh.num_rows() - ground_height - sprite_mountains->get_size().r, 0 };
+    sprite_mountains->create_frame(0);
+    // Forbidden characters: ¨´
+    sprite_mountains->set_sprite_chars_from_strings(0,
+      R"(/\___.^/""""'.___      /\_.==^=^                                      )", //  0
+      R"(      Mm    m   _\__,='       _.\._~.                                 )", //  1
+      R"(    ^    ^_    /  \_.    _^. /   \.   \ ,M-.                          )", //  2
+      R"(\_ /"'-./  \  /      |  /   \_     \   v   M\                         )", //  3
+      R"(  W "" /  wm\/  _.""._\/      \       .      ._                       )", //  4
+      R"( v    | w   /  /        \     \   w            \                      )", //  5
+      R"(  . :. \   ,   .     m  .   ..::   .      ::..  |                     )", //  6
+      R"(       :.  . .   .    '  . ..::...   .   ..:.    \_                   )", //  7
+      R"( w.. .    .     .    , . .  :  ::.. .:..:..  ..:   \                  )", //  8
+      R"(. ::..,::::... ..  .' ..   . :   ::. .... ...:...  .(o,.              )", //  9
+      R"( .    ...  .    . .      . . .     ... :: . ..    .    '.._           )", // 10
+      R"(    .   . .    .      .          .              .    .     =-.        )", // 11
+      R"( .   - .     -   ~.       ..         ;,.       .       .      }       )"  // 12
+    );
+    sprite_mountains->fill_sprite_fg_colors(0, Color::LightGray);
+    sprite_mountains->fill_sprite_bg_colors(0, Color::Transparent2);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 0, 0, 1, Color::DarkGray); // anim_frame, r, c0, c1, color
+    sprite_mountains->fill_sprite_bg_colors_c(0, 0, 6, 12, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 0, 23, 24, Color::DarkGray);
+    sprite_mountains->set_sprite_bg_color(0, 0, 29, Color::DarkGray); // anim_frame, r, c, color
+    sprite_mountains->set_sprite_bg_color(0, 0, 31, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 1, 0, 16, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 1, 21, 32, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 2, 0, 39, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 2, 41, 42, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 3, 0, 44, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 4, 0, 45, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 5, 0, 47, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 6, 0, 48, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 7, 0, 49, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 8, 0, 51, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 9, 0, 53, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 10, 0, 55, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 11, 0, 59, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 12, 0, 61, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 0, 8, 12, Color::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 0, 27, 28, Color::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 0, 30, Color::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_c(0, 1, 6, 7, Color::DarkGreen);
+    //sprite_mountains->set_sprite_bg_color(0, )
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
     sprite_moon->layer_id = 0;
@@ -352,6 +400,8 @@ private:
   BitmapSprite* sprite_moon = nullptr;
   
   BitmapSprite* sprite_fireplace = nullptr;
+  
+  BitmapSprite* sprite_mountains = nullptr;
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 1000> sprite_snowflake_arr;
