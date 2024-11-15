@@ -473,7 +473,8 @@ private:
       moon_pivot.c + 30.f*std::cos(moon_angle)
     });
     
-    sprite_ground->fill_sprite_bg_colors(0, Color::LightGray);
+    sprite_ground->fill_sprite_bg_colors(0,
+      math::in_range<float>(math::rad2deg(moon_angle), 18.f, 162.f, Range::Open) ? Color::LightGray : Color::DarkGray);
     for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
       update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
                                 rb_tree_arr[tree_idx], firesmoke_pos, fire_light_radius_sq);
