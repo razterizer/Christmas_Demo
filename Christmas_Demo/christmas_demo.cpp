@@ -61,7 +61,7 @@ class Game : public GameEngine<>
           auto n = rb->fetch_surface_normal({ r, c });
           if (n.r != 0.f && n.c != 0.f)
           {
-            if (math::dot(n, moon_dir_center) < -.7f)
+            if (math::dot(n, moon_dir_center) < -.8f)
             {
               textel.fg_color = Color::DarkGreen;
               textel.bg_color = Color::Green;
