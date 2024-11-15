@@ -11,6 +11,7 @@
 #include <Termin8or/Dynamics/DynamicsSystem.h>
 #include <Termin8or/Dynamics/CollisionHandler.h>
 #include <Termin8or/ParticleSystem.h>
+#include <Core/Benchmark.h>
 
 
 class Game : public GameEngine<>
@@ -112,6 +113,7 @@ public:
   Game(int argc, char** argv, const GameEngineParams& params)
     : GameEngine(argv[0], params)
   {
+    //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
   }
   
@@ -575,6 +577,19 @@ private:
       sprh.draw_dbg_bb(sh, get_anim_count(0));
     if (dbg_draw_broad_phase)
       coll_handler.draw_dbg_broad_phase(sh, 0);
+  }
+  
+  virtual void on_enter_game_loop() override
+  {
+    benchmark::tic();
+  }
+  
+  virtual void on_exit_game_loop() override
+  {
+    auto dur_s = 1e-3f * benchmark::toc();
+    
+    auto fps = get_frame_count() / dur_s;
+    std::cout << "goal FPS = " << get_real_fps() << ", measured FPS = " << fps << std::endl;
   }
 };
 
