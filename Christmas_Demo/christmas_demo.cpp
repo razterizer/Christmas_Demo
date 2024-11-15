@@ -380,6 +380,7 @@ public:
     
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "tree", "tree");
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "tree", "ground");
+    coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "snowflake", "ground");
     coll_handler.rebuild_BVH(sh.num_rows(), sh.num_cols(), &dyn_sys);
   }
   
@@ -533,7 +534,7 @@ private:
     
     for (auto* rb : rb_snowflake_arr)
     {
-      if (rb->get_curr_cm().r >= sh.num_rows() - ground_height - 1)
+      if (rb->get_curr_cm().r >= sh.num_rows())
       {
         rb->reset_curr_cm();
         rb->set_curr_lin_vel(f_snowflake_vel(0));
