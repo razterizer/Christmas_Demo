@@ -380,6 +380,7 @@ public:
     
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "tree", "tree");
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "tree", "ground");
+    //coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "snowflake", "snowflake"); // Too slow!
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "snowflake", "ground");
     coll_handler.rebuild_BVH(sh.num_rows(), sh.num_cols(), &dyn_sys);
   }
