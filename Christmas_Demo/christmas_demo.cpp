@@ -96,7 +96,8 @@ class Game : public GameEngine<>
             auto gnd_rw0 = math::roundI(static_cast<float>(rw) + t0*moon_dir.r);
             auto gnd_cw0 = math::roundI(static_cast<float>(cw) + t0*moon_dir.c);
             if (gnd_rw1 >= gnd_lvl && gnd_rw0 >= gnd_lvl)
-              bresenham::plot_line(sh, { gnd_rw0, gnd_cw0 }, { gnd_rw1, gnd_cw1 }, "#", Color::DarkGray, Color::DarkGray);
+              sprite_ground->plot_line(get_anim_count(0), { gnd_rw0, gnd_cw0 }, { gnd_rw1, gnd_cw1 },
+                                       std::nullopt, std::nullopt, Color::DarkGray, std::nullopt);
           };
           draw_shadow_line(moon_dir_tm);
           draw_shadow_line(moon_dir_bm);
@@ -389,6 +390,7 @@ private:
       moon_pivot.c + 30.f*std::cos(moon_angle)
     });
     
+    sprite_ground->fill_sprite_bg_colors(0, Color::LightGray);
     for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
       update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
                                 rb_tree_arr[tree_idx]);
