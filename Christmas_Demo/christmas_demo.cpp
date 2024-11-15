@@ -233,7 +233,7 @@ public:
     sprite_tree->enabled = false;
     rb_tree_arr = dyn_sys.add_rigid_bodies<20>(sprite_tree_arr,
       [](int){ return 0.f; }, // mass
-      [](int){ return std::nullopt; }, // pos
+      [](int){ return std::nullopt; }, // pos, nullopt because static rigid objects.
       [](int){ return Vec2 {}; }, // vel
       [](int){ return Vec2 {}; }, // force
       [](int){ return 0.f; }, // ang_vel
