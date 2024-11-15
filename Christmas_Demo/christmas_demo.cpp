@@ -15,7 +15,8 @@
 
 class Game : public GameEngine<>
 {
-  void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb)
+  void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb,
+                                 const RC& firesmoke_pos, float fire_light_radius_sq)
   {
     auto set_snowflake_color = [this](int rw, int cw, Color col)
     {
@@ -60,14 +61,12 @@ class Game : public GameEngine<>
           textel.bg_color = Color::DarkGreen;
           set_snowflake_color(rw, cw, Color::LightGray);
           auto n = rb->fetch_surface_normal({ r, c });
-          if (n.r != 0.f && n.c != 0.f)
+          if ((n.r != 0.f && n.c != 0.f && math::dot(n, moon_dir_center) < -.8f)
+              || math::distance_squared(rw, cw, firesmoke_pos.r, firesmoke_pos.c) < fire_light_radius_sq)
           {
-            if (math::dot(n, moon_dir_center) < -.8f)
-            {
-              textel.fg_color = Color::DarkGreen;
-              textel.bg_color = Color::Green;
-              set_snowflake_color(rw, cw, Color::White);
-            }
+            textel.fg_color = Color::DarkGreen;
+            textel.bg_color = Color::Green;
+            set_snowflake_color(rw, cw, Color::White);
           }
           texture->set_textel(r, c, textel);
         }
@@ -434,6 +433,7 @@ private:
   const float smoke_vel_r = -2.5f;
   const float smoke_vel_c = 0.1f;
   const float smoke_acc = -1.5f;
+  const float fire_light_radius_sq = 100.f;
   
   const Vec2 moon_pivot = { 30.f, 37.f };
   const float moon_w = 5e-4f * math::c_2pi;
@@ -456,8 +456,8 @@ private:
   
   virtual void update() override
   {
-    fire_smoke_engine.update(sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 },
-                             true, smoke_vel_r, smoke_vel_c, smoke_acc, smoke_spread, smoke_life_time, smoke_cluster_size, get_sim_dt_s(), get_sim_time_s());
+    auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 };
+    fire_smoke_engine.update(firesmoke_pos, true, smoke_vel_r, smoke_vel_c, smoke_acc, smoke_spread, smoke_life_time, smoke_cluster_size, get_sim_dt_s(), get_sim_time_s());
     fire_smoke_engine.draw(sh, smoke_color_gradients, get_sim_time_s());
   
     if (use_dynamics_system)
@@ -476,7 +476,7 @@ private:
     sprite_ground->fill_sprite_bg_colors(0, Color::LightGray);
     for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
       update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
-                                rb_tree_arr[tree_idx]);
+                                rb_tree_arr[tree_idx], firesmoke_pos, fire_light_radius_sq);
     
     for (auto* rb : rb_snowflake_arr)
     {
