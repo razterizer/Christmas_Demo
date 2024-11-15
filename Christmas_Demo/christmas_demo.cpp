@@ -336,11 +336,11 @@ public:
       { 0.5f, -3.f }, { 0.1f, 0.12f },
       0.f, 0.f,
       e_snowflake, friction_snowflake);
-    sprite_snowflake_arr = sprh.clone_sprite_array<1000>("snowflake", "snowflake");
+    sprite_snowflake_arr = sprh.clone_sprite_array<2000>("snowflake", "snowflake");
     sprite_snowflake->enabled = false;
-    rb_snowflake_arr = dyn_sys.add_rigid_bodies<1000>(sprite_snowflake_arr,
+    rb_snowflake_arr = dyn_sys.add_rigid_bodies<2000>(sprite_snowflake_arr,
       [](int){ return 0.5f; },
-      [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 81.f) }; }, // pos
+      [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 100.f) }; }, // pos
       f_snowflake_vel, // vel
       [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
       [](int){ return 0.f; }, [](int){ return 0.f; },
@@ -406,8 +406,8 @@ private:
   BitmapSprite* sprite_mountains = nullptr;
     
   BitmapSprite* sprite_snowflake = nullptr;
-  std::array<Sprite*, 1000> sprite_snowflake_arr;
-  std::array<dynamics::RigidBody*, 1000> rb_snowflake_arr;
+  std::array<Sprite*, 2000> sprite_snowflake_arr;
+  std::array<dynamics::RigidBody*, 2000> rb_snowflake_arr;
   std::map<RC, std::vector<Sprite*>> snowflake_map;
   
   std::function<Vec2(int)> f_snowflake_vel;
