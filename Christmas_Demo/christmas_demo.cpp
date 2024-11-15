@@ -10,6 +10,7 @@
 #include <Termin8or/Dynamics/RigidBody.h>
 #include <Termin8or/Dynamics/DynamicsSystem.h>
 #include <Termin8or/Dynamics/CollisionHandler.h>
+#include <Termin8or/ParticleSystem.h>
 
 
 class Game : public GameEngine<>
@@ -270,6 +271,9 @@ public:
       Color::Transparent2, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::Transparent2
     );
     
+    smoke_color_gradients.emplace_back(0.5f, smoke_0);
+    smoke_color_gradients.emplace_back(0.6f, smoke_1);
+    
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
     sprite_snowflake->pos = { 0, 27 };
@@ -355,6 +359,82 @@ private:
   
   std::function<Vec2(int)> f_snowflake_vel;
   
+  ParticleHandler fire_smoke_engine { 500 };
+  
+  ParticleGradientGroup smoke_0
+  {
+    {
+      {
+        { 0.00f, Color::White },
+        { 0.27f, Color::Red },
+        { 0.60f, Color::Yellow },
+        { 0.75f, Color::LightGray },
+        { 0.88f, Color::DarkGray },
+      }
+    },
+    {
+      {
+        { 0.12f, Color::Blue },
+        { 0.20f, Color::White },
+        { 0.30f, Color::Yellow },   // 0.125f
+        { 0.55f, Color::DarkRed },  // 0.375f
+        { 0.70f, Color::DarkGray }, // 0.625f
+        { 0.85f, Color::Black },    // 0.875f
+      }
+    },
+    {
+      {
+        { 0.0000f, "o" },
+        { 0.25f, "v" },
+        { 0.45f, "s" },
+        { 0.65f, "%" },
+        { 0.6667f, "&" },
+        { 0.8333f, "@" }
+      }
+    }
+  };
+  
+  ParticleGradientGroup smoke_1
+  {
+    {
+      {
+        { 0.10f, Color::White },
+        { 0.37f, Color::Red },
+        { 0.70f, Color::Yellow },
+        { 0.85f, Color::LightGray },
+        { 0.98f, Color::DarkGray },
+      }
+    },
+    {
+      {
+        { 0.12f, Color::Blue },
+        { 0.30f, Color::White },
+        { 0.50f, Color::Yellow },   // 0.125f
+        { 0.74f, Color::DarkRed },  // 0.375f
+        { 0.86f, Color::DarkGray }, // 0.625f
+        { 1.00f, Color::Black },    // 0.875f
+      }
+    },
+    {
+      {
+        { 0.0000f, "." },
+        { 0.1667f, "*" },
+        { 0.3333f, "s" },
+        { 0.5000f, "%" },
+        { 0.6667f, "&" },
+        { 0.8333f, "@" }
+      }
+    }
+  };
+  std::vector<std::pair<float, ParticleGradientGroup>> smoke_color_gradients;
+  
+  const float smoke_life_time = 1.1f;
+  const float smoke_spread = 3.f;
+  const int smoke_cluster_size = 10;
+  const float smoke_vel_r = -2.5f;
+  const float smoke_vel_c = 0.1f;
+  const float smoke_acc = -1.5f;
+  
   const Vec2 moon_pivot = { 30.f, 37.f };
   const float moon_w = 5e-4f * math::c_2pi;
   const float moon_angle0 = math::deg2rad(7.5f);
@@ -376,12 +456,15 @@ private:
   
   virtual void update() override
   {
+    fire_smoke_engine.update(sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 },
+                             true, smoke_vel_r, smoke_vel_c, smoke_acc, smoke_spread, smoke_life_time, smoke_cluster_size, get_sim_dt_s(), get_sim_time_s());
+    fire_smoke_engine.draw(sh, smoke_color_gradients, get_sim_time_s());
+  
     if (use_dynamics_system)
     {
       dyn_sys.update(get_sim_time_s(), get_sim_dt_s(), get_anim_count(0));
       coll_handler.update();
     }
-    
 
     float t = get_sim_time_s();
     moon_angle = moon_w*t + moon_angle0;
