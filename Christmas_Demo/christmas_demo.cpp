@@ -548,11 +548,19 @@ private:
       moon_pivot.c + 30.f*std::cos(moon_angle)
     });
     
-    sprite_ground->fill_sprite_bg_colors(0,
-      math::in_range<float>(math::rad2deg(moon_angle), 18.f, 162.f, Range::Open) ? Color::LightGray : Color::DarkGray);
-    for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
-      update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
-                                rb_tree_arr[tree_idx], firesmoke_pos, fire_light_radius_sq);
+    auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
+    bool is_moon_up = math::in_range<float>(std::fmod(math::rad2deg(moon_angle), 360.f), 18.f, 162.f, Range::Open)
+      && !sprite_ground->is_opaque(get_anim_count(0), moon_centroid)
+      && (!sprite_mountains->is_opaque(get_anim_count(0), moon_centroid)
+          || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -1 }) // To reduce flutter.
+          || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -2 })); // To reduce flutter.
+         
+    
+    sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? Color::LightGray : Color::DarkGray);
+    if (is_moon_up)
+      for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
+        update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
+                                  rb_tree_arr[tree_idx], firesmoke_pos, fire_light_radius_sq);
     
     for (auto* rb : rb_snowflake_arr)
     {
