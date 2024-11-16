@@ -17,8 +17,9 @@
 class Game : public GameEngine<>
 {
   void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb,
-                                 const RC& firesmoke_pos, float fire_light_radius_sq,
-                                 bool is_moon_up)
+                                 const styles::Style& dark_style, const styles::Style& light_style,
+                                 bool use_fire, const RC& firesmoke_pos, float fire_light_radius_sq,
+                                 bool is_moon_up, bool casts_shadow)
   {
     auto set_snowflake_color = [this](int rw, int cw, Color col)
     {
@@ -54,25 +55,23 @@ class Game : public GameEngine<>
         int cw = c + pos.c;
         auto* texture = sprite->get_curr_frame(get_anim_count(0));
         auto textel = texture->operator()(r, c);
-        if (textel.bg_color == Color::DarkGreen || textel.bg_color == Color::Green)
+        if (textel.bg_color == dark_style.bg_color || textel.bg_color == light_style.bg_color)
         {
           auto moon_dir_center = math::normalize(to_Vec2({
             rw - moon_centroid.r,
             cw - moon_centroid.c }));
-          textel.fg_color = Color::Green;
-          textel.bg_color = Color::DarkGreen;
+          textel.set_style(dark_style);
           set_snowflake_color(rw, cw, Color::LightGray);
           auto n = rb->fetch_surface_normal({ r, c });
-          if ((n.r != 0.f && n.c != 0.f && math::dot(n, moon_dir_center) < -.8f && is_moon_up)
-              || math::distance_squared(rw*1.5f, static_cast<float>(cw), firesmoke_pos.r*1.5f, static_cast<float>(firesmoke_pos.c)) < fire_light_radius_sq)
+          if ((n.r != 0.f && n.c != 0.f && math::dot(n, moon_dir_center) < -0.2f && is_moon_up)
+              || (use_fire && math::distance_squared(rw*1.5f, static_cast<float>(cw), firesmoke_pos.r*1.5f, static_cast<float>(firesmoke_pos.c)) < fire_light_radius_sq))
           {
-            textel.fg_color = Color::DarkGreen;
-            textel.bg_color = Color::Green;
+            textel.set_style(light_style);
             set_snowflake_color(rw, cw, Color::White);
           }
           texture->set_textel(r, c, textel);
         }
-        if (textel.bg_color != Color::Transparent2 && is_moon_up)
+        if (textel.bg_color != Color::Transparent2 && is_moon_up && casts_shadow)
         {
           auto moon_dir_tm = math::normalize(to_Vec2({
             rw - moon_top_mid.r,
@@ -442,6 +441,8 @@ private:
   BitmapSprite* sprite_tree = nullptr;
   std::array<Sprite*, 20> sprite_tree_arr;
   std::array<dynamics::RigidBody*, 20> rb_tree_arr;
+  styles::Style tree_dark_style { Color::Green, Color::DarkGreen };
+  styles::Style tree_light_style { Color::DarkGreen, Color::Green };
 
   BitmapSprite* sprite_moon = nullptr;
   
@@ -449,6 +450,8 @@ private:
   
   BitmapSprite* sprite_mountains = nullptr;
   dynamics::RigidBody* rb_mountains = nullptr;
+  styles::Style mountains_dark_style { Color::LightGray, Color::DarkGray };
+  styles::Style mountains_light_style { Color::DarkGray, Color::LightGray };
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 2000> sprite_snowflake_arr;
@@ -581,9 +584,16 @@ private:
          
     
     sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? Color::LightGray : Color::DarkGray);
+    update_lighting_rb_sprite(sprite_mountains, rb_mountains,
+                              mountains_dark_style, mountains_light_style,
+                              false, firesmoke_pos, fire_light_radius_sq,
+                              is_moon_up, false);
     for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
       update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
-                                rb_tree_arr[tree_idx], firesmoke_pos, fire_light_radius_sq, is_moon_up);
+                                rb_tree_arr[tree_idx],
+                                tree_dark_style, tree_light_style,
+                                true, firesmoke_pos, fire_light_radius_sq,
+                                is_moon_up, true);
     
     for (auto* rb : rb_snowflake_arr)
     {
