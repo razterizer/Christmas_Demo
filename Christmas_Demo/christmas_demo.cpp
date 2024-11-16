@@ -320,6 +320,25 @@ public:
       Color::Transparent2, Color::Transparent2, Color::DarkRed, Color::Black, Color::Black, Color::DarkRed, Color::Transparent2, Color::Transparent2,
       Color::Transparent2, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::Transparent2
     );
+    sprite_fireplace->clone_frame(1, 0);
+    sprite_fireplace->set_sprite_bg_color(1, 0, 3, Color::Red);
+    sprite_fireplace->clone_frame(2, 0);
+    sprite_fireplace->set_sprite_bg_color(2, 0, 4, Color::Red);
+    sprite_fireplace->func_calc_anim_frame = [](int sim_frame)
+    {
+      int anim_frame = sim_frame % 10;
+      switch (anim_frame)
+      {
+        case 0: return 0;
+        case 1: return 1;
+        case 2: return 0;
+        case 3: return 2;
+        case 4: return 0;
+        case 5: return 0;
+        default: return rnd::rand_int(0, 2);
+      }
+      return 0;
+    };
     
     smoke_color_gradients.emplace_back(0.5f, smoke_0);
     smoke_color_gradients.emplace_back(0.6f, smoke_1);
