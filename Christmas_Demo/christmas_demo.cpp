@@ -142,7 +142,7 @@ public:
     sprite_ground->init(ground_height, sh.num_cols());
     sprite_ground->create_frame(0);
     sprite_ground->fill_sprite_chars(0, ' ');
-    sprite_ground->fill_sprite_bg_colors(0, Color::LightGray);
+    sprite_ground->fill_sprite_bg_colors(0, Color::DarkGray);
     sprite_ground->fill_sprite_materials(0, 1);
     rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f, // Zero mass == immovable.
       std::nullopt, {}, {},
