@@ -42,10 +42,7 @@ class Game : public GameEngine<>
     };
     
     auto gnd_lvl = sh.num_rows() - ground_height;
-    auto moon_top_mid = sprite_moon->pos + RC { 1, 4 };
-    auto moon_btm_mid = sprite_moon->pos + RC { 3, 4 };
-    auto moon_mid_left = sprite_moon->pos + RC { 2, 1 };
-    auto moon_mid_right = sprite_moon->pos + RC { 2, 8 };
+    auto moon_opaque_pts = sprite_moon->get_opaque_points(get_anim_count(0));
     auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
   
     auto pos = sprite->pos;
@@ -75,22 +72,10 @@ class Game : public GameEngine<>
         }
         if (textel.bg_color != Color::Transparent2 && is_moon_up && casts_shadow)
         {
-          auto moon_dir_tm = math::normalize(to_Vec2({
-            rw - moon_top_mid.r,
-            cw - moon_top_mid.c}));
-          auto moon_dir_bm = math::normalize(to_Vec2({
-            rw - moon_btm_mid.r,
-            cw - moon_btm_mid.c}));
-          auto moon_dir_ml = math::normalize(to_Vec2({
-            rw - moon_mid_left.r,
-            cw - moon_mid_left.c}));
-          auto moon_dir_mr = math::normalize(to_Vec2({
-            rw - moon_mid_right.r,
-            cw - moon_mid_right.c}));
-          // End of shadow.
           auto t1 = math::lerp(static_cast<float>(std::sin(moon_angle)), 20.f, 2.f);
-          auto draw_shadow_line = [t1, gnd_lvl, rw, cw, this](const Vec2& moon_dir)
+          auto draw_shadow_line = [t1, gnd_lvl, rw, cw, this](const RC& moon_pt)
           {
+            auto moon_dir = math::normalize(to_Vec2({ rw - moon_pt.r, cw - moon_pt.c }));
             auto gnd_rw1 = math::roundI(static_cast<float>(rw) + t1*moon_dir.r);
             auto gnd_cw1 = math::roundI(static_cast<float>(cw) + t1*moon_dir.c);
             // Start of shadow.
@@ -100,12 +85,13 @@ class Game : public GameEngine<>
             auto gnd_cw0 = math::roundI(static_cast<float>(cw) + t0*moon_dir.c);
             if (gnd_rw1 >= gnd_lvl && gnd_rw0 >= gnd_lvl)
               sprite_ground->plot_line(get_anim_count(0), { gnd_rw0, gnd_cw0 }, { gnd_rw1, gnd_cw1 },
-                                       std::nullopt, std::nullopt, Color::DarkGray, std::nullopt);
+                                       std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt,
+                                       ground_shadow_color, std::nullopt,
+                                       std::nullopt, std::nullopt);
           };
-          draw_shadow_line(moon_dir_tm);
-          draw_shadow_line(moon_dir_bm);
-          draw_shadow_line(moon_dir_ml);
-          draw_shadow_line(moon_dir_mr);
+          for (const auto& moon_pt : moon_opaque_pts)
+            draw_shadow_line(moon_pt);
         }
       }
     }
@@ -144,7 +130,7 @@ public:
     sprite_ground->init(ground_height, sh.num_cols());
     sprite_ground->create_frame(0);
     sprite_ground->fill_sprite_chars(0, ' ');
-    sprite_ground->fill_sprite_bg_colors(0, Color::DarkGray);
+    sprite_ground->fill_sprite_bg_colors(0, ground_dark_color);
     sprite_ground->fill_sprite_materials(0, 1);
     rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f, // Zero mass == immovable.
       std::nullopt, {}, {},
@@ -439,11 +425,14 @@ private:
   const int ground_height = 5;
   BitmapSprite* sprite_ground = nullptr;
   dynamics::RigidBody* rb_ground = nullptr;
+  Color ground_dark_color = Color::DarkGray;
+  Color ground_light_color = Color::LightGray;
+  Color ground_shadow_color = Color::DarkGray;
   
   BitmapSprite* sprite_tree = nullptr;
   std::array<Sprite*, 20> sprite_tree_arr;
   std::array<dynamics::RigidBody*, 20> rb_tree_arr;
-  styles::Style tree_dark_style = styles::make_shaded_style(Color::Green, color::ShadeType::Dark);
+  styles::Style tree_dark_style { Color::Green, Color::DarkGreen };
 
   BitmapSprite* sprite_moon = nullptr;
   
@@ -451,7 +440,7 @@ private:
   
   BitmapSprite* sprite_mountains = nullptr;
   dynamics::RigidBody* rb_mountains = nullptr;
-  styles::Style mountains_dark_style = styles::make_shaded_style(Color::LightGray, color::ShadeType::Dark);
+  styles::Style mountains_dark_style { Color::LightGray, Color::DarkGray };
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 2000> sprite_snowflake_arr;
@@ -583,7 +572,7 @@ private:
           || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -2 })); // To reduce flutter.
          
     
-    sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? Color::LightGray : Color::DarkGray);
+    sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? ground_light_color : ground_dark_color);
     update_lighting_rb_sprite(sprite_mountains, rb_mountains,
                               mountains_dark_style,
                               false, firesmoke_pos, fire_light_radius_sq,
