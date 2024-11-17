@@ -453,10 +453,6 @@ public:
     sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
     f_snowflake_vel = [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; };
-    dyn_sys.add_rigid_body(sprite_snowflake, .5f, std::nullopt,
-      { 0.5f, -3.f }, { 0.1f, 0.12f },
-      0.f, 0.f,
-      e_snowflake, friction_snowflake);
     sprite_snowflake_arr = sprh.clone_sprite_array<2000>("snowflake", "snowflake");
     sprite_snowflake->enabled = false;
     rb_snowflake_arr = dyn_sys.add_rigid_bodies<2000>(sprite_snowflake_arr,
