@@ -382,7 +382,6 @@ public:
     smoke_color_gradients.emplace_back(0.5f, smoke_0);
     smoke_color_gradients.emplace_back(0.6f, smoke_1);
     
-    #if 0
     sprite_squirrel = sprh.create_bitmap_sprite("squirrel");
     sprite_squirrel->layer_id = 4;
     sprite_squirrel->init(2, 3);
@@ -393,11 +392,11 @@ public:
     );
     sprite_squirrel->set_sprite_fg_colors(0,
       Color::White, Color::White, Color::DarkRed,
-      Color::Black, Color::Black, Color::Red,
+      Color::Black, Color::Black, Color::Red
     );
     sprite_squirrel->set_sprite_bg_colors(0,
       Color::Red, Color::Red, Color::Red,
-      Color::Red, Color::Red, Color::DarkRed,
+      Color::Red, Color::Red, Color::DarkRed
     );
     sprite_squirrel->create_frame(1);
     sprite_squirrel->set_sprite_chars_from_strings(1,
@@ -406,19 +405,43 @@ public:
     );
     sprite_squirrel->set_sprite_fg_colors(1,
       Color::White, Color::White, Color::DarkRed,
-      Color::Transparent2, Color::Transparent2, Color::Red,
+      Color::Transparent2, Color::Transparent2, Color::Red
     );
     sprite_squirrel->set_sprite_bg_colors(1,
       Color::Red, Color::Red, Color::Red,
-        Color::Transparent2, Color::Transparent2, Color::DarkRed,
+        Color::Transparent2, Color::Transparent2, Color::DarkRed
     );
-    sprite_squirrel->enabled = false;
-    sprite_squirrel->func_calc_anim_frame = [](int sim_frame)
+    sprite_squirrel->create_frame(2);
+    sprite_squirrel->fill_sprite_chars(2, ' ');
+    sprite_squirrel->fill_sprite_fg_colors(2, Color::Transparent2);
+    sprite_squirrel->fill_sprite_bg_colors(2, Color::Transparent2);
+    sprite_squirrel->enabled = true;
+    sprite_squirrel->func_calc_anim_frame = [this](int sim_frame)
     {
-      int anim_frame = sim_frame % 3;
-      return anim_frame;
+      if (squirrel_timestamp < sim_frame)
+      {
+        auto diff =  sim_frame - squirrel_timestamp;
+        int anim_frame = diff % 8;
+        switch (anim_frame)
+        {
+          case 0:
+          case 1:
+            return 1;
+          case 2:
+          case 3:
+          case 4:
+            return 0;
+          case 5:
+          case 6:
+            return 1;
+          case 7:
+            squirrel_timestamp = sim_frame + rnd::rand_int(0, 200);
+            squirrel_moved_trg.reset();
+            return 2;
+        }
+      }
+      return 2;
     };
-    #endif
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
@@ -516,8 +539,11 @@ private:
   std::array<Sprite*, 2000> sprite_snowflake_arr;
   std::array<dynamics::RigidBody*, 2000> rb_snowflake_arr;
   std::map<RC, std::vector<Sprite*>> snowflake_map;
-  
   std::function<Vec2(int)> f_snowflake_vel;
+  
+  BitmapSprite* sprite_squirrel = nullptr;
+  int squirrel_timestamp = 50;
+  OneShot squirrel_moved_trg;
   
   ParticleHandler fire_smoke_engine { 500 };
   
@@ -657,6 +683,31 @@ private:
                                 true, firesmoke_pos, fire_light_radius_sq,
                                 is_moon_up, true);
     update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
+    
+    if (squirrel_moved_trg.once())
+    {
+      if (rnd::one_in(3))
+        sprite_squirrel->flip_lr();
+        
+      for (int counter = 0; counter < 1e3_i; ++counter)
+      {
+        sprite_squirrel->pos = RC { rnd::rand_int(0, sh.num_rows() - ground_height), rnd::rand_int(0, 80) };
+        auto squirrel_centroid = sprite_squirrel->calc_curr_centroid(get_anim_count(0));
+        for (auto* spr_tree : sprite_tree_arr)
+        {
+          auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_frame(get_anim_count(0));
+          auto r = squirrel_centroid.r - spr_tree->pos.r;
+          auto c = squirrel_centroid.c - spr_tree->pos.c;
+          if (texture != nullptr)
+          {
+             auto textel = (*texture)(r, c);
+             if (textel.bg_color == Color::Green || textel.bg_color == Color::DarkGreen)
+               goto squirrel_placed;
+          }
+        }
+      }
+    }
+squirrel_placed:
     
     for (auto* rb : rb_snowflake_arr)
     {
