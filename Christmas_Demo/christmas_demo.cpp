@@ -225,7 +225,15 @@ public:
     sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 27, 28, Color::DarkGreen);
     sprite_mountains->set_sprite_bg_color(0, 0, 30, Color::DarkGreen);
     sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 6, 7, Color::DarkGreen);
-    //sprite_mountains->set_sprite_bg_color(0, )
+    sprite_mountains->set_sprite_bg_color(0, 1, 12, Color::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 3, 4, Color::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 4, 5, Color::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 10, 11, Color::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 18, 19, Color::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 5, 8, Color::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 5, 34, Color::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 6, 21, Color::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 8, 1, Color::DarkGreen);
     rb_mountains = dyn_sys.add_rigid_body(sprite_mountains, .0f, std::nullopt);
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
