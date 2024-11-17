@@ -386,14 +386,38 @@ public:
     sprite_squirrel = sprh.create_bitmap_sprite("squirrel");
     sprite_squirrel->layer_id = 4;
     sprite_squirrel->init(2, 3);
-    sprite_squirrel->pos = { sh.num_rows() - ground_height + 1, 35 };
     sprite_squirrel->create_frame(0);
     sprite_squirrel->set_sprite_chars_from_strings(0,
       R"(^^S)",
       R"(oo/)"
     );
     sprite_squirrel->set_sprite_fg_colors(0,
+      Color::White, Color::White, Color::DarkRed,
+      Color::Black, Color::Black, Color::Red,
     );
+    sprite_squirrel->set_sprite_bg_colors(0,
+      Color::Red, Color::Red, Color::Red,
+      Color::Red, Color::Red, Color::DarkRed,
+    );
+    sprite_squirrel->create_frame(1);
+    sprite_squirrel->set_sprite_chars_from_strings(1,
+      R"(^^S)",
+      R"(  /)"
+    );
+    sprite_squirrel->set_sprite_fg_colors(1,
+      Color::White, Color::White, Color::DarkRed,
+      Color::Transparent2, Color::Transparent2, Color::Red,
+    );
+    sprite_squirrel->set_sprite_bg_colors(1,
+      Color::Red, Color::Red, Color::Red,
+        Color::Transparent2, Color::Transparent2, Color::DarkRed,
+    );
+    sprite_squirrel->enabled = false;
+    sprite_squirrel->func_calc_anim_frame = [](int sim_frame)
+    {
+      int anim_frame = sim_frame % 3;
+      return anim_frame;
+    };
     #endif
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
