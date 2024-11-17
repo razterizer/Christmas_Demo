@@ -318,9 +318,9 @@ public:
        0,  0,  0,  0,  1,  0,  0,  0,  0
     );
     sprite_tree->func_calc_anim_frame = [](int sim_frame) { return 0; };
-    sprite_tree_arr = sprh.clone_sprite_array<20>("tree", "tree");
+    sprite_tree_arr = sprh.clone_sprite_array<10>("tree", "tree");
     sprite_tree->enabled = false;
-    rb_tree_arr = dyn_sys.add_rigid_bodies<20>(sprite_tree_arr,
+    rb_tree_arr = dyn_sys.add_rigid_bodies<10>(sprite_tree_arr,
       [](int){ return 0.f; }, // mass
       [](int){ return std::nullopt; }, // pos, nullopt because static rigid objects.
       [](int){ return Vec2 {}; }, // vel
@@ -337,7 +337,7 @@ public:
     {
       auto* bmp_sprite = static_cast<BitmapSprite*>(sprite);
       bmp_sprite->pos.r = sh.num_rows() - sprite_tree->get_size().r - ground_height + rnd::rand_int(0, 1);
-      bmp_sprite->pos.c = rnd::rand_int(0, 160);
+      bmp_sprite->pos.c = rnd::rand_int(0, 80);
       if (rnd::one_in(3))
         bmp_sprite->flip_lr(0);
     }
@@ -461,7 +461,7 @@ public:
     sprite_snowflake->enabled = false;
     rb_snowflake_arr = dyn_sys.add_rigid_bodies<2000>(sprite_snowflake_arr,
       [](int){ return 0.5f; },
-      [](int){ return Vec2 { rnd::rand_float(-500.f, 0.f), rnd::rand_float(-2.f, 100.f) }; }, // pos
+      [](int){ return Vec2 { rnd::rand_float(-800.f, 0.f), rnd::rand_float(-10.f, 70.f) }; }, // pos
       f_snowflake_vel, // vel
       [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
       [](int){ return 0.f; }, [](int){ return 0.f; },
@@ -522,8 +522,8 @@ private:
   Color ground_shadow_color = Color::DarkGray;
   
   BitmapSprite* sprite_tree = nullptr;
-  std::array<Sprite*, 20> sprite_tree_arr;
-  std::array<dynamics::RigidBody*, 20> rb_tree_arr;
+  std::array<Sprite*, 10> sprite_tree_arr;
+  std::array<dynamics::RigidBody*, 10> rb_tree_arr;
   styles::Style tree_dark_style { Color::Green, Color::DarkGreen };
 
   BitmapSprite* sprite_moon = nullptr;
