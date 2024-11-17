@@ -17,10 +17,12 @@
 class Game : public GameEngine<>
 {
   void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb,
-                                 const styles::Style& dark_style, const styles::Style& light_style,
+                                 const styles::Style& dark_style,
                                  bool use_fire, const RC& firesmoke_pos, float fire_light_radius_sq,
                                  bool is_moon_up, bool casts_shadow)
   {
+    auto light_style = styles::shade_style(dark_style, color::ShadeType::Bright, true);
+  
     auto set_snowflake_color = [this](int rw, int cw, Color col)
     {
       auto it = snowflake_map.find({rw, cw});
@@ -441,8 +443,7 @@ private:
   BitmapSprite* sprite_tree = nullptr;
   std::array<Sprite*, 20> sprite_tree_arr;
   std::array<dynamics::RigidBody*, 20> rb_tree_arr;
-  styles::Style tree_dark_style { Color::Green, Color::DarkGreen };
-  styles::Style tree_light_style { Color::DarkGreen, Color::Green };
+  styles::Style tree_dark_style = styles::make_shaded_style(Color::Green, color::ShadeType::Dark);
 
   BitmapSprite* sprite_moon = nullptr;
   
@@ -450,8 +451,7 @@ private:
   
   BitmapSprite* sprite_mountains = nullptr;
   dynamics::RigidBody* rb_mountains = nullptr;
-  styles::Style mountains_dark_style { Color::LightGray, Color::DarkGray };
-  styles::Style mountains_light_style { Color::DarkGray, Color::LightGray };
+  styles::Style mountains_dark_style = styles::make_shaded_style(Color::LightGray, color::ShadeType::Dark);
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 2000> sprite_snowflake_arr;
@@ -585,13 +585,13 @@ private:
     
     sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? Color::LightGray : Color::DarkGray);
     update_lighting_rb_sprite(sprite_mountains, rb_mountains,
-                              mountains_dark_style, mountains_light_style,
+                              mountains_dark_style,
                               false, firesmoke_pos, fire_light_radius_sq,
                               is_moon_up, false);
     for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
       update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
                                 rb_tree_arr[tree_idx],
-                                tree_dark_style, tree_light_style,
+                                tree_dark_style,
                                 true, firesmoke_pos, fire_light_radius_sq,
                                 is_moon_up, true);
     
