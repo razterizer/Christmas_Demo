@@ -96,6 +96,29 @@ class Game : public GameEngine<>
       }
     }
   }
+  
+  void update_lighting_ground(const RC& firesmoke_pos, float fire_light_radius_sq)
+  {
+    auto* gnd_texture = dynamic_cast<BitmapSprite*>(sprite_ground)->get_curr_frame(get_anim_count(0));
+    if (gnd_texture != nullptr)
+    {
+      auto opaque_pts = sprite_ground->get_opaque_points(get_anim_count(0));
+      const auto& sprite_pos = sprite_ground->pos;
+      for (const auto& pt : opaque_pts)
+      {
+        auto r = pt.r - sprite_pos.r;
+        auto c = pt.c - sprite_pos.c;
+        if (math::distance_squared(pt.r*3.f, static_cast<float>(pt.c), firesmoke_pos.r*3.f, static_cast<float>(firesmoke_pos.c)) < fire_light_radius_sq)
+        {
+          auto textel = (*gnd_texture)(r, c);
+          auto style = textel.get_style();
+          auto bright_style = styles::shade_style(style, color::ShadeType::Bright, true);
+          textel.set_style(bright_style);
+          gnd_texture->set_textel(r, c, textel);
+        }
+      }
+    }
+  }
 
 public:
   Game(int argc, char** argv, const GameEngineParams& params)
@@ -583,6 +606,7 @@ private:
                                 tree_dark_style,
                                 true, firesmoke_pos, fire_light_radius_sq,
                                 is_moon_up, true);
+    update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
     
     for (auto* rb : rb_snowflake_arr)
     {
