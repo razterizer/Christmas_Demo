@@ -42,7 +42,6 @@ class Game : public GameEngine<>
     };
     
     auto gnd_lvl = sh.num_rows() - ground_height;
-    auto moon_opaque_pts = sprite_moon->get_opaque_points(get_anim_count(0));
     auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
   
     auto pos = sprite->pos;
@@ -72,6 +71,7 @@ class Game : public GameEngine<>
         }
         if (textel.bg_color != Color::Transparent2 && is_moon_up && casts_shadow)
         {
+          auto moon_opaque_pts = sprite_moon->get_opaque_points(get_anim_count(0));
           auto t1 = math::lerp(static_cast<float>(std::sin(moon_angle)), 20.f, 2.f);
           auto draw_shadow_line = [t1, gnd_lvl, rw, cw, this](const RC& moon_pt)
           {
