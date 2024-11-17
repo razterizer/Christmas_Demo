@@ -468,6 +468,7 @@ private:
   BitmapSprite* sprite_moon = nullptr;
   
   BitmapSprite* sprite_fireplace = nullptr;
+  int fireplace_jitter = 0;
   
   BitmapSprite* sprite_mountains = nullptr;
   dynamics::RigidBody* rb_mountains = nullptr;
@@ -577,7 +578,10 @@ private:
   
   virtual void update() override
   {
-    auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 };
+    auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 }
+                           + RC { 0, fireplace_jitter };
+    if (rnd::one_in(3))
+      fireplace_jitter = rnd::randn_int(0.f, 0.6f);
     auto fire_light_radius_sq = math::sq(math::linmap_clamped(get_sim_time_s(), 0.f, 4.f, 0.f, 10.f));
     fire_smoke_engine.update(firesmoke_pos, true, smoke_vel_r, smoke_vel_c, smoke_acc, smoke_spread, smoke_life_time, smoke_cluster_size, get_sim_dt_s(), get_sim_time_s());
     fire_smoke_engine.draw(sh, smoke_color_gradients, get_sim_time_s());
