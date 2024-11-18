@@ -11,6 +11,8 @@
 #include <Termin8or/Dynamics/DynamicsSystem.h>
 #include <Termin8or/Dynamics/CollisionHandler.h>
 #include <Termin8or/ParticleSystem.h>
+#include <Termin8or/ASCII_Fonts.h>
+#include <Termin8or/Animation.h>
 #include <Core/Benchmark.h>
 
 
@@ -130,6 +132,19 @@ public:
   
   virtual void generate_data() override
   {
+    font_data_path = ASCII_Fonts::get_path_to_font_data(get_exe_folder());
+    std::cout << font_data_path << std::endl;
+    
+    auto& cs = color_schemes.emplace_back();
+    cs.internal.fg_color = Color::White;
+    cs.internal.bg_color = Color::Red;
+    cs.side_h.fg_color = Color::Red;
+    cs.side_h.bg_color = Color::DarkRed;
+    cs.side_v.fg_color = Color::Red;
+    cs.side_v.bg_color = Color::DarkRed;
+    
+    font_data = ASCII_Fonts::load_font_data(font_data_path);
+  
     // Black,         //  1
     // DarkRed,       //  2
     // DarkGreen,     //  3
@@ -629,6 +644,25 @@ private:
   float friction_tree = 0.95f;
   float friction_snowflake = 0.8f;
   
+  std::vector<ASCII_Fonts::ColorScheme> color_schemes;
+  std::string font_data_path;
+  ASCII_Fonts::FontDataColl font_data;
+  
+  TransitionAnimation title_anim_0 { 0.f, 2.f, 6., 8.f }; // Rasmus Anthin wishes you all
+  TransitionAnimation title_anim_1 { 10.f, 12.f, 18.f, 20.f }; // a Merry Christmas
+  TransitionAnimation title_anim_2 { 24.f, 26.f, 28.f, 29.f }; // Graphics via the...
+  TransitionAnimation title_anim_3 { 25.f, 27.f, 29.f, 30.f }; // Termin8or library
+  TransitionAnimation title_anim_4 { 30.f, 32.f, 34.f, 35.f }; // Sound via the...
+  TransitionAnimation title_anim_5 { 31.f, 33.f, 35.f, 36.f }; // 8Beat library
+  std::function<float(float)> f_r = [](float t)
+  {
+    return 6.f-5.f*std::sin(4.f*(t+0.5f));
+  };
+  std::function<float(float)> f_c = [](float t)
+  {
+    return -8.f+100.f*std::cos(3.05f*t)-20.f*std::sin(7.f*t);
+  };
+  
   bool use_dynamics_system = true;
   bool dbg_draw_rigid_bodies = false;
   bool dbg_draw_sprites = false;
@@ -638,6 +672,35 @@ private:
   
   virtual void update() override
   {
+    if (!title_anim_0.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_0.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto c_1 = title_anim_0.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Rasmus Anthin", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Wishes you all", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_1.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_1.animate(get_sim_time_s(), 81.f, 7.f, -81.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto c_1 = title_anim_1.animate(get_sim_time_s(), -81.f, 3.f, 81.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "a Merry", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Christmas", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
+    }
+    else if (!title_anim_2.done(get_sim_time_s()) || !title_anim_3.done(get_sim_time_s()))
+    {
+      auto t_2 = title_anim_2.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto t_3 = title_anim_3.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "GFX via the", f_r(t_2), f_c(t_2), ASCII_Fonts::Font::Avatar);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Termin8or lib", 25-f_r(t_3), 7-f_c(t_3), ASCII_Fonts::Font::Avatar);
+    }
+    else if (!title_anim_4.done(get_sim_time_s()) || !title_anim_5.done(get_sim_time_s()))
+    {
+      auto t_4 = title_anim_4.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto t_5 = title_anim_5.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "SFX via the", f_r(t_4), f_c(t_4), ASCII_Fonts::Font::Avatar);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "8Beat lib", 25-f_r(t_5), 7-f_c(t_5), ASCII_Fonts::Font::Avatar);
+    }
+  
     auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 }
                            + RC { 0, fireplace_jitter };
     if (rnd::one_in(3))
