@@ -453,21 +453,116 @@ public:
         {
           case 0:
           case 1:
-            return 1;
+            return 1; // partial
           case 2:
           case 3:
           case 4:
-            return 0;
+            return 0; // full
           case 5:
           case 6:
-            return 1;
+            return 1; // partial
           case 7:
             squirrel_timestamp = sim_frame + rnd::rand_int(0, 200);
             squirrel_moved_trg.reset();
             return 2;
         }
       }
-      return 2;
+      return 2; // gone
+    };
+    
+    sprite_owl = sprh.create_bitmap_sprite("owl");
+    sprite_owl->layer_id = 4;
+    sprite_owl->init(3, 2);
+    sprite_owl->create_frame(0);
+    sprite_owl->set_sprite_chars_from_strings(0,
+      R"(oo)",
+      R"((\)",
+      R"(mm)"
+    );
+    sprite_owl->set_sprite_fg_colors(0,
+      Color::Black, Color::Black,
+      Color::DarkGray, Color::LightGray,
+      Color::DarkGray, Color::DarkGray
+    );
+    sprite_owl->set_sprite_bg_colors(0,
+      Color::LightGray, Color::LightGray,
+      Color::LightGray, Color::DarkGray,
+      Color::Transparent2, Color::Transparent2
+    );
+    sprite_owl->create_frame(1);
+    sprite_owl->set_sprite_chars_from_strings(1,
+      R"(--)",
+      R"((\)",
+      R"(mm)"
+    );
+    sprite_owl->set_sprite_fg_colors(1,
+      Color::Black, Color::Black,
+      Color::DarkGray, Color::LightGray,
+      Color::DarkGray, Color::DarkGray
+    );
+    sprite_owl->set_sprite_bg_colors(1,
+      Color::LightGray, Color::LightGray,
+      Color::LightGray, Color::DarkGray,
+      Color::Transparent2, Color::Transparent2
+    );
+    sprite_owl->create_frame(2);
+    sprite_owl->set_sprite_chars_from_strings(2,
+      R"(oo)",
+      R"(( )",
+      R"(  )"
+    );
+    sprite_owl->set_sprite_fg_colors(2,
+      Color::Black, Color::Black,
+      Color::DarkGray, Color::Transparent2,
+      Color::Transparent2, Color::Transparent2
+    );
+    sprite_owl->set_sprite_bg_colors(2,
+      Color::LightGray, Color::LightGray,
+      Color::LightGray, Color::Transparent2,
+      Color::Transparent2, Color::Transparent2
+    );
+    sprite_owl->create_frame(3);
+    sprite_owl->fill_sprite_chars(3, ' ');
+    sprite_owl->fill_sprite_fg_colors(3, Color::Transparent2);
+    sprite_owl->fill_sprite_bg_colors(3, Color::Transparent2);
+    sprite_owl->enabled = true;
+    sprite_owl->func_calc_anim_frame = [this](int sim_frame)
+    {
+      if (owl_timestamp < sim_frame)
+      {
+        auto diff =  sim_frame - owl_timestamp;
+        int anim_frame = diff % 17;
+        switch (anim_frame)
+        {
+          case 0:
+          case 1:
+            return 2; // partial
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+            return 0; // full
+          case 6:
+          case 7:
+            return 1; // blink
+          case 8:
+          case 9:
+          case 10:
+            return 0; // full
+          case 11:
+            return 1; // blink
+          case 12:
+          case 13:
+          case 14:
+          case 15:
+            return 2; // partial
+          case 16:
+            owl_timestamp = sim_frame + rnd::rand_int(0, 200);
+            owl_moved_trg.reset();
+            return 2;
+        }
+      }
+      return 3; // gone
     };
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
@@ -567,6 +662,10 @@ private:
   BitmapSprite* sprite_squirrel = nullptr;
   int squirrel_timestamp = 50;
   OneShot squirrel_moved_trg;
+  
+  BitmapSprite* sprite_owl = nullptr;
+  int owl_timestamp = 70;
+  OneShot owl_moved_trg;
   
   ParticleHandler fire_smoke_engine { 500 };
   
@@ -790,30 +889,39 @@ private:
                                 is_moon_up, true);
     update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
     
-    if (squirrel_moved_trg.once())
+    auto move_critter = [](OneShot& moved_trg, BitmapSprite* critter_sprite, const auto& tree_sprites,
+                           int nr, int nc, int gnd_height, int anim_ctr)
     {
-      if (rnd::one_in(3))
-        sprite_squirrel->flip_lr();
-        
-      for (int counter = 0; counter < 1e3_i; ++counter)
+      if (moved_trg.once())
       {
-        sprite_squirrel->pos = RC { rnd::rand_int(0, sh.num_rows() - ground_height), rnd::rand_int(0, 80) };
-        auto squirrel_centroid = sprite_squirrel->calc_curr_centroid(get_anim_count(0));
-        for (auto* spr_tree : sprite_tree_arr)
+        if (rnd::one_in(3))
+          critter_sprite->flip_lr();
+        
+        for (int counter = 0; counter < 1e3_i; ++counter)
         {
-          auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_frame(get_anim_count(0));
-          auto r = squirrel_centroid.r - spr_tree->pos.r;
-          auto c = squirrel_centroid.c - spr_tree->pos.c;
-          if (texture != nullptr)
+          critter_sprite->pos = RC { rnd::rand_int(0, nr - gnd_height), rnd::rand_int(0, nc) };
+          auto critter_centroid = critter_sprite->calc_curr_centroid(anim_ctr);
+          for (auto* spr_tree : tree_sprites)
           {
-             auto textel = (*texture)(r, c);
-             if (textel.bg_color == Color::Green || textel.bg_color == Color::DarkGreen)
-               goto squirrel_placed;
+            auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_frame(anim_ctr);
+            auto r = critter_centroid.r - spr_tree->pos.r;
+            auto c = critter_centroid.c - spr_tree->pos.c;
+            if (texture != nullptr)
+            {
+              auto textel = (*texture)(r, c);
+              if (textel.bg_color == Color::Green || textel.bg_color == Color::DarkGreen)
+                goto critter_placed;
+            }
           }
         }
       }
-    }
-squirrel_placed:
+    critter_placed:
+      return;
+    };
+    move_critter(squirrel_moved_trg, sprite_squirrel, sprite_tree_arr,
+                 sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
+    move_critter(owl_moved_trg, sprite_owl, sprite_tree_arr,
+                 sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
     
     for (auto* rb : rb_snowflake_arr)
     {
