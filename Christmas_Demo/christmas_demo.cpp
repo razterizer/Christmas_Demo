@@ -135,13 +135,25 @@ public:
     font_data_path = ASCII_Fonts::get_path_to_font_data(get_exe_folder());
     std::cout << font_data_path << std::endl;
     
-    auto& cs = color_schemes.emplace_back();
-    cs.internal.fg_color = Color::White;
-    cs.internal.bg_color = Color::Red;
-    cs.side_h.fg_color = Color::Red;
-    cs.side_h.bg_color = Color::DarkRed;
-    cs.side_v.fg_color = Color::Red;
-    cs.side_v.bg_color = Color::DarkRed;
+    styles::Style style_0 { Color::White, Color::Red };
+    styles::Style style_1 { Color::Red, Color::DarkRed };
+    styles::Style style_2 { Color::Red, Color::White };
+    styles::Style style_3 { Color::Red, Color::LightGray };
+    styles::Style style_4 { Color::Red, Color::DarkGray };
+    auto& cs0 = color_schemes.emplace_back();
+    cs0.internal = style_0;
+    cs0.side_h = style_1;
+    cs0.side_v = style_1;
+    cs0.dot_internal = style_2;
+    cs0.dot_side_h = style_3;
+    cs0.dot_side_v = style_2;
+    auto& cs1 = color_schemes.emplace_back();
+    cs1.internal = style_0;
+    cs1.side_h = style_1;
+    cs1.side_v = style_1;
+    cs1.dot_internal = style_2;
+    cs1.dot_side_h = style_4;
+    cs1.dot_side_v = style_4;
     
     font_data = ASCII_Fonts::load_font_data(font_data_path);
   
@@ -687,8 +699,8 @@ private:
     {
       auto c_0 = title_anim_1.animate(get_sim_time_s(), 81.f, 7.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
       auto c_1 = title_anim_1.animate(get_sim_time_s(), -81.f, 3.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "a Merry", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Christmas", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "a Merry", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Christmas", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
     }
     else if (!title_anim_2.done(get_sim_time_s()) || !title_anim_3.done(get_sim_time_s()))
     {
