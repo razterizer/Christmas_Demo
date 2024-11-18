@@ -744,7 +744,7 @@ private:
     }
     else if (!title_anim_10.done(get_sim_time_s()))
     {
-      auto c = title_anim_9.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto c = title_anim_10.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
       ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c), ASCII_Fonts::Font::SMSlant);
     }
   
