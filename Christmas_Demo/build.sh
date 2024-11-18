@@ -22,7 +22,7 @@ fi
 
 ### Post-Build Actions ###
 
-# mkdir -p bin/fonts/
-# cp ../../lib/Termin8or/fonts/* bin/fonts/
+mkdir -p bin/fonts/
+cp ../../lib/Termin8or/fonts/* bin/fonts/
 
 # cp chiptune2.ct bin/
