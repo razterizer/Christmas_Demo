@@ -648,12 +648,16 @@ private:
   std::string font_data_path;
   ASCII_Fonts::FontDataColl font_data;
   
-  TransitionAnimation title_anim_0 { 0.f, 2.f, 6., 8.f }; // Rasmus Anthin wishes you all
-  TransitionAnimation title_anim_1 { 12.f, 14.f, 20.f, 22.f }; // a Merry Christmas
+  TransitionAnimation title_anim_0 { 0.f, 2.f, 6., 8.f }; // Rasmus Anthin / wishes you all
+  TransitionAnimation title_anim_1 { 12.f, 14.f, 20.f, 22.f }; // a Merry / Christmas
   TransitionAnimation title_anim_2 { 26.f, 28.f, 30.f, 31.f }; // Graphics via the...
   TransitionAnimation title_anim_3 { 27.f, 29.f, 31.f, 32.f }; // Termin8or library
   TransitionAnimation title_anim_4 { 34.f, 36.f, 38.f, 39.f }; // Sound via the...
   TransitionAnimation title_anim_5 { 35.f, 37.f, 39.f, 40.f }; // 8Beat library
+  TransitionAnimation title_anim_6 { 50.f, 52.f, 55.f, 57.f }; // Made in / Sweden!
+  TransitionAnimation title_anim_7 { 60.f, 62.f, 66.f, 68.f }; // Tis the season... / to be folly
+  TransitionAnimation title_anim_8 { 74.f, 76.f, 80.f, 82.f }; // Falalala la / la la la la
+  
   std::function<float(float)> f_r = [](float t)
   {
     return 6.f-5.f*std::sin(4.f*(t+0.5f));
@@ -699,6 +703,27 @@ private:
       auto t_5 = title_anim_5.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_in_sine, easings::ease_out_sine);
       ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "SFX via the", f_r(t_4), f_c(t_4), ASCII_Fonts::Font::Avatar);
       ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "8Beat lib", 25-f_r(t_5), 7-f_c(t_5), ASCII_Fonts::Font::Avatar);
+    }
+    else if (!title_anim_6.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_6.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto c_1 = title_anim_6.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Made in", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Sweden!", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_7.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_7.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto c_1 = title_anim_7.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Tis' the season...", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "to be folly", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_8.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_8.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_in_sine, easings::ease_out_sine);
+      auto c_1 = title_anim_8.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_in_sine, easings::ease_out_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Falalala la", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
     }
   
     auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 }
