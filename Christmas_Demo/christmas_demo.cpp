@@ -649,11 +649,11 @@ private:
   ASCII_Fonts::FontDataColl font_data;
   
   TransitionAnimation title_anim_0 { 0.f, 2.f, 6., 8.f }; // Rasmus Anthin wishes you all
-  TransitionAnimation title_anim_1 { 10.f, 12.f, 18.f, 20.f }; // a Merry Christmas
-  TransitionAnimation title_anim_2 { 24.f, 26.f, 28.f, 29.f }; // Graphics via the...
-  TransitionAnimation title_anim_3 { 25.f, 27.f, 29.f, 30.f }; // Termin8or library
-  TransitionAnimation title_anim_4 { 30.f, 32.f, 34.f, 35.f }; // Sound via the...
-  TransitionAnimation title_anim_5 { 31.f, 33.f, 35.f, 36.f }; // 8Beat library
+  TransitionAnimation title_anim_1 { 12.f, 14.f, 20.f, 22.f }; // a Merry Christmas
+  TransitionAnimation title_anim_2 { 26.f, 28.f, 30.f, 31.f }; // Graphics via the...
+  TransitionAnimation title_anim_3 { 27.f, 29.f, 31.f, 32.f }; // Termin8or library
+  TransitionAnimation title_anim_4 { 34.f, 36.f, 38.f, 39.f }; // Sound via the...
+  TransitionAnimation title_anim_5 { 35.f, 37.f, 39.f, 40.f }; // 8Beat library
   std::function<float(float)> f_r = [](float t)
   {
     return 6.f-5.f*std::sin(4.f*(t+0.5f));
