@@ -660,15 +660,15 @@ private:
   std::string font_data_path;
   ASCII_Fonts::FontDataColl font_data;
   
-  TransitionAnimation title_anim_0 { 0.f, 2.f, 6., 8.f }; // Rasmus Anthin / wishes you all
-  TransitionAnimation title_anim_1 { 12.f, 14.f, 20.f, 22.f }; // a Merry / Christmas
-  TransitionAnimation title_anim_2 { 26.f, 28.f, 30.f, 31.f }; // Graphics via the...
-  TransitionAnimation title_anim_3 { 27.f, 29.f, 31.f, 32.f }; // Termin8or library
-  TransitionAnimation title_anim_4 { 34.f, 36.f, 38.f, 39.f }; // Sound via the...
-  TransitionAnimation title_anim_5 { 35.f, 37.f, 39.f, 40.f }; // 8Beat library
-  TransitionAnimation title_anim_6 { 50.f, 52.f, 55.f, 57.f }; // Made in / Sweden!
-  TransitionAnimation title_anim_7 { 60.f, 62.f, 66.f, 68.f }; // Tis the season... / to be folly
-  TransitionAnimation title_anim_8 { 74.f, 76.f, 80.f, 82.f }; // Falalala la / la la la la
+  TransitionAnimation title_anim_0 { 0.f,  0.f, 2.f, 6., 8.f }; // Rasmus Anthin / wishes you all
+  TransitionAnimation title_anim_1 { 12.f, 0.f, 2.f, 8.f, 10.f }; // a Merry / Christmas
+  TransitionAnimation title_anim_2 { 26.f, 0.f, 2.f, 4.f, 5.f }; // Graphics via the...
+  TransitionAnimation title_anim_3 { 27.f, 0.f, 2.f, 4.f, 5.f }; // Termin8or library
+  TransitionAnimation title_anim_4 { 34.f, 0.f, 2.f, 4.f, 5.f }; // Sound via the...
+  TransitionAnimation title_anim_5 { 35.f, 0.f, 2.f, 4.f, 5.f }; // 8Beat library
+  TransitionAnimation title_anim_6 { 50.f, 0.f, 2.f, 5.f, 7.f }; // Made in / Sweden!
+  TransitionAnimation title_anim_7 { 60.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season... / to be folly
+  TransitionAnimation title_anim_8 { 74.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la / la la la la
   
   std::function<float(float)> f_r = [](float t)
   {
