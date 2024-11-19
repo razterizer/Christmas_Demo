@@ -356,7 +356,8 @@ public:
       [](int){ return 0.f; }, // torque
       [this](int){ return e_tree; },
       [this](int){ return friction_tree; },
-      [](int){ return 0.f; }, // crit speed
+      [](int){ return 0.f; }, // crit speed r
+      [](int){ return 0.f; }, // crit speed c
       [](int){ return std::vector { 1 }; }, // inertia mats
       [](int){ return std::vector { 1 }; } // coll mats
     );
@@ -574,17 +575,20 @@ public:
     sprite_snowflake->set_sprite_fg_colors(0, Color::White);
     sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
-    f_snowflake_vel = [](int){ return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; };
-    sprite_snowflake_arr = sprh.clone_sprite_array<2000>("snowflake", "snowflake");
+    f_snowflake_vel = [](int) -> Vec2 { return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; };
+    sprite_snowflake_arr = sprh.clone_sprite_array<1000>("snowflake", "snowflake");
     sprite_snowflake->enabled = false;
-    rb_snowflake_arr = dyn_sys.add_rigid_bodies<2000>(sprite_snowflake_arr,
-      [](int){ return 0.5f; },
-      [](int){ return Vec2 { rnd::rand_float(-800.f, 0.f), rnd::rand_float(-10.f, 70.f) }; }, // pos
+    rb_snowflake_arr = dyn_sys.add_rigid_bodies<1000>(sprite_snowflake_arr,
+      [](int) { return 0.5f; }, // mass
+      [](int) { return Vec2 { rnd::rand_float(-800.f, 0.f), rnd::rand_float(-10.f, 70.f) }; }, // pos
       f_snowflake_vel, // vel
-      [](int){ return Vec2 { 0.1f, rnd::rand_float(0.f, 0.2f) }; }, // force
-      [](int){ return 0.f; }, [](int){ return 0.f; },
-      [this](int){ return e_snowflake; }, [this](int){ return friction_snowflake; },
-      [](int){ return rnd::rand_float(0.2f, 3.f); });
+      [](int) { return Vec2 { 0.1f, 0.f }; }, // force
+      [](int) { return 0.f; }, // ang_vel
+      [](int) { return 0.f; }, // torque
+      [this](int) { return e_snowflake; },
+      [this](int) { return friction_snowflake; },
+      [](int){ return rnd::rand_float(0.2f, 3.f); } // crit speed r
+    );
     for (auto* rb : rb_snowflake_arr)
       rb->set_sleeping(true,
                        0.05f, 0.5f, // vel, time
@@ -654,8 +658,8 @@ private:
   styles::Style mountains_dark_style { Color::LightGray, Color::DarkGray };
     
   BitmapSprite* sprite_snowflake = nullptr;
-  std::array<Sprite*, 2000> sprite_snowflake_arr;
-  std::array<dynamics::RigidBody*, 2000> rb_snowflake_arr;
+  std::array<Sprite*, 1000> sprite_snowflake_arr;
+  std::array<dynamics::RigidBody*, 1000> rb_snowflake_arr;
   std::map<RC, std::vector<Sprite*>> snowflake_map;
   std::function<Vec2(int)> f_snowflake_vel;
   
@@ -754,6 +758,11 @@ private:
   float friction_ground = 0.5f;
   float friction_tree = 0.95f;
   float friction_snowflake = 0.8f;
+  
+  float wind_speed_amplitude = 5.f;
+  float wind_speed_w = 1e-1f * math::c_2pi;
+  float wind_accumulated_rand_phase = math::deg2rad(rnd::rand_float(0.f, 45.f));
+  float wind_angle = 0.f;
   
   std::vector<ASCII_Fonts::ColorScheme> color_schemes;
   std::string font_data_path;
@@ -861,8 +870,7 @@ private:
       coll_handler.update();
     }
 
-    float t = get_sim_time_s();
-    moon_angle = moon_w*t + moon_angle0;
+    moon_angle = moon_w * get_sim_time_s() + moon_angle0;
     sprite_moon->pos = to_RC_round({
       moon_pivot.r - 25.f*std::sin(moon_angle),
       moon_pivot.c + 30.f*std::cos(moon_angle)
@@ -923,6 +931,20 @@ private:
     move_critter(owl_moved_trg, sprite_owl, sprite_tree_arr,
                  sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
     
+    wind_angle = wind_speed_w * get_sim_time_s() + wind_accumulated_rand_phase;
+    auto wind_speed = wind_speed_amplitude * std::sin(wind_angle);
+    if (rnd::one_in(20))
+    {
+      wind_accumulated_rand_phase += math::deg2rad(rnd::rand_float(-10.f, 20.f));
+      wind_accumulated_rand_phase = std::fmod(wind_accumulated_rand_phase, math::c_2pi);
+    }
+    if (rnd::one_in(10))
+      wind_speed_w = rnd::rand_float(1e-2f, 1e-1f);
+    if (rnd::one_in(8))
+      wind_speed_amplitude = rnd::rand_float(5.f, 10.f);
+    else if(rnd::one_in(3))
+      wind_speed_amplitude = rnd::rand_float(0.f, 2.f);
+      
     for (auto* rb : rb_snowflake_arr)
     {
       if (rb->get_curr_cm().r >= sh.num_rows())
@@ -930,6 +952,13 @@ private:
         rb->reset_curr_cm();
         rb->set_curr_lin_vel(f_snowflake_vel(0));
       }
+      
+      auto vel_factor = math::value_to_param_clamped(rb->get_curr_cm_r(), 20.f, 0.f);
+      rb->set_curr_lin_speed_c(wind_speed * vel_factor);
+      if (rb->get_curr_cm_c() < 0.f)
+        rb->set_curr_cm_c(static_cast<float>(sh.num_cols() - 1));
+      else if (rb->get_curr_cm_c() >= static_cast<float>(sh.num_cols()))
+        rb->set_curr_cm_c(0.f);
         
       if (rb->is_sleeping())
       {
