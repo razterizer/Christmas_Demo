@@ -1147,6 +1147,17 @@ private:
     update_lake();
   }
   
+  virtual void draw_instructions() override
+  {
+    sh.write_buffer("INSTRUCTIONS", 1, 20, Color::White);
+    sh.write_buffer("============", 2, 20, Color::White);
+    sh.write_buffer("Keys:", 4, 2, Color::White);
+    sh.write_buffer("<space> : Next scene.", 5, 3, Color::White);
+    sh.write_buffer("    'p' : Pause", 6, 3, Color::White);
+    sh.write_buffer("    'q' : Quit", 7, 3, Color::White);
+    sh.write_buffer("Press space-bar to continue", 29, 25, Color::White);
+  }
+  
   virtual void on_enter_game_loop() override
   {
     benchmark::tic();
@@ -1166,7 +1177,8 @@ int main(int argc, char** argv)
   GameEngineParams params;
   params.screen_bg_color_default = Color::Black;
   params.enable_title_screen = false;
-  params.enable_instructions_screen = false;
+  params.enable_instructions_screen = true;
+  params.screen_bg_color_instructions = Color::Black;
   
   Game game(argc, argv, params);
   
