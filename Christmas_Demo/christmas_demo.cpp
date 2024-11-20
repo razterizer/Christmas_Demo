@@ -708,6 +708,8 @@ private:
   
   BitmapSprite* sprite_lake = nullptr;
   OffscreenBuffer offscreen_buffer;
+  drawing::Textel textel_reflection { '/', Color::Blue, Color::Transparent2 };
+  std::vector<RC> reflection_positions { { 1, 10 }, { 1, 11 }, { 1, 24 }, { 1, 26 }, { 1, 28 }, { 1, 29 } };
   
   ParticleHandler fire_smoke_engine { 500 };
   
@@ -1053,6 +1055,11 @@ private:
     {
       offscreen_buffer.buffer_texture = lake_texture;
       sh.print_screen_buffer(Color::Black, offscreen_buffer);
+      for (const auto& rp : reflection_positions)
+      {
+        lake_texture->set_textel_char(rp.r, rp.c, textel_reflection.ch);
+        lake_texture->set_textel_fg_color(rp.r, rp.c, textel_reflection.fg_color);
+      }
     }
   }
   
