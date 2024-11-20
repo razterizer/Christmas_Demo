@@ -608,7 +608,7 @@ public:
       [](int) { return 0.f; }, // torque
       [this](int) { return e_snowflake; },
       [this](int) { return friction_snowflake; },
-      [](int){ return rnd::rand_float(0.2f, 3.f); } // crit speed r
+      [](int){ return rnd::rand_float(0.7f, 4.f); } // crit speed r
     );
     for (auto* rb : rb_snowflake_arr)
       rb->set_sleeping(true,
