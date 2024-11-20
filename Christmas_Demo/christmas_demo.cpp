@@ -173,9 +173,19 @@ public:
     // Magenta,       // 14
     // Cyan,          // 15
     // White          // 16
+    
+    // Layers:
+    // 0 : star
+    // 1 : moon
+    // 2 : meteor
+    // 3 : ground, mountain
+    // 4 : tree, fireplace, lake
+    // 5 : snowflake
+    // 6 : squirrel, owl
+    
   
     sprite_ground = sprh.create_bitmap_sprite("ground");
-    sprite_ground->layer_id = 1;
+    sprite_ground->layer_id = 3;
     sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
     sprite_ground->init(ground_height, sh.num_cols());
     sprite_ground->create_frame(0);
@@ -188,7 +198,7 @@ public:
       e_ground, friction_ground);
       
     sprite_mountains = sprh.create_bitmap_sprite("mountain");
-    sprite_mountains->layer_id = 1;
+    sprite_mountains->layer_id = 3;
     sprite_mountains->init(13, 70);
     sprite_mountains->pos = { sh.num_rows() - ground_height - sprite_mountains->get_size().r, 0 };
     sprite_mountains->create_frame(0);
@@ -264,7 +274,7 @@ public:
     rb_mountains = dyn_sys.add_rigid_body(sprite_mountains, .0f, std::nullopt);
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
-    sprite_moon->layer_id = 0;
+    sprite_moon->layer_id = 1;
     sprite_moon->pos = { 15, 63 };
     sprite_moon->init(5, 10);
     sprite_moon->create_frame(0);
@@ -292,7 +302,7 @@ public:
     
   
     sprite_tree = sprh.create_bitmap_sprite("tree");
-    sprite_tree->layer_id = 2;
+    sprite_tree->layer_id = 4;
     sprite_tree->init(10, 9);
     sprite_tree->pos = { sh.num_rows() - sprite_tree->get_size().r - ground_height, 5 };
     sprite_tree->create_frame(0);
@@ -371,7 +381,7 @@ public:
     }
     
     sprite_fireplace = sprh.create_bitmap_sprite("fireplace");
-    sprite_fireplace->layer_id = 2;
+    sprite_fireplace->layer_id = 4;
     sprite_fireplace->init(2, 8);
     sprite_fireplace->pos = { sh.num_rows() - ground_height + 1, 35 };
     sprite_fireplace->create_frame(0);
@@ -411,7 +421,7 @@ public:
     smoke_color_gradients.emplace_back(0.6f, smoke_1);
     
     sprite_squirrel = sprh.create_bitmap_sprite("squirrel");
-    sprite_squirrel->layer_id = 4;
+    sprite_squirrel->layer_id = 6;
     sprite_squirrel->init(2, 3);
     sprite_squirrel->create_frame(0);
     sprite_squirrel->set_sprite_chars_from_strings(0,
@@ -486,7 +496,7 @@ public:
     };
     
     sprite_owl = sprh.create_bitmap_sprite("owl");
-    sprite_owl->layer_id = 4;
+    sprite_owl->layer_id = 6;
     sprite_owl->init(3, 2);
     sprite_owl->create_frame(0);
     sprite_owl->set_sprite_chars_from_strings(0,
@@ -582,7 +592,7 @@ public:
     
     sprite_lake = sprh.create_bitmap_sprite("lake");
     sprite_lake->pos = sprite_fireplace->pos + RC { 0, 11 };
-    sprite_lake->layer_id = 2;
+    sprite_lake->layer_id = 4;
     sprite_lake->init(3, 35);
     sprite_lake->create_frame(0);
     sprite_lake->fill_sprite_chars(0, ' ');
@@ -601,8 +611,27 @@ public:
     offscreen_buffer.dst_fill_bg_colors = { Color::Black };
     offscreen_buffer.replace_src_dst_bg_colors.emplace_back(Color::Transparent2, Color::Black);
     
+    sprite_meteor = sprh.create_bitmap_sprite("meteor");
+    sprite_meteor->pos.r = sh.num_rows();
+    sprite_meteor->layer_id = 2;
+    sprite_meteor->init(4, 5);
+    sprite_meteor->create_frame(0);
+    sprite_meteor->set_sprite_chars_from_strings(0,
+      "    /",
+      "   / ",
+      " //  ",
+      " O   "
+    );
+    sprite_meteor->set_sprite_fg_colors(0,
+      Color::Transparent2, Color::Transparent2, Color::Transparent2, Color::Transparent2, Color::Yellow,
+      Color::Transparent2, Color::Transparent2, Color::Transparent2, Color::Yellow, Color::Transparent2,
+      Color::Transparent2, Color::Yellow, Color::Yellow, Color::Transparent2, Color::Transparent2,
+      Color::Transparent2, Color::Red, Color::Transparent2, Color::Transparent2, Color::Transparent2
+    );
+    sprite_meteor->fill_sprite_bg_colors(0, Color::Transparent2);
+    
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
-    sprite_snowflake->layer_id = 3;
+    sprite_snowflake->layer_id = 5;
     sprite_snowflake->pos = { 0, 27 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
@@ -710,6 +739,9 @@ private:
   OffscreenBuffer offscreen_buffer;
   drawing::Textel textel_reflection { '/', Color::Blue, Color::Transparent2 };
   std::vector<RC> reflection_positions { { 1, 10 }, { 1, 11 }, { 1, 24 }, { 1, 26 }, { 1, 28 }, { 1, 29 } };
+  
+  BitmapSprite* sprite_meteor = nullptr;
+  int meteor_timestamp = 20;
   
   ParticleHandler fire_smoke_engine { 500 };
   
@@ -939,6 +971,17 @@ private:
                                 true, firesmoke_pos, fire_light_radius_sq,
                                 is_moon_up, true);
     update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
+    
+    // Meteor
+    if (get_anim_count(0) > meteor_timestamp)
+    {
+      sprite_meteor->pos += RC { 1, -1 };
+      if (sprite_meteor->pos.r > sh.num_rows())
+      {
+        sprite_meteor->pos = { -sprite_meteor->get_size().r - 1, sh.num_rows() + rnd::rand_int(0, sh.num_cols()) };
+        meteor_timestamp = get_anim_count(0) + rnd::rand_int(10, 120);
+      }
+    }
     
     // Critters
     auto move_critter = [](OneShot& moved_trg, BitmapSprite* critter_sprite, const auto& tree_sprites,
