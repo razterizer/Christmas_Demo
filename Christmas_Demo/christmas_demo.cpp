@@ -121,6 +121,237 @@ class Game : public GameEngine<>
       }
     }
   }
+  
+  void update_texts()
+  {
+    if (!title_anim_0.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_0.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto c_1 = title_anim_0.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Rasmus Anthin", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Wishes you all", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_1.done(get_sim_time_s()))
+    {
+      auto c = title_anim_1.animate(get_sim_time_s(), 81.f, 9.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "a Very", 3, math::roundI(c), ASCII_Fonts::Font::Larry3D);
+    }
+    else if (!title_anim_2.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_2.animate(get_sim_time_s(), 81.f, 7.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto c_1 = title_anim_2.animate(get_sim_time_s(), -81.f, 3.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Merry", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Christmas", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
+    }
+    else if (!title_anim_3.done(get_sim_time_s()) || !title_anim_4.done(get_sim_time_s()))
+    {
+      auto t_2 = title_anim_3.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto t_3 = title_anim_4.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "GFX via the", f_r(t_2), f_c(t_2), ASCII_Fonts::Font::Avatar);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Termin8or lib", 25-f_r(t_3), 7-f_c(t_3), ASCII_Fonts::Font::Avatar);
+    }
+    else if (!title_anim_5.done(get_sim_time_s()) || !title_anim_6.done(get_sim_time_s()))
+    {
+      auto t_4 = title_anim_5.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto t_5 = title_anim_6.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "SFX via the", f_r(t_4), f_c(t_4), ASCII_Fonts::Font::Avatar);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "8Beat lib", 25-f_r(t_5), 7-f_c(t_5), ASCII_Fonts::Font::Avatar);
+    }
+    else if (!title_anim_7.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_7.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto c_1 = title_anim_7.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Made in", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Sweden!", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_8.done(get_sim_time_s()))
+    {
+      auto c_0 = title_anim_8.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+      auto c_1 = title_anim_8.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Tis the season", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "to be folly", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_9.done(get_sim_time_s()))
+    {
+      auto c = title_anim_9.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Falalala la", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
+    }
+    else if (!title_anim_10.done(get_sim_time_s()))
+    {
+      auto c = title_anim_10.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c), ASCII_Fonts::Font::SMSlant);
+    }
+  }
+  
+  void update_fireplace()
+  {
+    firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 } + RC { 0, fireplace_jitter };
+    if (rnd::one_in(3))
+      fireplace_jitter = rnd::randn_int(0.f, 0.6f);
+    fire_light_radius_sq = math::sq(math::linmap_clamped(get_sim_time_s(), 0.f, 4.f, 0.f, 10.f));
+    fire_smoke_engine.update(firesmoke_pos, true, smoke_vel_r, smoke_vel_c, smoke_acc, smoke_spread, smoke_life_time, smoke_cluster_size, get_sim_dt_s(), get_sim_time_s());
+    fire_smoke_engine.draw(sh, smoke_color_gradients, get_sim_time_s());
+  }
+  
+  void update_moon()
+  {
+    moon_angle = moon_w * get_sim_time_s() + moon_angle0;
+    sprite_moon->pos = to_RC_round({
+      moon_pivot.r - 25.f*std::sin(moon_angle),
+      moon_pivot.c + 30.f*std::cos(moon_angle)
+    });
+    
+    auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
+    is_moon_up = math::in_range<float>(std::fmod(math::rad2deg(moon_angle), 360.f), 18.f, 162.f, Range::Open)
+      && !sprite_ground->is_opaque(get_anim_count(0), moon_centroid)
+      && (!sprite_mountains->is_opaque(get_anim_count(0), moon_centroid)
+          || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -1 }) // To reduce flutter.
+          || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -2 })); // To reduce flutter.
+  }
+  
+  void update_lighting()
+  {
+    sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? ground_light_color : ground_dark_color);
+    update_lighting_rb_sprite(sprite_mountains, rb_mountains,
+                              mountains_dark_style,
+                              false, firesmoke_pos, fire_light_radius_sq,
+                              is_moon_up, false);
+    for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
+      update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
+                                rb_tree_arr[tree_idx],
+                                tree_dark_style,
+                                true, firesmoke_pos, fire_light_radius_sq,
+                                is_moon_up, true);
+    update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
+  }
+  
+  void update_meteors()
+  {
+    if (get_anim_count(0) > meteor_timestamp)
+    {
+      sprite_meteor->pos += RC { 1, -1 };
+      if (sprite_meteor->pos.r > sh.num_rows())
+      {
+        sprite_meteor->pos = { -sprite_meteor->get_size().r - 1, sh.num_rows() + rnd::rand_int(0, sh.num_cols()) };
+        meteor_timestamp = get_anim_count(0) + rnd::rand_int(10, 120);
+      }
+    }
+  }
+  
+  void update_critters()
+  {
+    auto move_critter = [](OneShot& moved_trg, BitmapSprite* critter_sprite, const auto& tree_sprites,
+                           int nr, int nc, int gnd_height, int anim_ctr)
+    {
+      if (moved_trg.once())
+      {
+        if (rnd::one_in(3))
+          critter_sprite->flip_lr();
+        
+        for (int counter = 0; counter < 1e3_i; ++counter)
+        {
+          critter_sprite->pos = RC { rnd::rand_int(0, nr - gnd_height), rnd::rand_int(0, nc) };
+          auto critter_centroid = critter_sprite->calc_curr_centroid(anim_ctr);
+          for (auto* spr_tree : tree_sprites)
+          {
+            auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_frame(anim_ctr);
+            auto r = critter_centroid.r - spr_tree->pos.r;
+            auto c = critter_centroid.c - spr_tree->pos.c;
+            if (texture != nullptr)
+            {
+              auto textel = (*texture)(r, c);
+              if (textel.bg_color == Color::Green || textel.bg_color == Color::DarkGreen)
+                goto critter_placed;
+            }
+          }
+        }
+      }
+    critter_placed:
+      return;
+    };
+    move_critter(squirrel_moved_trg, sprite_squirrel, sprite_tree_arr,
+                 sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
+    move_critter(owl_moved_trg, sprite_owl, sprite_tree_arr,
+                 sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
+
+  }
+  
+  float update_wind()
+  {
+    wind_angle = wind_speed_w * get_sim_time_s() + wind_accumulated_rand_phase;
+    auto wind_speed = wind_speed_amplitude * std::sin(wind_angle);
+    if (rnd::one_in(20))
+    {
+      wind_accumulated_rand_phase += math::deg2rad(rnd::rand_float(-10.f, 20.f));
+      wind_accumulated_rand_phase = std::fmod(wind_accumulated_rand_phase, math::c_2pi);
+    }
+    if (rnd::one_in(10))
+      wind_speed_w = rnd::rand_float(1e-2f, 1e-1f);
+    if (rnd::one_in(8))
+      wind_speed_amplitude = rnd::rand_float(5.f, 10.f);
+    else if(rnd::one_in(3))
+      wind_speed_amplitude = rnd::rand_float(0.f, 2.f);
+    return wind_speed;
+  }
+  
+  void update_snowflakes(float wind_speed)
+  {
+    for (auto* rb : rb_snowflake_arr)
+    {
+      if (rb->get_curr_cm().r >= sh.num_rows())
+      {
+        rb->reset_curr_cm();
+        rb->set_curr_lin_vel(f_snowflake_vel(0));
+      }
+      
+      auto vel_factor = math::value_to_param_clamped(rb->get_curr_cm_r(), 20.f, 0.f);
+      rb->set_curr_lin_speed_c(wind_speed * vel_factor);
+      if (rb->get_curr_cm_c() < 0.f)
+        rb->set_curr_cm_c(static_cast<float>(sh.num_cols() - 1));
+      else if (rb->get_curr_cm_c() >= static_cast<float>(sh.num_cols()))
+        rb->set_curr_cm_c(0.f);
+        
+      if (rb->is_sleeping())
+      {
+        auto* sprite = dynamic_cast<BitmapSprite*>(rb->get_sprite());
+        if (sprite != nullptr)
+        {
+          auto* texture = sprite->get_curr_frame(get_anim_count(0));
+          if (texture != nullptr)
+          {
+            auto curr_textel = (*texture)(0, 0);
+            if (curr_textel.ch != '#')
+            {
+              curr_textel.ch = '#';
+              curr_textel.fg_color = Color::LightGray;
+              curr_textel.bg_color = Color::LightGray;
+              texture->set_textel(0, 0, curr_textel);
+              snowflake_map[sprite->pos].emplace_back(sprite);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  void update_lake()
+  {
+    // Lake reflections
+    auto* orig_texture = sprite_lake->try_get_frame(1);
+    if (orig_texture != nullptr)
+      sprite_lake->set_frame(0, *orig_texture);
+    auto* lake_texture = sprite_lake->try_get_frame(0);
+    if (lake_texture != nullptr)
+    {
+      offscreen_buffer.buffer_texture = lake_texture;
+      sh.print_screen_buffer(Color::Black, offscreen_buffer);
+      for (const auto& rp : reflection_positions)
+      {
+        lake_texture->set_textel_char(rp.r, rp.c, textel_reflection.ch);
+        lake_texture->set_textel_fg_color(rp.r, rp.c, textel_reflection.fg_color);
+      }
+    }
+  }
 
 public:
   Game(int argc, char** argv, const GameEngineParams& params)
@@ -716,6 +947,8 @@ private:
   
   BitmapSprite* sprite_fireplace = nullptr;
   int fireplace_jitter = 0;
+  RC firesmoke_pos;
+  float fire_light_radius_sq = 0.f;
   
   BitmapSprite* sprite_mountains = nullptr;
   dynamics::RigidBody* rb_mountains = nullptr;
@@ -823,6 +1056,7 @@ private:
   const float moon_w = 5e-4f * math::c_2pi;
   const float moon_angle0 = math::deg2rad(7.5f);
   float moon_angle = 0.f;
+  bool is_moon_up = false;
   
   float e_ground = 0.05f;
   float e_tree = 0.1f;
@@ -870,72 +1104,9 @@ private:
   
   virtual void update() override
   {
-    if (!title_anim_0.done(get_sim_time_s()))
-    {
-      auto c_0 = title_anim_0.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-      auto c_1 = title_anim_0.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Rasmus Anthin", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Wishes you all", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
-    }
-    else if (!title_anim_1.done(get_sim_time_s()))
-    {
-      auto c = title_anim_1.animate(get_sim_time_s(), 81.f, 9.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "a Very", 3, math::roundI(c), ASCII_Fonts::Font::Larry3D);
-    }
-    else if (!title_anim_2.done(get_sim_time_s()))
-    {
-      auto c_0 = title_anim_2.animate(get_sim_time_s(), 81.f, 7.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-      auto c_1 = title_anim_2.animate(get_sim_time_s(), -81.f, 3.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Merry", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Christmas", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
-    }
-    else if (!title_anim_3.done(get_sim_time_s()) || !title_anim_4.done(get_sim_time_s()))
-    {
-      auto t_2 = title_anim_3.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
-      auto t_3 = title_anim_4.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "GFX via the", f_r(t_2), f_c(t_2), ASCII_Fonts::Font::Avatar);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Termin8or lib", 25-f_r(t_3), 7-f_c(t_3), ASCII_Fonts::Font::Avatar);
-    }
-    else if (!title_anim_5.done(get_sim_time_s()) || !title_anim_6.done(get_sim_time_s()))
-    {
-      auto t_4 = title_anim_5.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
-      auto t_5 = title_anim_6.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "SFX via the", f_r(t_4), f_c(t_4), ASCII_Fonts::Font::Avatar);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "8Beat lib", 25-f_r(t_5), 7-f_c(t_5), ASCII_Fonts::Font::Avatar);
-    }
-    else if (!title_anim_7.done(get_sim_time_s()))
-    {
-      auto c_0 = title_anim_7.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-      auto c_1 = title_anim_7.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Made in", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Sweden!", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
-    }
-    else if (!title_anim_8.done(get_sim_time_s()))
-    {
-      auto c_0 = title_anim_8.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-      auto c_1 = title_anim_8.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Tis the season", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "to be folly", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
-    }
-    else if (!title_anim_9.done(get_sim_time_s()))
-    {
-      auto c = title_anim_9.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Falalala la", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
-    }
-    else if (!title_anim_10.done(get_sim_time_s()))
-    {
-      auto c = title_anim_10.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c), ASCII_Fonts::Font::SMSlant);
-    }
+    update_texts();
   
-    // Fireplace
-    auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 }
-                           + RC { 0, fireplace_jitter };
-    if (rnd::one_in(3))
-      fireplace_jitter = rnd::randn_int(0.f, 0.6f);
-    auto fire_light_radius_sq = math::sq(math::linmap_clamped(get_sim_time_s(), 0.f, 4.f, 0.f, 10.f));
-    fire_smoke_engine.update(firesmoke_pos, true, smoke_vel_r, smoke_vel_c, smoke_acc, smoke_spread, smoke_life_time, smoke_cluster_size, get_sim_dt_s(), get_sim_time_s());
-    fire_smoke_engine.draw(sh, smoke_color_gradients, get_sim_time_s());
+    update_fireplace();
   
     if (use_dynamics_system)
     {
@@ -943,134 +1114,19 @@ private:
       coll_handler.update();
     }
 
-    // Moon
-    moon_angle = moon_w * get_sim_time_s() + moon_angle0;
-    sprite_moon->pos = to_RC_round({
-      moon_pivot.r - 25.f*std::sin(moon_angle),
-      moon_pivot.c + 30.f*std::cos(moon_angle)
-    });
-    
-    auto moon_centroid = to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
-    bool is_moon_up = math::in_range<float>(std::fmod(math::rad2deg(moon_angle), 360.f), 18.f, 162.f, Range::Open)
-      && !sprite_ground->is_opaque(get_anim_count(0), moon_centroid)
-      && (!sprite_mountains->is_opaque(get_anim_count(0), moon_centroid)
-          || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -1 }) // To reduce flutter.
-          || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -2 })); // To reduce flutter.
-         
+    update_moon();
     
     // Shadows and lighting
-    sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? ground_light_color : ground_dark_color);
-    update_lighting_rb_sprite(sprite_mountains, rb_mountains,
-                              mountains_dark_style,
-                              false, firesmoke_pos, fire_light_radius_sq,
-                              is_moon_up, false);
-    for (size_t tree_idx = 0; tree_idx < sprite_tree_arr.size(); ++tree_idx)
-      update_lighting_rb_sprite(static_cast<BitmapSprite*>(sprite_tree_arr[tree_idx]),
-                                rb_tree_arr[tree_idx],
-                                tree_dark_style,
-                                true, firesmoke_pos, fire_light_radius_sq,
-                                is_moon_up, true);
-    update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
+    update_lighting();
     
-    // Meteor
-    if (get_anim_count(0) > meteor_timestamp)
-    {
-      sprite_meteor->pos += RC { 1, -1 };
-      if (sprite_meteor->pos.r > sh.num_rows())
-      {
-        sprite_meteor->pos = { -sprite_meteor->get_size().r - 1, sh.num_rows() + rnd::rand_int(0, sh.num_cols()) };
-        meteor_timestamp = get_anim_count(0) + rnd::rand_int(10, 120);
-      }
-    }
+    update_meteors();
     
-    // Critters
-    auto move_critter = [](OneShot& moved_trg, BitmapSprite* critter_sprite, const auto& tree_sprites,
-                           int nr, int nc, int gnd_height, int anim_ctr)
-    {
-      if (moved_trg.once())
-      {
-        if (rnd::one_in(3))
-          critter_sprite->flip_lr();
-        
-        for (int counter = 0; counter < 1e3_i; ++counter)
-        {
-          critter_sprite->pos = RC { rnd::rand_int(0, nr - gnd_height), rnd::rand_int(0, nc) };
-          auto critter_centroid = critter_sprite->calc_curr_centroid(anim_ctr);
-          for (auto* spr_tree : tree_sprites)
-          {
-            auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_frame(anim_ctr);
-            auto r = critter_centroid.r - spr_tree->pos.r;
-            auto c = critter_centroid.c - spr_tree->pos.c;
-            if (texture != nullptr)
-            {
-              auto textel = (*texture)(r, c);
-              if (textel.bg_color == Color::Green || textel.bg_color == Color::DarkGreen)
-                goto critter_placed;
-            }
-          }
-        }
-      }
-    critter_placed:
-      return;
-    };
-    move_critter(squirrel_moved_trg, sprite_squirrel, sprite_tree_arr,
-                 sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
-    move_critter(owl_moved_trg, sprite_owl, sprite_tree_arr,
-                 sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
+    update_critters();
     
-    // Wind
-    wind_angle = wind_speed_w * get_sim_time_s() + wind_accumulated_rand_phase;
-    auto wind_speed = wind_speed_amplitude * std::sin(wind_angle);
-    if (rnd::one_in(20))
-    {
-      wind_accumulated_rand_phase += math::deg2rad(rnd::rand_float(-10.f, 20.f));
-      wind_accumulated_rand_phase = std::fmod(wind_accumulated_rand_phase, math::c_2pi);
-    }
-    if (rnd::one_in(10))
-      wind_speed_w = rnd::rand_float(1e-2f, 1e-1f);
-    if (rnd::one_in(8))
-      wind_speed_amplitude = rnd::rand_float(5.f, 10.f);
-    else if(rnd::one_in(3))
-      wind_speed_amplitude = rnd::rand_float(0.f, 2.f);
+    auto wind_speed = update_wind();
     smoke_vel_c = wind_speed * 0.65f;
       
-    // Snowflakes
-    for (auto* rb : rb_snowflake_arr)
-    {
-      if (rb->get_curr_cm().r >= sh.num_rows())
-      {
-        rb->reset_curr_cm();
-        rb->set_curr_lin_vel(f_snowflake_vel(0));
-      }
-      
-      auto vel_factor = math::value_to_param_clamped(rb->get_curr_cm_r(), 20.f, 0.f);
-      rb->set_curr_lin_speed_c(wind_speed * vel_factor);
-      if (rb->get_curr_cm_c() < 0.f)
-        rb->set_curr_cm_c(static_cast<float>(sh.num_cols() - 1));
-      else if (rb->get_curr_cm_c() >= static_cast<float>(sh.num_cols()))
-        rb->set_curr_cm_c(0.f);
-        
-      if (rb->is_sleeping())
-      {
-        auto* sprite = dynamic_cast<BitmapSprite*>(rb->get_sprite());
-        if (sprite != nullptr)
-        {
-          auto* texture = sprite->get_curr_frame(get_anim_count(0));
-          if (texture != nullptr)
-          {
-            auto curr_textel = (*texture)(0, 0);
-            if (curr_textel.ch != '#')
-            {
-              curr_textel.ch = '#';
-              curr_textel.fg_color = Color::LightGray;
-              curr_textel.bg_color = Color::LightGray;
-              texture->set_textel(0, 0, curr_textel);
-              snowflake_map[sprite->pos].emplace_back(sprite);
-            }
-          }
-        }
-      }
-    }
+    update_snowflakes(wind_speed);
   
     if (dbg_draw_rigid_bodies)
       dyn_sys.draw_dbg(sh);
@@ -1088,22 +1144,8 @@ private:
       sprh.draw_dbg_bb(sh, get_anim_count(0));
     if (dbg_draw_broad_phase)
       coll_handler.draw_dbg_broad_phase(sh, 0);
-      
-    // Lake reflections
-    auto* orig_texture = sprite_lake->try_get_frame(1);
-    if (orig_texture != nullptr)
-      sprite_lake->set_frame(0, *orig_texture);
-    auto* lake_texture = sprite_lake->try_get_frame(0);
-    if (lake_texture != nullptr)
-    {
-      offscreen_buffer.buffer_texture = lake_texture;
-      sh.print_screen_buffer(Color::Black, offscreen_buffer);
-      for (const auto& rp : reflection_positions)
-      {
-        lake_texture->set_textel_char(rp.r, rp.c, textel_reflection.ch);
-        lake_texture->set_textel_fg_color(rp.r, rp.c, textel_reflection.fg_color);
-      }
-    }
+
+    update_lake();
   }
   
   virtual void on_enter_game_loop() override
