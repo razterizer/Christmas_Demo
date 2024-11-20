@@ -209,7 +209,7 @@ class Game : public GameEngine<>
           || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -2 })); // To reduce flutter.
   }
   
-  void update_lighting()
+  void update_shadows_and_lighting()
   {
     sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? ground_light_color : ground_dark_color);
     update_lighting_rb_sprite(sprite_mountains, rb_mountains,
@@ -1116,8 +1116,7 @@ private:
 
     update_moon();
     
-    // Shadows and lighting
-    update_lighting();
+    update_shadows_and_lighting();
     
     update_meteors();
     
