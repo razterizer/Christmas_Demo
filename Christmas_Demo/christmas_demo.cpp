@@ -759,8 +759,8 @@ private:
     },
     {
       {
-        { 0.12f, Color::Blue },
-        { 0.30f, Color::White },
+        { 0.05f, Color::Blue },
+        { 0.15f, Color::White },
         { 0.50f, Color::Yellow },   // 0.125f
         { 0.74f, Color::DarkRed },  // 0.375f
         { 0.86f, Color::DarkGray }, // 0.625f
