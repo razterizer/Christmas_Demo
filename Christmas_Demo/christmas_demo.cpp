@@ -129,7 +129,7 @@ class Game : public GameEngine<>
       auto c_0 = title_anim_0.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
       auto c_1 = title_anim_0.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
       ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Rasmus Anthin", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Wishes you all", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+      ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "wishes you all", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
     }
     else if (!title_anim_1.done(get_sim_time_s()))
     {
