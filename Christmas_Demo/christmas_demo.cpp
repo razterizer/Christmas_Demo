@@ -449,7 +449,7 @@ public:
       if (squirrel_timestamp < sim_frame)
       {
         auto diff =  sim_frame - squirrel_timestamp;
-        int anim_frame = diff % 8;
+        int anim_frame = diff % 18;
         switch (anim_frame)
         {
           case 0:
@@ -461,11 +461,25 @@ public:
             return 0; // full
           case 5:
           case 6:
-            return 1; // partial
           case 7:
+            return 1; // partial
+          case 8:
+          case 9:
+            return 2; // gone
+          case 10:
+          case 11:
+            return 1; // partial
+          case 12:
+          case 13:
+          case 14:
+            return 0; // full
+          case 15:
+          case 16:
+            return 1; // partial
+          case 17:
             squirrel_timestamp = sim_frame + rnd::rand_int(0, 200);
             squirrel_moved_trg.reset();
-            return 2;
+            return 2; // gone
         }
       }
       return 2; // gone
@@ -560,7 +574,7 @@ public:
           case 16:
             owl_timestamp = sim_frame + rnd::rand_int(0, 200);
             owl_moved_trg.reset();
-            return 2;
+            return 3; // gone
         }
       }
       return 3; // gone
