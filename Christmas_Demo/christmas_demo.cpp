@@ -764,11 +764,11 @@ private:
   };
   std::vector<std::pair<float, ParticleGradientGroup>> smoke_color_gradients;
   
-  const float smoke_life_time = 1.1f;
+  const float smoke_life_time = 1.2f;
   const float smoke_spread = 3.f;
   const int smoke_cluster_size = 10;
   const float smoke_vel_r = -2.5f;
-  const float smoke_vel_c = 0.1f;
+  float smoke_vel_c = 0.1f;
   const float smoke_acc = -1.5f;
   
   const Vec2 moon_pivot = { 30.f, 37.f };
@@ -880,6 +880,7 @@ private:
       ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c), ASCII_Fonts::Font::SMSlant);
     }
   
+    // Fireplace
     auto firesmoke_pos = sprite_fireplace->pos + RC { 0, sprite_fireplace->get_size().c/2 }
                            + RC { 0, fireplace_jitter };
     if (rnd::one_in(3))
@@ -972,6 +973,7 @@ private:
       wind_speed_amplitude = rnd::rand_float(5.f, 10.f);
     else if(rnd::one_in(3))
       wind_speed_amplitude = rnd::rand_float(0.f, 2.f);
+    smoke_vel_c = wind_speed * 0.65f;
       
     // Snowflakes
     for (auto* rb : rb_snowflake_arr)
