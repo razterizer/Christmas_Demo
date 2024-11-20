@@ -566,6 +566,27 @@ public:
       return 3; // gone
     };
     
+    sprite_lake = sprh.create_bitmap_sprite("lake");
+    sprite_lake->pos = sprite_fireplace->pos + RC { 0, 11 };
+    sprite_lake->layer_id = 2;
+    sprite_lake->init(3, 35);
+    sprite_lake->create_frame(0);
+    sprite_lake->fill_sprite_chars(0, ' ');
+    sprite_lake->fill_sprite_fg_colors(0, Color::Black);
+    // upside down.
+    sprite_lake->set_sprite_bg_colors(0,
+      -2, -2, -2,  1,  1,  1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1, -2, -2, -2, -2, -2,
+       1,  1,  1,  1,  1,  1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+      -2, -2, -2, -2, -2, -2,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1,  1,  1, -2, -2
+    );
+    sprite_lake->clone_frame(1, 0);
+    
+    offscreen_buffer.buffer_screen_pos = sprite_lake->pos + RC { -9, 0 };
+    offscreen_buffer.exclude_src_chars = { ' ' };
+    offscreen_buffer.exclude_src_bg_colors = { Color::DarkGray };
+    offscreen_buffer.dst_fill_bg_colors = { Color::Black };
+    offscreen_buffer.replace_src_dst_bg_colors.emplace_back(Color::Transparent2, Color::Black);
+    
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 3;
     sprite_snowflake->pos = { 0, 27 };
@@ -670,6 +691,9 @@ private:
   BitmapSprite* sprite_owl = nullptr;
   int owl_timestamp = 70;
   OneShot owl_moved_trg;
+  
+  BitmapSprite* sprite_lake = nullptr;
+  OffscreenBuffer offscreen_buffer;
   
   ParticleHandler fire_smoke_engine { 500 };
   
@@ -870,6 +894,7 @@ private:
       coll_handler.update();
     }
 
+    // Moon
     moon_angle = moon_w * get_sim_time_s() + moon_angle0;
     sprite_moon->pos = to_RC_round({
       moon_pivot.r - 25.f*std::sin(moon_angle),
@@ -884,6 +909,7 @@ private:
           || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -2 })); // To reduce flutter.
          
     
+    // Shadows and lighting
     sprite_ground->fill_sprite_bg_colors(0, is_moon_up ? ground_light_color : ground_dark_color);
     update_lighting_rb_sprite(sprite_mountains, rb_mountains,
                               mountains_dark_style,
@@ -897,6 +923,7 @@ private:
                                 is_moon_up, true);
     update_lighting_ground(firesmoke_pos + RC { 1, 0 }, 0.26f*fire_light_radius_sq);
     
+    // Critters
     auto move_critter = [](OneShot& moved_trg, BitmapSprite* critter_sprite, const auto& tree_sprites,
                            int nr, int nc, int gnd_height, int anim_ctr)
     {
@@ -931,6 +958,7 @@ private:
     move_critter(owl_moved_trg, sprite_owl, sprite_tree_arr,
                  sh.num_rows(), sh.num_cols(), ground_height, get_anim_count(0));
     
+    // Wind
     wind_angle = wind_speed_w * get_sim_time_s() + wind_accumulated_rand_phase;
     auto wind_speed = wind_speed_amplitude * std::sin(wind_angle);
     if (rnd::one_in(20))
@@ -945,6 +973,7 @@ private:
     else if(rnd::one_in(3))
       wind_speed_amplitude = rnd::rand_float(0.f, 2.f);
       
+    // Snowflakes
     for (auto* rb : rb_snowflake_arr)
     {
       if (rb->get_curr_cm().r >= sh.num_rows())
@@ -989,11 +1018,26 @@ private:
     if (dbg_draw_narrow_phase)
       coll_handler.draw_dbg_narrow_phase(sh);
     if (draw_sprites)
+    {
+      sprite_lake->flip_ud(0);
       sprh.draw(sh, get_anim_count(0));
+      sprite_lake->flip_ud(0);
+    }
     if (dbg_draw_sprites)
       sprh.draw_dbg_bb(sh, get_anim_count(0));
     if (dbg_draw_broad_phase)
       coll_handler.draw_dbg_broad_phase(sh, 0);
+      
+    // Lake reflections
+    auto* orig_texture = sprite_lake->try_get_frame(1);
+    if (orig_texture != nullptr)
+      sprite_lake->set_frame(0, *orig_texture);
+    auto* lake_texture = sprite_lake->try_get_frame(0);
+    if (lake_texture != nullptr)
+    {
+      offscreen_buffer.buffer_texture = lake_texture;
+      sh.print_screen_buffer(Color::Black, offscreen_buffer);
+    }
   }
   
   virtual void on_enter_game_loop() override
