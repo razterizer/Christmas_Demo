@@ -1204,7 +1204,18 @@ private:
       else
       {
         if (trg_section_2_start.once())
+        {
           set_screen_bg_color_default(Color::Black);
+          
+          sprite_ground = sprh.create_bitmap_sprite("ground");
+          sprite_ground->layer_id = 3;
+          sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
+          sprite_ground->init(ground_height, sh.num_cols());
+          sprite_ground->create_frame(0);
+          sprite_ground->fill_sprite_chars(0, ':');
+          sprite_ground->fill_sprite_fg_colors(0, Color::DarkGray);
+          sprite_ground->fill_sprite_bg_colors(0, Color::DarkYellow);
+        }
       }
       
       if (draw_sprites)
