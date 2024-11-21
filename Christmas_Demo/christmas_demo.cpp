@@ -1128,49 +1128,77 @@ private:
   bool dbg_draw_broad_phase = false;
   bool dbg_draw_narrow_phase = false;
   
+  OneShot trg_section_1_end;
+  OneShot trg_section_2_start;
+  float section_2_start_time = 15*60.f;
+  
   virtual void update() override
   {
     update_texts();
   
-    update_fireplace();
-  
-    if (use_dynamics_system)
+    if (get_sim_time_s() < section_2_start_time)
     {
-      dyn_sys.update(get_sim_time_s(), get_sim_dt_s(), get_anim_count(0));
-      coll_handler.update();
-    }
-
-    update_moon();
-    
-    update_shadows_and_lighting();
-    
-    update_meteors();
-    
-    update_critters();
-    
-    auto wind_speed = update_wind();
-    smoke_vel_c = wind_speed * 0.65f;
+      update_fireplace();
       
-    update_snowflakes(wind_speed);
-  
-    if (dbg_draw_rigid_bodies)
-      dyn_sys.draw_dbg(sh);
-    if (dbg_draw_sprites)
-      sprh.draw_dbg_pts(sh, get_anim_count(0));
-    if (dbg_draw_narrow_phase)
-      coll_handler.draw_dbg_narrow_phase(sh);
-    if (draw_sprites)
-    {
-      sprite_lake->flip_ud(0);
-      sprh.draw(sh, get_anim_count(0));
-      sprite_lake->flip_ud(0);
+      if (use_dynamics_system)
+      {
+        dyn_sys.update(get_sim_time_s(), get_sim_dt_s(), get_anim_count(0));
+        coll_handler.update();
+      }
+      
+      update_moon();
+      
+      update_shadows_and_lighting();
+      
+      update_meteors();
+      
+      update_critters();
+      
+      auto wind_speed = update_wind();
+      smoke_vel_c = wind_speed * 0.65f;
+      
+      update_snowflakes(wind_speed);
+      
+      if (dbg_draw_rigid_bodies)
+        dyn_sys.draw_dbg(sh);
+      if (dbg_draw_sprites)
+        sprh.draw_dbg_pts(sh, get_anim_count(0));
+      if (dbg_draw_narrow_phase)
+        coll_handler.draw_dbg_narrow_phase(sh);
+      if (draw_sprites)
+      {
+        sprite_lake->flip_ud(0);
+        sprh.draw(sh, get_anim_count(0));
+        sprite_lake->flip_ud(0);
+      }
+      if (dbg_draw_sprites)
+        sprh.draw_dbg_bb(sh, get_anim_count(0));
+      if (dbg_draw_broad_phase)
+        coll_handler.draw_dbg_broad_phase(sh, 0);
+      
+      update_lake();
     }
-    if (dbg_draw_sprites)
-      sprh.draw_dbg_bb(sh, get_anim_count(0));
-    if (dbg_draw_broad_phase)
-      coll_handler.draw_dbg_broad_phase(sh, 0);
-
-    update_lake();
+    else
+    {
+      auto section_2_time = get_sim_time_s() - section_2_start_time;
+      if (trg_section_1_end.once())
+        sprh.clear();
+      else if (math::in_range<float>(section_2_time, 0.f, 1.f, Range::ClosedOpen))
+        set_screen_bg_color_default(Color::LightGray);
+      else if (math::in_range<float>(section_2_time, 1.f, 2.f, Range::ClosedOpen))
+        set_screen_bg_color_default(Color::DarkGray);
+      else if (math::in_range<float>(section_2_time, 2.f, 3.f, Range::ClosedOpen))
+        set_screen_bg_color_default(Color::Black);
+      else if (math::in_range<float>(section_2_time, 3.f, 4.f, Range::ClosedOpen))
+        set_screen_bg_color_default(Color::DarkGray);
+      else if (math::in_range<float>(section_2_time, 4.f, 5.f, Range::ClosedOpen))
+        set_screen_bg_color_default(Color::LightGray);
+      else
+      {
+        if (trg_section_2_start.once())
+          set_screen_bg_color_default(Color::Black);
+      }
+    }
   }
   
   virtual void draw_instructions() override
