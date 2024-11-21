@@ -1134,6 +1134,7 @@ private:
   OneShot trg_section_1_end;
   OneShot trg_section_2_start;
   float section_2_start_time = 15*60.f;
+  float dt_section_transition = 0.2f;
   
   virtual void update() override
   {
@@ -1190,15 +1191,15 @@ private:
       auto section_2_time = get_sim_time_s() - section_2_start_time;
       if (trg_section_1_end.once())
         sprh.clear();
-      else if (math::in_range<float>(section_2_time, 0.f, 1.f, Range::ClosedOpen))
+      else if (math::in_range<float>(section_2_time, 0.f*dt_section_transition, 1.f*dt_section_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::LightGray);
-      else if (math::in_range<float>(section_2_time, 1.f, 2.f, Range::ClosedOpen))
+      else if (math::in_range<float>(section_2_time, 1.f*dt_section_transition, 2.f*dt_section_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::DarkGray);
-      else if (math::in_range<float>(section_2_time, 2.f, 3.f, Range::ClosedOpen))
+      else if (math::in_range<float>(section_2_time, 2.f*dt_section_transition, 3.f*dt_section_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::Black);
-      else if (math::in_range<float>(section_2_time, 3.f, 4.f, Range::ClosedOpen))
+      else if (math::in_range<float>(section_2_time, 3.f*dt_section_transition, 4.f*dt_section_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::DarkGray);
-      else if (math::in_range<float>(section_2_time, 4.f, 5.f, Range::ClosedOpen))
+      else if (math::in_range<float>(section_2_time, 4.f*dt_section_transition, 5.f*dt_section_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::LightGray);
       else
       {
