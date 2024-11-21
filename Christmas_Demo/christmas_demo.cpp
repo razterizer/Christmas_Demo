@@ -1206,6 +1206,11 @@ private:
         if (trg_section_2_start.once())
           set_screen_bg_color_default(Color::Black);
       }
+      
+      if (draw_sprites)
+        sprh.draw(sh, get_anim_count(0));
+      if (dbg_draw_sprites)
+        sprh.draw_dbg_pts(sh, get_anim_count(0));
     }
   }
   
