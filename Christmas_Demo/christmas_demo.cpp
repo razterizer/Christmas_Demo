@@ -691,36 +691,61 @@ public:
       {
         auto diff =  sim_frame - squirrel_timestamp;
         int anim_frame = diff % 18;
-        switch (anim_frame)
+        if (squirrel_mode == 0)
         {
-          case 0:
-          case 1:
-            return 1; // partial
-          case 2:
-          case 3:
-          case 4:
-            return 0; // full
-          case 5:
-          case 6:
-          case 7:
-            return 1; // partial
-          case 8:
-          case 9:
-            return 2; // gone
-          case 10:
-          case 11:
-            return 1; // partial
-          case 12:
-          case 13:
-          case 14:
-            return 0; // full
-          case 15:
-          case 16:
-            return 1; // partial
-          case 17:
-            squirrel_timestamp = sim_frame + rnd::rand_int(0, 200);
-            squirrel_moved_trg.reset();
-            return 2; // gone
+          switch (anim_frame)
+          {
+            case 0:
+            case 1:
+              return 1; // partial
+            case 2:
+            case 3:
+            case 4:
+              return 0; // full
+            case 5:
+            case 6:
+              return 1; // partial
+            case 7:
+              squirrel_timestamp = sim_frame + rnd::rand_int(0, 200);
+              squirrel_mode = rnd::rand_int(0, 1);
+              squirrel_moved_trg.reset();
+              return 2; // gone
+          }
+        }
+        else
+        {
+          switch (anim_frame)
+          {
+            case 0:
+            case 1:
+              return 1; // partial
+            case 2:
+            case 3:
+            case 4:
+              return 0; // full
+            case 5:
+            case 6:
+            case 7:
+              return 1; // partial
+            case 8:
+            case 9:
+              return 2; // gone
+            case 10:
+            case 11:
+              return 1; // partial
+            case 12:
+            case 13:
+            case 14:
+              return 0; // full
+            case 15:
+            case 16:
+              return 1; // partial
+            case 17:
+              squirrel_timestamp = sim_frame + rnd::rand_int(0, 200);
+              squirrel_mode = rnd::rand_int(0, 1);
+              squirrel_moved_trg.reset();
+              return 2; // gone
+          }
         }
       }
       return 2; // gone
@@ -962,6 +987,7 @@ private:
   
   BitmapSprite* sprite_squirrel = nullptr;
   int squirrel_timestamp = 50;
+  int squirrel_mode = 0;
   OneShot squirrel_moved_trg;
   
   BitmapSprite* sprite_owl = nullptr;
