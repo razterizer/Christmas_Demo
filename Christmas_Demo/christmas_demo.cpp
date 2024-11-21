@@ -690,7 +690,7 @@ public:
     sprite_squirrel->enabled = true;
     sprite_squirrel->func_calc_anim_frame = [this](int sim_frame)
     {
-      if (squirrel_timestamp < sim_frame)
+      if (squirrel_timestamp <= sim_frame)
       {
         auto diff =  sim_frame - squirrel_timestamp;
         int anim_frame = diff % 18;
@@ -812,7 +812,7 @@ public:
     sprite_owl->enabled = true;
     sprite_owl->func_calc_anim_frame = [this](int sim_frame)
     {
-      if (owl_timestamp < sim_frame)
+      if (owl_timestamp <= sim_frame)
       {
         auto diff =  sim_frame - owl_timestamp;
         int anim_frame = diff % 17;
