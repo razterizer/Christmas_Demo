@@ -124,7 +124,7 @@ class Game : public GameEngine<>
   
   void update_texts()
   {
-    if (get_sim_time_s() < section_2_start_time)
+    if (get_sim_time_s() < scene_2_start_time)
     {
       if (!title_anim_0.done(get_sim_time_s()))
       {
@@ -1131,16 +1131,16 @@ private:
   bool dbg_draw_broad_phase = false;
   bool dbg_draw_narrow_phase = false;
   
-  OneShot trg_section_1_end;
-  OneShot trg_section_2_start;
-  float section_2_start_time = 15*60.f;
-  float dt_section_transition = 0.2f;
+  OneShot trg_scene_1_end;
+  OneShot trg_scene_2_start;
+  float scene_2_start_time = 15*60.f;
+  float dt_scene_transition = 0.2f;
   
   virtual void update() override
   {
     update_texts();
   
-    if (get_sim_time_s() < section_2_start_time)
+    if (get_sim_time_s() < scene_2_start_time)
     {
       update_fireplace();
       
@@ -1152,7 +1152,7 @@ private:
       
       auto key = keyboard::get_char_key(kpdp.transient);
       if (key == ' ')
-        section_2_start_time = get_sim_time_s();
+        scene_2_start_time = get_sim_time_s();
       
       update_moon();
       
@@ -1188,22 +1188,22 @@ private:
     }
     else
     {
-      auto section_2_time = get_sim_time_s() - section_2_start_time;
-      if (trg_section_1_end.once())
+      auto scene_2_time = get_sim_time_s() - scene_2_start_time;
+      if (trg_scene_1_end.once())
         sprh.clear();
-      else if (math::in_range<float>(section_2_time, 0.f*dt_section_transition, 1.f*dt_section_transition, Range::ClosedOpen))
+      else if (math::in_range<float>(scene_2_time, 0.f*dt_scene_transition, 1.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::LightGray);
-      else if (math::in_range<float>(section_2_time, 1.f*dt_section_transition, 2.f*dt_section_transition, Range::ClosedOpen))
+      else if (math::in_range<float>(scene_2_time, 1.f*dt_scene_transition, 2.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::DarkGray);
-      else if (math::in_range<float>(section_2_time, 2.f*dt_section_transition, 3.f*dt_section_transition, Range::ClosedOpen))
+      else if (math::in_range<float>(scene_2_time, 2.f*dt_scene_transition, 3.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::Black);
-      else if (math::in_range<float>(section_2_time, 3.f*dt_section_transition, 4.f*dt_section_transition, Range::ClosedOpen))
+      else if (math::in_range<float>(scene_2_time, 3.f*dt_scene_transition, 4.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::DarkGray);
-      else if (math::in_range<float>(section_2_time, 4.f*dt_section_transition, 5.f*dt_section_transition, Range::ClosedOpen))
+      else if (math::in_range<float>(scene_2_time, 4.f*dt_scene_transition, 5.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::LightGray);
       else
       {
-        if (trg_section_2_start.once())
+        if (trg_scene_2_start.once())
         {
           set_screen_bg_color_default(Color::Black);
           
