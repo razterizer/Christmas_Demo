@@ -29,6 +29,8 @@
 		078885142CDD53100068F108 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		078885162CDD54B70068F108 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = deck_the_halls.ct; sourceTree = "<group>"; };
+		07B91EF92CF16F3E00449D7E /* build.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.bat; sourceTree = "<group>"; };
+		07B91EFA2CF16F3E00449D7E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,8 @@
 			children = (
 				07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */,
 				0788850D2CDD4F960068F108 /* christmas_demo.cpp */,
+				07B91EFA2CF16F3E00449D7E /* build.sh */,
+				07B91EF92CF16F3E00449D7E /* build.bat */,
 			);
 			path = Christmas_Demo;
 			sourceTree = "<group>";
