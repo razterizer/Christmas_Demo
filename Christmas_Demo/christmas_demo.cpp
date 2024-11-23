@@ -1279,6 +1279,16 @@ private:
     auto fps = get_frame_count() / dur_s;
     std::cout << "goal FPS = " << get_real_fps() << ", measured FPS = " << fps << std::endl;
   }
+  
+  virtual void on_halt_game_loop() override
+  {
+    chip_tune.pause();
+  }
+  
+  virtual void on_resume_game_loop() override
+  {
+    chip_tune.resume();
+  }
 };
 
 int main(int argc, char** argv)
