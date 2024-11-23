@@ -25,4 +25,4 @@ fi
 mkdir -p bin/fonts/
 cp ../../lib/Termin8or/fonts/* bin/fonts/
 
-# cp chiptune2.ct bin/
+cp deck_the_halls.ct bin/
