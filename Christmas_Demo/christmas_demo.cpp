@@ -13,6 +13,9 @@
 #include <Termin8or/ParticleSystem.h>
 #include <Termin8or/ASCII_Fonts.h>
 #include <Termin8or/Animation.h>
+#include <8Beat/AudioSourceHandler.h>
+#include <8Beat/WaveformHelper.h>
+#include <8Beat/ChipTuneEngine.h>
 #include <Core/Benchmark.h>
 
 
@@ -1099,6 +1102,10 @@ private:
   float wind_accumulated_rand_phase = math::deg2rad(rnd::rand_float(0.f, 45.f));
   float wind_angle = 0.f;
   
+  audio::AudioSourceHandler audio;
+  audio::WaveformGeneration wave_gen;
+  audio::ChipTuneEngine chip_tune { audio, wave_gen };
+  
   std::vector<ASCII_Fonts::ColorScheme> color_schemes;
   std::string font_data_path;
   ASCII_Fonts::FontDataColl font_data;
@@ -1234,6 +1241,30 @@ private:
     sh.write_buffer("    'p' : Pause", 6, 3, Color::White);
     sh.write_buffer("    'q' : Quit", 7, 3, Color::White);
     sh.write_buffer("Press space-bar to continue", 29, 25, Color::White);
+  }
+  
+  virtual void on_exit_instructions() override
+  {
+    try
+    {
+      std::string tune_path = get_exe_folder();
+#ifndef _WIN32
+      const char* xcode_env = std::getenv("RUNNING_FROM_XCODE");
+      if (xcode_env != nullptr)
+        tune_path = "../../../../../../../../Documents/xcode/Christmas_Demo/Christmas_Demo/"; // #FIXME: Find a better solution!
+#endif
+      
+      if (chip_tune.load_tune(folder::join_path({ tune_path, "deck_the_halls.ct" })))
+      {
+        //chip_tune.play_tune();
+        chip_tune.play_tune_async();
+        chip_tune.wait_for_completion();
+      }
+    }
+    catch (const std::exception& e)
+    {
+      std::cerr << "Caught exception: " << e.what() << std::endl;
+    }
   }
   
   virtual void on_enter_game_loop() override
