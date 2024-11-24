@@ -1204,12 +1204,12 @@ private:
   TransitionAnimation title_anim_8 { 74.f, 0.f, 2.f, 5.f, 7.f }; // This demo uses / a dynamics system
   TransitionAnimation title_anim_9 { 86.f, 0.f, 2.f, 5.f, 7.f }; // and collisions / for the snow
   TransitionAnimation title_anim_10 { 90.f, 0.f, 2.f, 5.f, 7.f }; // Lighting effects / are done...
-  TransitionAnimation title_anim_11 { 110.f, 0.f, 2.f, 5.f, 7.f }; // by utilizing the / distance fields
-  TransitionAnimation title_anim_12 { 120.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
-  TransitionAnimation title_anim_13 { 130.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
+  TransitionAnimation title_anim_11 { 100.f, 0.f, 2.f, 5.f, 7.f }; // by utilizing the / distance fields
+  TransitionAnimation title_anim_12 { 110.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
+  TransitionAnimation title_anim_13 { 120.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
   
-  TransitionAnimation title_anim_14 { 142.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
-  TransitionAnimation title_anim_15 { 150.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
+  TransitionAnimation title_anim_14 { 132.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
+  TransitionAnimation title_anim_15 { 140.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
   TransitionAnimation title_anim_16 { 154.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
   
   std::function<float(float)> f_r = [](float t)
