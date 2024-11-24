@@ -16,10 +16,11 @@
 #include <8Beat/AudioSourceHandler.h>
 #include <8Beat/WaveformHelper.h>
 #include <8Beat/ChipTuneEngine.h>
+#include <8Beat/ChipTuneEngineListener.h>
 #include <Core/Benchmark.h>
 
 
-class Game : public GameEngine<>
+class Game : public GameEngine<>, public audio::ChipTuneEngineListener
 {
   void update_lighting_rb_sprite(BitmapSprite* sprite, dynamics::RigidBody* rb,
                                  const styles::Style& dark_style,
@@ -358,6 +359,38 @@ class Game : public GameEngine<>
       }
     }
   }
+  
+  virtual void on_tune_ended(audio::ChipTuneEngine* engine, const std::string& curr_tune_filepath) override
+  {
+    std::string tune;
+    if (curr_tune_filepath.ends_with("deck_the_halls.ct"))
+      tune = "silent_night.ct";
+    else if (curr_tune_filepath.ends_with("silent_night.ct"))
+      tune = "deck_the_halls.ct";
+    else
+      return;
+      
+    try
+    {
+      std::string tune_path = get_exe_folder();
+#ifndef _WIN32
+      const char* xcode_env = std::getenv("RUNNING_FROM_XCODE");
+      if (xcode_env != nullptr)
+        tune_path = "../../../../../../../../Documents/xcode/Christmas_Demo/Christmas_Demo/"; // #FIXME: Find a better solution!
+#endif
+      
+      if (chip_tune.load_tune(folder::join_path({ tune_path, tune })))
+      {
+        //chip_tune.play_tune();
+        chip_tune.play_tune_async();
+        chip_tune.wait_for_completion();
+      }
+    }
+    catch (const std::exception& e)
+    {
+      std::cerr << "Caught exception: " << e.what() << std::endl;
+    }
+  }
 
 public:
   Game(int argc, char** argv, const GameEngineParams& params)
@@ -365,6 +398,13 @@ public:
   {
     //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
+    
+    chip_tune.add_listener(this);
+  }
+  
+  virtual ~Game() override
+  {
+    chip_tune.remove_listener(this);
   }
   
   virtual void generate_data() override
