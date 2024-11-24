@@ -1316,7 +1316,7 @@ private:
   {
     auto dur_s = 1e-3f * benchmark::toc();
     
-    auto fps = get_frame_count() / dur_s;
+    auto fps = get_frame_count_measure() / dur_s;
     std::cout << "goal FPS = " << get_real_fps() << ", measured FPS = " << fps << std::endl;
   }
   
