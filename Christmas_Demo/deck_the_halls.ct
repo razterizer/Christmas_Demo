@@ -320,5 +320,5 @@ TAB -
 TAB -
 TAB -
 TAB -
-GOTO_TIMES start 3
+; GOTO_TIMES start 3
 END
