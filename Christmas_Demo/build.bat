@@ -5,7 +5,7 @@ SET configuration="Release"
 IF "%~1" == "Debug" SET configuration="Debug"
 SET target="x64"
 IF "%~2" == "x86" SET target="x86"
-msbuild Christmas_Demo.vs\Christmas_Demo.vs.sln /p:Configuration=%configuration% /p:Platform=%target%
+msbuild Christmas_Demo.vs.sln /p:Configuration=%configuration% /p:Platform=%target%
 
 if %errorlevel% neq 0 (
     echo Compilation failed with error code %errorlevel%.
