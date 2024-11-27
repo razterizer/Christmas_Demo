@@ -170,7 +170,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
       {
         auto c_0 = title_anim_6.animate(get_sim_time_s(), 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_6.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Be an", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "be an", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "awesome", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "year!", 15, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
       }
