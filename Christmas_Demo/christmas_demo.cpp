@@ -523,7 +523,7 @@ public:
     // Layers:
     // 0 : star
     // 1 : moon
-    // 2 : meteor
+    // 2 : meteor, aurora
     // 3 : ground, mountain
     // 4 : tree, fireplace, lake
     // 5 : snowflake
@@ -1056,6 +1056,282 @@ public:
       };
     }
     
+    sprite_aurora = sprh.create_bitmap_sprite("aurora borealis");
+    sprite_aurora->layer_id = 1;
+    sprite_aurora->init(5, 15);
+    sprite_aurora->create_frame(0);
+    sprite_aurora->set_sprite_chars_from_strings(0,
+      "               ",
+      "               ",
+      "               ",
+      "               ",
+      "               "
+    );
+    sprite_aurora->fill_sprite_fg_colors(0, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(0, Color::Transparent2);
+    sprite_aurora->create_frame(1);
+    sprite_aurora->set_sprite_chars_from_strings(1,
+      "       ..      ",
+      "      .    .   ",
+      "               ",
+      "  .     .    . ",
+      "               "
+    );
+    sprite_aurora->fill_sprite_fg_colors(1, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(1, Color::Transparent2);
+    sprite_aurora->create_frame(2);
+    sprite_aurora->set_sprite_chars_from_strings(2,
+      "       ./      ",
+      "     /.    .   ",
+      "    .          ",
+      "  .     .    . ",
+      "               "
+    );
+    sprite_aurora->fill_sprite_fg_colors(2, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(2, Color::Transparent2);
+    sprite_aurora->create_frame(3);
+    sprite_aurora->set_sprite_chars_from_strings(3,
+      "       ./      ",
+      "     /.    .   ",
+      "    .  /       ",
+      "  .     .    . ",
+      "               "
+    );
+    sprite_aurora->fill_sprite_fg_colors(3, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(3, Color::Transparent2);
+    sprite_aurora->create_frame(4);
+    sprite_aurora->set_sprite_chars_from_strings(4,
+      "       ./      ",
+      "     /.    ./  ",
+      "    .  /       ",
+      "  .     .    . ",
+      "               "
+    );
+    sprite_aurora->fill_sprite_fg_colors(4, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(4, Color::Transparent2);
+    sprite_aurora->create_frame(5);
+    sprite_aurora->set_sprite_chars_from_strings(5,
+      "       ./      ",
+      "     /.    ./  ",
+      "    .  /       ",
+      "  .     ./   . ",
+      "               "
+    );
+    sprite_aurora->fill_sprite_fg_colors(5, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(5, Color::Transparent2);
+    sprite_aurora->create_frame(6);
+    sprite_aurora->set_sprite_chars_from_strings(6,
+      "       ./      ",
+      "     /.    ./  ",
+      "    .  /       ",
+      "  ./    ./   . ",
+      "           .   "
+    );
+    sprite_aurora->fill_sprite_fg_colors(6, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(6, Color::Transparent2);
+    sprite_aurora->create_frame(7);
+    sprite_aurora->set_sprite_chars_from_strings(7,
+      "       ./      ",
+      "     /.    ./  ",
+      "    /.  /      ",
+      "  ./    ./   . ",
+      "            ,  "
+    );
+    sprite_aurora->fill_sprite_fg_colors(7, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(7, Color::Transparent2);
+    sprite_aurora->create_frame(8);
+    sprite_aurora->set_sprite_chars_from_strings(8,
+      "       ./      ",
+      "     //    ./  ",
+      "    /.  /      ",
+      "  ./    ./   . ",
+      "      .    ,   "
+    );
+    sprite_aurora->fill_sprite_fg_colors(8, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(8, Color::Transparent2);
+    sprite_aurora->create_frame(9);
+    sprite_aurora->set_sprite_chars_from_strings(9,
+      "       .//     ",
+      "     //    ./  ",
+      "    /.  /      ",
+      "  ./    ./   . ",
+      "      .    ,   "
+    );
+    sprite_aurora->fill_sprite_fg_colors(9, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(9, Color::Transparent2);
+    sprite_aurora->create_frame(10);
+    sprite_aurora->set_sprite_chars_from_strings(10,
+      "       .// /   ",
+      "     //    ./  ",
+      "     /./ /     ",
+      "  ./    ./   . ",
+      "      .   ,    "
+    );
+    sprite_aurora->fill_sprite_fg_colors(10, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(10, Color::Transparent2);
+    sprite_aurora->create_frame(11);
+    sprite_aurora->set_sprite_chars_from_strings(11,
+      "       .// / / ",
+      "    //   ./    ",
+      "    //./ /     ",
+      "   ./ /  ./  . ",
+      "     /.   ,    "
+    );
+    sprite_aurora->fill_sprite_fg_colors(11, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(11, Color::Transparent2);
+    sprite_aurora->create_frame(12);
+    sprite_aurora->set_sprite_chars_from_strings(12,
+      "      .:// / / ",
+      "   ,//  ./     ",
+      "    //./ //.   ",
+      "    .//   .//. ",
+      "    /:. / ,    "
+    );
+    sprite_aurora->fill_sprite_fg_colors(12, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(12, Color::Transparent2);
+    sprite_aurora->create_frame(13);
+    sprite_aurora->set_sprite_chars_from_strings(13,
+      "     .:// / // ",
+      "  /,// :/      ",
+      "    //./ //.:  ",
+      "     .//, .//. ",
+      "    /:.// ,    "
+    );
+    sprite_aurora->fill_sprite_fg_colors(13, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(13, Color::Transparent2);
+    sprite_aurora->create_frame(14);
+    sprite_aurora->set_sprite_chars_from_strings(14,
+      "    .:/// / //.",
+      " /,//:/        ",
+      "   .//.////.:  ",
+      "      .//, .//.",
+      "    /:.// ,  / "
+    );
+    sprite_aurora->fill_sprite_fg_colors(14, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(14, Color::Transparent2);
+    sprite_aurora->create_frame(15);
+    sprite_aurora->set_sprite_chars_from_strings(15,
+      "   ,.:/// ////,",
+      "// /:/         ",
+      "  . .//.////.:.",
+      "       .//,.//.",
+      "   / /:.// , / "
+    );
+    sprite_aurora->fill_sprite_fg_colors(15, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(15, Color::Transparent2);
+    sprite_aurora->create_frame(16);
+    sprite_aurora->set_sprite_chars_from_strings(16,
+      " . ,.:/// ////,",
+      "///:/          ",
+      " .. ://./////..",
+      "        .//,//.",
+      " / / /:.// ,/  "
+    );
+    sprite_aurora->fill_sprite_fg_colors(16, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(16, Color::Transparent2);
+    sprite_aurora->create_frame(17);
+    sprite_aurora->set_sprite_chars_from_strings(17,
+      " . ,./////.///,",
+      "////           ",
+      " ..::////////..",
+      "         .////.",
+      " / ///.// /,/  "
+    );
+    sprite_aurora->fill_sprite_fg_colors(17, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(17, Color::Transparent2);
+    sprite_aurora->create_frame(18);
+    sprite_aurora->set_sprite_chars_from_strings(18,
+      " .,//////.///, ",
+      " // //.        ",
+      " ../:////:///..",
+      "        .// //.",
+      "   ////.///,/  "
+    );
+    sprite_aurora->fill_sprite_fg_colors(18, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(18, Color::Transparent2);
+    sprite_aurora->create_frame(19);
+    sprite_aurora->set_sprite_chars_from_strings(19,
+      " .,//////.///, ",
+      "  /,// /.      ",
+      "../:////:// /..",
+      "       .//,//. ",
+      "  / ////.///,/ "
+    );
+    sprite_aurora->fill_sprite_fg_colors(19, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(19, Color::Transparent2);
+    sprite_aurora->create_frame(20);
+    sprite_aurora->set_sprite_chars_from_strings(20,
+      " .,//////.///,.",
+      "   /,/ / /.    ",
+      "../:////:// /..",
+      "     ./ /,// . ",
+      " //////.///,/  "
+    );
+    sprite_aurora->fill_sprite_fg_colors(20, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(20, Color::Transparent2);
+    sprite_aurora->create_frame(21);
+    sprite_aurora->set_sprite_chars_from_strings(21,
+      " .,//////.///,.",
+      "   / ,/ / /.   ",
+      "../:////:// /..",
+      "    ./ /,/ / . ",
+      " // ////.///,/ "
+    );
+    sprite_aurora->fill_sprite_fg_colors(21, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(21, Color::Transparent2);
+    sprite_aurora->create_frame(22);
+    sprite_aurora->set_sprite_chars_from_strings(22,
+      "/.,////././//,.",
+      "     /,/ / /.  ",
+      "./////:/ / /:. ",
+      "  ./ /,/ /..   ",
+      " //// //.///,/ "
+    );
+    sprite_aurora->fill_sprite_fg_colors(22, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(22, Color::Transparent2);
+    sprite_aurora->create_frame(23);
+    sprite_aurora->set_sprite_chars_from_strings(23,
+      "/.,////././//,.",
+      "       /,// /. ",
+      "./////// ///:/.",
+      " .//,/ /..     ",
+      " // /// /.//// "
+    );
+    sprite_aurora->fill_sprite_fg_colors(23, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(23, Color::Transparent2);
+    sprite_aurora->create_frame(24);
+    sprite_aurora->set_sprite_chars_from_strings(24,
+      " /,// /././ //,",
+      "        /,///. ",
+      ". //// // ///:/",
+      "./// /. .      ",
+      " / / /// /./// "
+    );
+    sprite_aurora->fill_sprite_fg_colors(24, Color::Green);
+    sprite_aurora->fill_sprite_bg_colors(24, Color::Transparent2);
+    //sprite_aurora->fill_sprite_bg_colors_horiz(0, 0, 7, 8, Color::Cyan);
+    //sprite_aurora->set_sprite_bg_colors(0, 1, 6, Color::Cyan);
+    
+    sprite_aurora->func_calc_anim_frame = [this](int sim_frame)
+    {
+      if (aurora_timestamp <= sim_frame)
+      {
+        auto diff =  sim_frame - aurora_timestamp;
+        int anim_frame = diff % 50;
+        if (0 <= anim_frame && anim_frame < 24)
+          return anim_frame;
+        else if (24 <= anim_frame && anim_frame <= 48)
+          return 48 - anim_frame;
+        else
+        {
+          aurora_timestamp = sim_frame + rnd::rand_int(0, 200);
+          sprite_aurora->pos = { rnd::rand_int(0, sh.num_rows() - 1), rnd::rand_int(0, sh.num_cols() - 1) };
+          return 0;
+        }
+      }
+      return 0;
+    };
+    
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "tree", "tree");
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "tree", "ground");
     coll_handler.exclude_all_rigid_bodies_of_prefixes(&dyn_sys, "snow", "snow"); // Short prefixes to make it a bit faster.
@@ -1116,6 +1392,9 @@ private:
   
   BitmapSprite* sprite_meteor = nullptr;
   int meteor_timestamp = 20;
+  
+  BitmapSprite* sprite_aurora = nullptr;
+  int aurora_timestamp = 82;
   
   ParticleHandler fire_smoke_engine { 500 };
   
