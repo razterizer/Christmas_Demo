@@ -1657,6 +1657,8 @@ private:
             -2, 2, 2, 2, -2
           );
           sprite_manger->fill_sprite_bg_colors_horiz(0, 1, 1, 7, Color::White);
+          
+          generate_star_sprites();
         }
       }
       
