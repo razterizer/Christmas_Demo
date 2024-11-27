@@ -1726,6 +1726,11 @@ private:
   {
     chip_tune.resume();
   }
+  
+  virtual void on_quit() override
+  {
+    chip_tune.stop_tune_async();
+  }
 };
 
 int main(int argc, char** argv)
