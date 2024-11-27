@@ -68,9 +68,9 @@
 		0788850C2CDD4F960068F108 /* Christmas_Demo */ = {
 			isa = PBXGroup;
 			children = (
-				07B91EFD2CF45FC400449D7E /* jingle_bells.ct */,
 				07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */,
 				07B91EFB2CF17D0E00449D7E /* silent_night.ct */,
+				07B91EFD2CF45FC400449D7E /* jingle_bells.ct */,
 				0788850D2CDD4F960068F108 /* christmas_demo.cpp */,
 				07B91EFA2CF16F3E00449D7E /* build.sh */,
 				07B91EF92CF16F3E00449D7E /* build.bat */,
