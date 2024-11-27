@@ -1396,6 +1396,8 @@ private:
   BitmapSprite* sprite_aurora = nullptr;
   int aurora_timestamp = 82;
   
+  BitmapSprite* sprite_manger = nullptr;
+  
   ParticleHandler fire_smoke_engine { 500 };
   
   ParticleGradientGroup smoke_0
@@ -1623,6 +1625,33 @@ private:
           sprite_ground->fill_sprite_chars(0, ':');
           sprite_ground->fill_sprite_fg_colors(0, Color::DarkGray);
           sprite_ground->fill_sprite_bg_colors(0, Color::DarkYellow);
+          
+          sprite_manger = sprh.create_bitmap_sprite("crib");
+          sprite_manger->layer_id = 4;
+          sprite_manger->pos = { sh.num_rows() - ground_height - 3, sh.num_cols()/2 - 5 };
+          sprite_manger->init(5, 11);
+          sprite_manger->create_frame(0);
+          sprite_manger->set_sprite_chars_from_strings(0,
+            R"( @o     .. )",
+            R"(:(O=<==<::.)",
+            R"(  \ V /    )",
+            R"(    x      )",
+            R"(: / A \ :/ )"
+          );
+          sprite_manger->set_sprite_fg_colors(0,
+            0, 2, 14, 0, 0, 0, 0, 0, 12, 12, 0,
+            12, 14, 14, 14, 14, 14, 14, 14, 12, 12, 12,
+            0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0,
+            0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,
+            12, 0, 2, 2, 2, 2, 2, 0, 12, 12, 0
+          );
+          sprite_manger->fill_sprite_bg_colors(0, Color::Transparent2);
+          sprite_manger->set_sprite_bg_colors(0, { 2, 2, 3, 5},
+            -2, 2, 2, 2, -2,
+            -2, -2, 2, -2, -2,
+            -2, 2, 2, 2, -2
+          );
+          sprite_manger->fill_sprite_bg_colors_horiz(0, 1, 1, 7, Color::White);
         }
       }
       
