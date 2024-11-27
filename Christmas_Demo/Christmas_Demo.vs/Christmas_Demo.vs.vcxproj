@@ -120,9 +120,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\..\..\lib\3rdparty\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)\deck_the_halls.ct $(TargetDir) /Y
-xcopy $(SolutionDir)\silent_night.ct $(TargetDir) /Y
-xcopy $(SolutionDir)\..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command>
+      <Command>xcopy $(SolutionDir)deck_the_halls.ct $(TargetDir) /Y
+xcopy $(SolutionDir)silent_night.ct $(TargetDir) /Y
+xcopy $(SolutionDir)jingle_bells.ct $(TargetDir) /Y
+xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,6 +148,7 @@ xcopy $(SolutionDir)\..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)deck_the_halls.ct $(TargetDir) /Y
 xcopy $(SolutionDir)silent_night.ct $(TargetDir) /Y
+xcopy $(SolutionDir)jingle_bells.ct $(TargetDir) /Y
 xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)fonts\ /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
