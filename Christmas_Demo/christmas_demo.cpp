@@ -433,6 +433,8 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
     if (curr_tune_filepath.ends_with("deck_the_halls.ct"))
       tune = "silent_night.ct";
     else if (curr_tune_filepath.ends_with("silent_night.ct"))
+      tune = "jingle_bells.ct";
+    else if (curr_tune_filepath.ends_with("jingle_bells.ct"))
       tune = "deck_the_halls.ct";
     else
       return;
