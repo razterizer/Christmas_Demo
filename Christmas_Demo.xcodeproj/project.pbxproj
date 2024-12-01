@@ -33,6 +33,7 @@
 		07B91EFA2CF16F3E00449D7E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 		07B91EFB2CF17D0E00449D7E /* silent_night.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = silent_night.ct; sourceTree = "<group>"; };
 		07B91EFD2CF45FC400449D7E /* jingle_bells.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jingle_bells.ct; sourceTree = "<group>"; };
+		07B91EFE2CF6FF3900449D7E /* nigh_bethlehem.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nigh_bethlehem.ct; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +69,7 @@
 		0788850C2CDD4F960068F108 /* Christmas_Demo */ = {
 			isa = PBXGroup;
 			children = (
+				07B91EFE2CF6FF3900449D7E /* nigh_bethlehem.ct */,
 				07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */,
 				07B91EFB2CF17D0E00449D7E /* silent_night.ct */,
 				07B91EFD2CF45FC400449D7E /* jingle_bells.ct */,
