@@ -1418,6 +1418,8 @@ private:
   
   BitmapSprite* sprite_manger = nullptr;
   
+  BitmapSprite* sprite_bethlehem_star = nullptr;
+  
   ParticleHandler fire_smoke_engine { 500 };
   
   ParticleGradientGroup smoke_0
@@ -1646,32 +1648,78 @@ private:
           sprite_ground->fill_sprite_fg_colors(0, Color::DarkGray);
           sprite_ground->fill_sprite_bg_colors(0, Color::DarkYellow);
           
-          sprite_manger = sprh.create_bitmap_sprite("crib");
+          // Black,         //  1
+          // DarkRed,       //  2
+          // DarkGreen,     //  3
+          // DarkYellow,    //  4
+          // DarkBlue,      //  5
+          // DarkMagenta,   //  6
+          // DarkCyan,      //  7
+          // LightGray,     //  8
+          // DarkGray,      //  9
+          // Red,           // 10
+          // Green,         // 11
+          // Yellow,        // 12
+          // Blue,          // 13
+          // Magenta,       // 14
+          // Cyan,          // 15
+          // White          // 16
+          
+          sprite_manger = sprh.create_bitmap_sprite("manger");
           sprite_manger->layer_id = 4;
           sprite_manger->pos = { sh.num_rows() - ground_height - 3, sh.num_cols()/2 - 5 };
-          sprite_manger->init(5, 11);
+          sprite_manger->init(5, 7);
           sprite_manger->create_frame(0);
           sprite_manger->set_sprite_chars_from_strings(0,
-            R"( @o     .. )",
-            R"(:(O=<==<::.)",
-            R"(  \ V /    )",
-            R"(    x      )",
-            R"(: / A \ :/ )"
+            R"(  +---+)",
+            R"( /o<</|)",
+            R"(+---+ |)",
+            R"(| v |/ )",
+            R"(+---+  )"
           );
           sprite_manger->set_sprite_fg_colors(0,
-            0, 2, 14, 0, 0, 0, 0, 0, 12, 12, 0,
-            12, 14, 14, 14, 14, 14, 14, 14, 12, 12, 12,
-            0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0,
-            0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,
-            12, 0, 2, 2, 2, 2, 2, 0, 12, 12, 0
+            0, 0, 12, 12, 12, 12, 12,
+            0, 12, 14, 14, 14, 12, 12,
+            12, 12, 12, 12, 12, 12, 12,
+            12, 12, 2, 12, 12, 12, 0,
+            12, 12, 12, 12, 12, 0, 0
           );
-          sprite_manger->fill_sprite_bg_colors(0, Color::Transparent2);
-          sprite_manger->set_sprite_bg_colors(0, { 2, 2, 3, 5},
-            -2, 2, 2, 2, -2,
-            -2, -2, 2, -2, -2,
-            -2, 2, 2, 2, -2
+          sprite_manger->set_sprite_bg_colors(0,
+            -2, -2, 4, 4, 4, 4, 4,
+            -2, 4, 16, 16, 16, 4, 4,
+            4, 4, 4, 4, 4, 4, 4,
+            4, 4, 4, 4, 4, 4, -2,
+            4, 4, 4, 4, 4, -2, -2
           );
-          sprite_manger->fill_sprite_bg_colors_horiz(0, 1, 1, 7, Color::White);
+          
+          sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
+          sprite_bethlehem_star->layer_id = 1;
+          sprite_bethlehem_star->pos = { 3, sh.num_cols() - 13 };
+          sprite_bethlehem_star->init(9, 7);
+          sprite_bethlehem_star->create_frame(0);
+          sprite_bethlehem_star->set_sprite_chars_from_strings(0,
+            R"(   :   )",
+            R"(   |   )",
+            R"(   |   )",
+            R"( . | . )",
+            R"(  \v/  )",
+            R"(-->*<--)",
+            R"(  /^\  )",
+            R"( ' | ' )",
+            R"(   |   )"
+          );
+          sprite_bethlehem_star->set_sprite_fg_colors(0,
+            0, 0, 0, 12, 0, 0, 0,
+            0, 0, 0, 12, 0, 0, 0,
+            0, 0, 0, 12, 0, 0, 0,
+            0, 12, 0, 12, 0, 12, 0,
+            0, 0, 12, 16, 12, 0, 0,
+            12, 12, 16, 16, 16, 12, 12,
+            0, 0, 12, 16, 12, 0, 0,
+            0, 12, 0, 12, 0, 12, 0,
+            0, 0, 0, 12, 0, 0, 0
+          );
+          sprite_bethlehem_star->fill_sprite_bg_colors(0, Color::Transparent2);
           
           generate_star_sprites();
           
@@ -1679,6 +1727,7 @@ private:
           Delay::sleep(100'000);
           chip_tune->remove_listener(this);
           chip_tune.release();
+          Delay::sleep(100'000);
           chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
           chip_tune->add_listener(this);
           play_tune("nigh_bethlehem.ct");
