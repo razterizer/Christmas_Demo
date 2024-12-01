@@ -22,6 +22,29 @@
 
 class Game : public GameEngine<>, public audio::ChipTuneEngineListener
 {
+  void play_tune(const std::string& tune_filename)
+  {
+    try
+    {
+      std::string tune_path = get_exe_folder();
+#ifndef _WIN32
+      const char* xcode_env = std::getenv("RUNNING_FROM_XCODE");
+      if (xcode_env != nullptr)
+        tune_path = "../../../../../../../../Documents/xcode/Christmas_Demo/Christmas_Demo/"; // #FIXME: Find a better solution!
+#endif
+      
+      if (chip_tune->load_tune(folder::join_path({ tune_path, tune_filename })))
+      {
+        chip_tune->play_tune_async();
+        //chip_tune->wait_for_completion();
+      }
+    }
+    catch (const std::exception& e)
+    {
+      std::cerr << "Caught exception: " << e.what() << std::endl;
+    }
+  }
+  
   void generate_star_sprites()
   {
     for (int s_idx = 0; s_idx < 30; ++s_idx)
@@ -459,35 +482,24 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
   virtual void on_tune_ended(audio::ChipTuneEngine* engine, const std::string& curr_tune_filepath) override
   {
     std::string tune;
-    if (curr_tune_filepath.ends_with("deck_the_halls.ct"))
-      tune = "silent_night.ct";
-    else if (curr_tune_filepath.ends_with("silent_night.ct"))
-      tune = "jingle_bells.ct";
-    else if (curr_tune_filepath.ends_with("jingle_bells.ct"))
-      tune = "deck_the_halls.ct";
+    if (get_sim_time_s() < scene_2_start_time)
+    {
+      if (curr_tune_filepath.ends_with("deck_the_halls.ct"))
+        tune = "silent_night.ct";
+      else if (curr_tune_filepath.ends_with("silent_night.ct"))
+        tune = "jingle_bells.ct";
+      else if (curr_tune_filepath.ends_with("jingle_bells.ct"))
+        tune = "deck_the_halls.ct";
+      else
+        return;
+    }
     else
-      return;
-      
-    try
     {
-      std::string tune_path = get_exe_folder();
-#ifndef _WIN32
-      const char* xcode_env = std::getenv("RUNNING_FROM_XCODE");
-      if (xcode_env != nullptr)
-        tune_path = "../../../../../../../../Documents/xcode/Christmas_Demo/Christmas_Demo/"; // #FIXME: Find a better solution!
-#endif
-      
-      if (chip_tune.load_tune(folder::join_path({ tune_path, tune })))
-      {
-        //chip_tune.play_tune();
-        chip_tune.play_tune_async();
-        chip_tune.wait_for_completion();
-      }
+      if (curr_tune_filepath.ends_with("nigh_bethlehem.ct"))
+        return;
     }
-    catch (const std::exception& e)
-    {
-      std::cerr << "Caught exception: " << e.what() << std::endl;
-    }
+    
+    play_tune(tune);
   }
 
 public:
@@ -497,12 +509,15 @@ public:
     //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
     
-    chip_tune.add_listener(this);
+    chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
+    chip_tune->add_listener(this);
   }
   
   virtual ~Game() override
   {
-    chip_tune.remove_listener(this);
+    Delay::sleep(100'000);
+    chip_tune->remove_listener(this);
+    chip_tune.release();
   }
   
   virtual void generate_data() override
@@ -1499,7 +1514,7 @@ private:
   
   audio::AudioSourceHandler audio;
   audio::WaveformGeneration wave_gen;
-  audio::ChipTuneEngine chip_tune { audio, wave_gen };
+  std::unique_ptr<audio::ChipTuneEngine> chip_tune;
   
   std::vector<ASCII_Fonts::ColorScheme> color_schemes;
   std::string font_data_path;
@@ -1659,6 +1674,14 @@ private:
           sprite_manger->fill_sprite_bg_colors_horiz(0, 1, 1, 7, Color::White);
           
           generate_star_sprites();
+          
+          chip_tune->stop_tune_async();
+          Delay::sleep(100'000);
+          chip_tune->remove_listener(this);
+          chip_tune.release();
+          chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
+          chip_tune->add_listener(this);
+          play_tune("nigh_bethlehem.ct");
         }
       }
       
@@ -1682,26 +1705,7 @@ private:
   
   virtual void on_exit_instructions() override
   {
-    try
-    {
-      std::string tune_path = get_exe_folder();
-#ifndef _WIN32
-      const char* xcode_env = std::getenv("RUNNING_FROM_XCODE");
-      if (xcode_env != nullptr)
-        tune_path = "../../../../../../../../Documents/xcode/Christmas_Demo/Christmas_Demo/"; // #FIXME: Find a better solution!
-#endif
-      
-      if (chip_tune.load_tune(folder::join_path({ tune_path, "deck_the_halls.ct" })))
-      {
-        //chip_tune.play_tune();
-        chip_tune.play_tune_async();
-        chip_tune.wait_for_completion();
-      }
-    }
-    catch (const std::exception& e)
-    {
-      std::cerr << "Caught exception: " << e.what() << std::endl;
-    }
+    play_tune("deck_the_halls.ct");
   }
   
   virtual void on_enter_game_loop() override
@@ -1719,17 +1723,17 @@ private:
   
   virtual void on_halt_game_loop() override
   {
-    chip_tune.pause();
+    chip_tune->pause();
   }
   
   virtual void on_resume_game_loop() override
   {
-    chip_tune.resume();
+    chip_tune->resume();
   }
   
   virtual void on_quit() override
   {
-    chip_tune.stop_tune_async();
+    chip_tune->stop_tune_async();
   }
 };
 
