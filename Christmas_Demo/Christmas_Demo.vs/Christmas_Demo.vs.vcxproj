@@ -123,6 +123,7 @@
       <Command>xcopy $(SolutionDir)deck_the_halls.ct $(TargetDir) /Y
 xcopy $(SolutionDir)silent_night.ct $(TargetDir) /Y
 xcopy $(SolutionDir)jingle_bells.ct $(TargetDir) /Y
+xcopy $(SolutionDir)nigh_bethlehem.ct $(TargetDir) /Y
 xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -149,6 +150,7 @@ xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command>
       <Command>xcopy $(SolutionDir)deck_the_halls.ct $(TargetDir) /Y
 xcopy $(SolutionDir)silent_night.ct $(TargetDir) /Y
 xcopy $(SolutionDir)jingle_bells.ct $(TargetDir) /Y
+xcopy $(SolutionDir)nigh_bethlehem.ct $(TargetDir) /Y
 xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)fonts\ /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
