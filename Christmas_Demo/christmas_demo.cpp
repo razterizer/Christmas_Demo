@@ -1732,6 +1732,7 @@ private:
           Delay::sleep(100'000);
           chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
           chip_tune->add_listener(this);
+          Delay::sleep(150'000);
           play_tune("nigh_bethlehem.ct");
         }
       }
