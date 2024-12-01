@@ -1695,21 +1695,21 @@ private:
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
           sprite_bethlehem_star->layer_id = 1;
           sprite_bethlehem_star->pos = { 3, sh.num_cols() - 13 };
-          sprite_bethlehem_star->init(9, 7);
+          sprite_bethlehem_star->init(10, 7);
           sprite_bethlehem_star->create_frame(0);
           sprite_bethlehem_star->set_sprite_chars_from_strings(0,
-            R"(   :   )",
-            R"(   |   )",
+            R"(   .   )",
             R"(   |   )",
             R"( . | . )",
             R"(  \v/  )",
             R"(-->*<--)",
             R"(  /^\  )",
             R"( ' | ' )",
-            R"(   |   )"
+            R"(   |   )",
+            R"(   |   )",
+            R"(   :   )"
           );
           sprite_bethlehem_star->set_sprite_fg_colors(0,
-            0, 0, 0, 12, 0, 0, 0,
             0, 0, 0, 12, 0, 0, 0,
             0, 0, 0, 12, 0, 0, 0,
             0, 12, 0, 12, 0, 12, 0,
@@ -1717,6 +1717,8 @@ private:
             12, 12, 16, 16, 16, 12, 12,
             0, 0, 12, 16, 12, 0, 0,
             0, 12, 0, 12, 0, 12, 0,
+            0, 0, 0, 12, 0, 0, 0,
+            0, 0, 0, 12, 0, 0, 0,
             0, 0, 0, 12, 0, 0, 0
           );
           sprite_bethlehem_star->fill_sprite_bg_colors(0, Color::Transparent2);
