@@ -182,43 +182,43 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
   {
     if (get_sim_time_s() < scene_2_start_time)
     {
-      if (!title_anim_0.done(get_sim_time_s()))
+      if (title_anim_0.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_0.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_0.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Rasmus Anthin", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "wishes you all", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_1.done(get_sim_time_s()))
+      else if (title_anim_1.in_range(get_sim_time_s()))
       {
         auto c = title_anim_1.animate(get_sim_time_s(), 81.f, 9.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "a Very", 3, math::roundI(c), ASCII_Fonts::Font::Larry3D);
       }
-      else if (!title_anim_2.done(get_sim_time_s()))
+      else if (title_anim_2.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_2.animate(get_sim_time_s(), 81.f, 7.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_2.animate(get_sim_time_s(), -81.f, 3.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Merry", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Christmas", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
       }
-      else if (!title_anim_3.done(get_sim_time_s()))
+      else if (title_anim_3.in_range(get_sim_time_s()))
       {
         auto c = title_anim_3.animate(get_sim_time_s(), 81.f, 9.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "and a...", 3, math::roundI(c), ASCII_Fonts::Font::Larry3D);
       }
-      else if (!title_anim_4.done(get_sim_time_s()))
+      else if (title_anim_4.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_4.animate(get_sim_time_s(), 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_4.animate(get_sim_time_s(), -81.f, 9.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Happy New", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Year!", 9, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
       }
-      else if (!title_anim_5.done(get_sim_time_s()))
+      else if (title_anim_5.in_range(get_sim_time_s()))
       {
         auto c = title_anim_5.animate(get_sim_time_s(), 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "May 2025", 3, math::roundI(c), ASCII_Fonts::Font::Larry3D);
       }
-      else if (!title_anim_6.done(get_sim_time_s()))
+      else if (title_anim_6.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_6.animate(get_sim_time_s(), 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_6.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
@@ -226,84 +226,89 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "awesome", 8, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "year!", 15, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
       }
-      else if (!title_anim_7.done(get_sim_time_s()) || !title_anim_8.done(get_sim_time_s()))
+      else if (title_anim_7.in_range(get_sim_time_s()) || !title_anim_8.done(get_sim_time_s()))
       {
         auto t_2 = title_anim_7.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
         auto t_3 = title_anim_8.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "GFX via the", f_r(t_2), f_c(t_2), ASCII_Fonts::Font::Avatar);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Termin8or lib", 25-f_r(t_3), 7-f_c(t_3), ASCII_Fonts::Font::Avatar);
       }
-      else if (!title_anim_9.done(get_sim_time_s()) || !title_anim_10.done(get_sim_time_s()))
+      else if (title_anim_9.in_range(get_sim_time_s()) || !title_anim_10.done(get_sim_time_s()))
       {
         auto t_4 = title_anim_9.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
         auto t_5 = title_anim_10.animate(get_sim_time_s(), 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "SFX via the", f_r(t_4), f_c(t_4), ASCII_Fonts::Font::Avatar);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "8Beat lib", 25-f_r(t_5), 7-f_c(t_5), ASCII_Fonts::Font::Avatar);
       }
-      else if (!title_anim_11.done(get_sim_time_s()))
+      else if (title_anim_11.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_11.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_11.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Made in", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Sweden!", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_12.done(get_sim_time_s()))
+      else if (title_anim_12.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_12.animate(get_sim_time_s(), 81.f, 5.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_12.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "This demo uses", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "a dynamics system", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_13.done(get_sim_time_s()))
+      else if (title_anim_13.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_13.animate(get_sim_time_s(), 81.f, 5.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_13.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "and collisions", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "for the snow", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_14.done(get_sim_time_s()))
+      else if (title_anim_14.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_14.animate(get_sim_time_s(), 81.f, 5.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_14.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Lighting effects", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "are done...", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_15.done(get_sim_time_s()))
+      else if (title_anim_15.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_15.animate(get_sim_time_s(), 81.f, 5.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_15.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "by utilizing the", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "distance fields", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_16.done(get_sim_time_s()))
+      else if (title_anim_16.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_16.animate(get_sim_time_s(), 81.f, 5.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_16.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "of the", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "rigidid bodies", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_17.done(get_sim_time_s()))
+      else if (title_anim_17.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_17.animate(get_sim_time_s(), 81.f, 5.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_17.animate(get_sim_time_s(), -81.f, 7.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "that some sprties", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "are attached to", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_18.done(get_sim_time_s()))
+      else if (title_anim_18.in_range(get_sim_time_s()))
       {
-        auto c_0 = title_anim_18.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-        auto c_1 = title_anim_18.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Tis the season", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "to be folly", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+        auto c = title_anim_18.animate(get_sim_time_s(), 81.f, -900);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Music is not from midi, but via the ChipTuneEngine part of the 8Beat lib which allows you to define waveforms in detail and play these similar to how mods work. The tunes are written in text-based files with the ending ct.", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
       }
       else if (!title_anim_19.done(get_sim_time_s()))
       {
-        auto c = title_anim_19.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Falalala la", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
+        auto c_0 = title_anim_19.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+        auto c_1 = title_anim_19.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Tis the season", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "to be folly", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
       else if (!title_anim_20.done(get_sim_time_s()))
       {
-        auto c = title_anim_20.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
+        auto c = title_anim_20.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Falalala la", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
+      }
+      else if (!title_anim_21.done(get_sim_time_s()))
+      {
+        auto c = title_anim_21.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c), ASCII_Fonts::Font::SMSlant);
       }
     }
@@ -1538,14 +1543,16 @@ private:
   
   TransitionAnimation title_anim_12 { 99.f, 0.f, 2.f, 5.f, 7.f }; // This demo uses / a dynamics system
   TransitionAnimation title_anim_13 { 111.f, 0.f, 2.f, 5.f, 7.f }; // and collisions / for the snow
-  TransitionAnimation title_anim_14 { 115.f, 0.f, 2.f, 5.f, 7.f }; // Lighting effects / are done...
-  TransitionAnimation title_anim_15 { 125.f, 0.f, 2.f, 5.f, 7.f }; // by utilizing the / distance fields
-  TransitionAnimation title_anim_16 { 135.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
-  TransitionAnimation title_anim_17 { 145.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
+  TransitionAnimation title_anim_14 { 120.f, 0.f, 2.f, 5.f, 7.f }; // Lighting effects / are done...
+  TransitionAnimation title_anim_15 { 130.f, 0.f, 2.f, 5.f, 7.f }; // by utilizing the / distance fields
+  TransitionAnimation title_anim_16 { 140.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
+  TransitionAnimation title_anim_17 { 150.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
   
-  TransitionAnimation title_anim_18 { 157.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
-  TransitionAnimation title_anim_19 { 165.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
-  TransitionAnimation title_anim_20 { 179.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
+  TransitionAnimationLinear title_anim_18 { 162.f, 0.f, 40.f }; // Music is not from midi, ...
+  
+  TransitionAnimation title_anim_19 { 202.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
+  TransitionAnimation title_anim_20 { 210.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
+  TransitionAnimation title_anim_21 { 224.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
   
   std::function<float(float)> f_r = [](float t)
   {
