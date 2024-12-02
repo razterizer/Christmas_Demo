@@ -1522,6 +1522,7 @@ private:
   audio::AudioSourceHandler audio;
   audio::WaveformGeneration wave_gen;
   std::unique_ptr<audio::ChipTuneEngine> chip_tune;
+  OneShot trg_scene_2_tune;
   
   std::vector<ASCII_Fonts::ColorScheme> color_schemes;
   std::string font_data_path;
@@ -1736,7 +1737,9 @@ private:
           Delay::sleep(100'000);
           chip_tune->remove_listener(this);
           chip_tune.release();
-          Delay::sleep(100'000);
+        }
+        else if (scene_2_time > 6.f*dt_scene_transition && trg_scene_2_tune.once())
+        {
           chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
           chip_tune->add_listener(this);
           Delay::sleep(150'000);
