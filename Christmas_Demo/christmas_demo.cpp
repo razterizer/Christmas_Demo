@@ -1425,6 +1425,9 @@ private:
   
   BitmapSprite* sprite_bethlehem_star = nullptr;
   
+  BitmapSprite* sprite_camel = nullptr;
+  TransitionAnimationSingle anim_camel { 2.f,  0.f, 8.f };
+  
   ParticleHandler fire_smoke_engine { 500 };
   
   ParticleGradientGroup smoke_0
@@ -1528,32 +1531,32 @@ private:
   std::string font_data_path;
   ASCII_Fonts::FontDataColl font_data;
   
-  TransitionAnimation title_anim_0 { 0.f,  0.f, 2.f, 6., 8.f }; // Rasmus Anthin / wishes you all
-  TransitionAnimation title_anim_1 { 12.f, 0.f, 2.f, 8.f, 10.f }; // a Very
-  TransitionAnimation title_anim_2 { 24.f, 0.f, 2.f, 8.f, 10.f }; // Merry / Christmas
-  TransitionAnimation title_anim_3 { 38.f, 0.f, 2.f, 4.f, 5.f }; // and a...
-  TransitionAnimation title_anim_4 { 45.f, 0.f, 2.f, 4.f, 5.f }; // Happy New / Year!
-  TransitionAnimation title_anim_5 { 52.f, 0.f, 2.f, 4.f, 5.f }; // May 2025
-  TransitionAnimation title_anim_6 { 59.f, 0.f, 2.f, 4.f, 5.f }; // Be an awesome / year!
+  TransitionAnimationInOut title_anim_0 { 0.f,  0.f, 2.f, 6., 8.f }; // Rasmus Anthin / wishes you all
+  TransitionAnimationInOut title_anim_1 { 12.f, 0.f, 2.f, 8.f, 10.f }; // a Very
+  TransitionAnimationInOut title_anim_2 { 24.f, 0.f, 2.f, 8.f, 10.f }; // Merry / Christmas
+  TransitionAnimationInOut title_anim_3 { 38.f, 0.f, 2.f, 4.f, 5.f }; // and a...
+  TransitionAnimationInOut title_anim_4 { 45.f, 0.f, 2.f, 4.f, 5.f }; // Happy New / Year!
+  TransitionAnimationInOut title_anim_5 { 52.f, 0.f, 2.f, 4.f, 5.f }; // May 2025
+  TransitionAnimationInOut title_anim_6 { 59.f, 0.f, 2.f, 4.f, 5.f }; // Be an awesome / year!
   
-  TransitionAnimation title_anim_7 { 73.f, 0.f, 2.f, 4.f, 5.f }; // Graphics via the...
-  TransitionAnimation title_anim_8 { 74.f, 0.f, 2.f, 4.f, 5.f }; // Termin8or library
-  TransitionAnimation title_anim_9 { 81.f, 0.f, 2.f, 4.f, 5.f }; // Sound via the...
-  TransitionAnimation title_anim_10 { 82.f, 0.f, 2.f, 4.f, 5.f }; // 8Beat library
-  TransitionAnimation title_anim_11 { 87.f, 0.f, 2.f, 5.f, 7.f }; // Made in / Sweden!
+  TransitionAnimationInOut title_anim_7 { 73.f, 0.f, 2.f, 4.f, 5.f }; // Graphics via the...
+  TransitionAnimationInOut title_anim_8 { 74.f, 0.f, 2.f, 4.f, 5.f }; // Termin8or library
+  TransitionAnimationInOut title_anim_9 { 81.f, 0.f, 2.f, 4.f, 5.f }; // Sound via the...
+  TransitionAnimationInOut title_anim_10 { 82.f, 0.f, 2.f, 4.f, 5.f }; // 8Beat library
+  TransitionAnimationInOut title_anim_11 { 87.f, 0.f, 2.f, 5.f, 7.f }; // Made in / Sweden!
   
-  TransitionAnimation title_anim_12 { 99.f, 0.f, 2.f, 5.f, 7.f }; // This demo uses / a dynamics system
-  TransitionAnimation title_anim_13 { 111.f, 0.f, 2.f, 5.f, 7.f }; // and collisions / for the snow
-  TransitionAnimation title_anim_14 { 120.f, 0.f, 2.f, 5.f, 7.f }; // Lighting effects / are done...
-  TransitionAnimation title_anim_15 { 130.f, 0.f, 2.f, 5.f, 7.f }; // by utilizing the / distance fields
-  TransitionAnimation title_anim_16 { 140.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
-  TransitionAnimation title_anim_17 { 150.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
+  TransitionAnimationInOut title_anim_12 { 99.f, 0.f, 2.f, 5.f, 7.f }; // This demo uses / a dynamics system
+  TransitionAnimationInOut title_anim_13 { 111.f, 0.f, 2.f, 5.f, 7.f }; // and collisions / for the snow
+  TransitionAnimationInOut title_anim_14 { 120.f, 0.f, 2.f, 5.f, 7.f }; // Lighting effects / are done...
+  TransitionAnimationInOut title_anim_15 { 130.f, 0.f, 2.f, 5.f, 7.f }; // by utilizing the / distance fields
+  TransitionAnimationInOut title_anim_16 { 140.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
+  TransitionAnimationInOut title_anim_17 { 150.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
   
-  TransitionAnimationLinear title_anim_18 { 162.f, 0.f, 40.f }; // Music is not from midi, ...
+  TransitionAnimationSingle title_anim_18 { 162.f, 0.f, 40.f }; // Music is not from midi, ...
   
-  TransitionAnimation title_anim_19 { 212.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
-  TransitionAnimation title_anim_20 { 222.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
-  TransitionAnimation title_anim_21 { 234.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
+  TransitionAnimationInOut title_anim_19 { 212.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
+  TransitionAnimationInOut title_anim_20 { 222.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
+  TransitionAnimationInOut title_anim_21 { 234.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
   
   std::function<float(float)> f_r = [](float t)
   {
@@ -1700,6 +1703,53 @@ private:
             4, 4, 4, 4, 4, -2, -2
           );
           
+          sprite_camel = sprh.create_bitmap_sprite("camel");
+          sprite_camel->layer_id = 3;
+          sprite_camel->pos = { 20, -20 };
+          sprite_camel->init(6, 19);
+          sprite_camel->create_frame(0);
+          sprite_camel->set_sprite_chars_from_strings(0,
+            R"(     ,,  ,,    ^__ )",
+            R"(  ._/  \/  \__/  _})",
+            R"( J(             /  )",
+            R"(   \ \ \^^\ \ \'   )",
+            R"(   / / /  / / /    )",
+            R"(   ##D#D  ##D#D    )"
+          );
+          sprite_camel->fill_sprite_fg_colors(0, Color::Yellow);
+          sprite_camel->set_sprite_bg_colors(0,
+            -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,  4, -2, -2, -2,
+            -2, -2, -2, -2,  4,  4,  4, -2,  4,  4,  4, -2, -2, -2,  4,  4,  4,  4, -2,
+            -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2,
+            -2, -2, -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2, -2, -2,
+            -2, -2, -2,  4,  4,  4,  4, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2, -2, -2,
+            -2, -2, -2,  4,  4,  4,  4,  4, -2, -2,  4,  4,  4,  4,  4, -2, -2, -2, -2
+          );
+          sprite_camel->create_frame(1);
+          sprite_camel->set_sprite_chars_from_strings(1,
+            R"(     ,,  ,,    ^__ )",
+            R"(  ._/  \/  \__/  _})",
+            R"( J(             /  )",
+            R"(   \ \ \^^\ \ \'   )",
+            R"(    \' /   \' /    )",
+            R"(   ##D#D  ##D#D    )"
+          );
+          sprite_camel->fill_sprite_fg_colors(1, Color::Yellow);
+          sprite_camel->set_sprite_bg_colors(1,
+            -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,  4, -2, -2, -2,
+            -2, -2, -2, -2,  4,  4,  4, -2,  4,  4,  4, -2, -2, -2,  4,  4,  4,  4, -2,
+            -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2,
+            -2, -2, -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2, -2, -2,
+            -2, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2, -2,
+            -2, -2, -2,  4,  4,  4,  4,  4, -2, -2,  4,  4,  4,  4,  4, -2, -2, -2, -2
+          );
+          sprite_camel->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
+          {
+            if (anim_camel.done(scene_2_time))
+              return 0;
+            return (sim_frame / 5) % 2;
+          };
+          
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
           sprite_bethlehem_star->layer_id = 1;
           sprite_bethlehem_star->pos = { 3, sh.num_cols() - 13 };
@@ -1745,6 +1795,12 @@ private:
           Delay::sleep(150'000);
           play_tune("nigh_bethlehem.ct");
         }
+      }
+      
+      if (anim_camel.in_range(scene_2_time))
+      {
+        auto c = anim_camel.animate(scene_2_time, -20, 10, easings::ease_out_sine);
+        sprite_camel->pos.c = c;
       }
       
       if (draw_sprites)
