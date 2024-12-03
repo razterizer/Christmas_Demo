@@ -1586,7 +1586,7 @@ private:
   
   OneShot trg_scene_1_end;
   OneShot trg_scene_2_start;
-  float scene_2_start_time = 15*60.f;
+  float scene_2_start_time = 8*60.f;
   float dt_scene_transition = 0.2f;
   
   virtual void update() override
