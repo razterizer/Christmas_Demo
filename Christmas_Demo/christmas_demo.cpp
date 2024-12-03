@@ -294,19 +294,19 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
         auto c = title_anim_18.animate(get_sim_time_s(), 81.f, -900);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Music is not from midi, but via the ChipTuneEngine part of the 8Beat lib which allows you to define waveforms in detail and play these similar to how mods work. The tunes are written in text-based files with the ending ct.", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_19.done(get_sim_time_s()))
+      else if (title_anim_19.in_range(get_sim_time_s()))
       {
         auto c_0 = title_anim_19.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_19.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Tis the season", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "to be folly", 7, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_20.done(get_sim_time_s()))
+      else if (title_anim_20.in_range(get_sim_time_s()))
       {
         auto c = title_anim_20.animate(get_sim_time_s(), 81.f, 8.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Falalala la", 1, math::roundI(c), ASCII_Fonts::Font::SMSlant);
       }
-      else if (!title_anim_21.done(get_sim_time_s()))
+      else if (title_anim_21.in_range(get_sim_time_s()))
       {
         auto c = title_anim_21.animate(get_sim_time_s(), -81.f, 14.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "la la la la", 7, math::roundI(c), ASCII_Fonts::Font::SMSlant);
