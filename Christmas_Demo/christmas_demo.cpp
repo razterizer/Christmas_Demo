@@ -1937,7 +1937,7 @@ private:
   
   virtual void on_exit_instructions() override
   {
-    play_tune("jingle_bells.ct");
+    play_tune("deck_the_halls.ct");
   }
   
   virtual void on_enter_game_loop() override
