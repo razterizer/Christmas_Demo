@@ -1435,6 +1435,8 @@ private:
   
   BitmapSprite* sprite_maria = nullptr;
   
+  BitmapSprite* sprite_josef = nullptr;
+  
   BitmapSprite* sprite_house = nullptr;
   
   ParticleHandler fire_smoke_engine { 500 };
@@ -1827,6 +1829,39 @@ private:
             -2, 16, 16, -2,
             16, 16, 16, 16,
             -2, -2, -2, -2
+          );
+          
+          sprite_josef = sprh.create_bitmap_sprite("josef");
+          sprite_josef->layer_id = 5;
+          sprite_josef->pos = { sh.num_rows() - ground_height - 4, sh.num_cols()/2 - 11 };
+          sprite_josef->init(7, 8);
+          sprite_josef->create_frame(0);
+          sprite_josef->set_sprite_chars_from_strings(0,
+            R"( ,m  /-\)",
+            R"(: ') |  )",
+            R"( ||\_|  )",
+            R"( ||  |  )",
+            R"( ||  |  )",
+            R"( ||  |  )",
+            R"( DD  |  )"
+          );
+          sprite_josef->set_sprite_fg_colors(0,
+             0,  1,  1,  0,  0,  2,  2,  2,
+             1, 14,  5, 14,  0,  2,  0,  0,
+             0,  8,  8,  8,  8,  2,  0,  0,
+             0,  8,  8,  0,  0,  2,  0,  0,
+             0,  8,  8,  0,  0,  2,  0,  0,
+             0,  8,  8,  0,  0,  2,  0,  0,
+             0,  1,  1,  0,  0,  2,  0,  0
+          );
+          sprite_josef->set_sprite_bg_colors(0,
+            -2, -2, -2, -2, -2, -2, -2, -2,
+            -2,  6,  6, -2, -2, -2, -2, -2,
+            -2, 16, 16, -2, -2, -2, -2, -2,
+            -2, 16, 16, -2, -2, -2, -2, -2,
+            -2, 16, 16, -2, -2, -2, -2, -2,
+            -2, 16, 16, -2, -2, -2, -2, -2,
+            -2, -2, -2, -2, -2, -2, -2, -2
           );
           
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
