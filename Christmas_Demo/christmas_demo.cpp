@@ -1509,7 +1509,7 @@ private:
   const float smoke_acc = -1.5f;
   
   const Vec2 moon_pivot = { 30.f, 37.f };
-  const float moon_w = 5e-4f * math::c_2pi;
+  const float moon_w = 8e-4f * math::c_2pi; //5e-4f * math::c_2pi;
   const float moon_angle0 = math::deg2rad(7.5f);
   float moon_angle = 0.f;
   bool is_moon_up = false;
