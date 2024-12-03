@@ -1428,6 +1428,10 @@ private:
   BitmapSprite* sprite_camel = nullptr;
   TransitionAnimationSingle anim_camel { 2.f,  0.f, 8.f };
   
+  BitmapSprite* sprite_maria = nullptr;
+  
+  BitmapSprite* sprite_house = nullptr;
+  
   ParticleHandler fire_smoke_engine { 500 };
   
   ParticleGradientGroup smoke_0
@@ -1749,6 +1753,75 @@ private:
               return 0;
             return (sim_frame / 5) % 2;
           };
+          
+          sprite_house = sprh.create_bitmap_sprite("house");
+          sprite_house->layer_id = 3;
+          sprite_house->pos = { sh.num_rows() - ground_height - 10, sh.num_cols()/2 - 16 };
+          sprite_house->init(10, 27);
+          sprite_house->create_frame(0);
+          sprite_house->set_sprite_chars_from_strings(0,
+            R"(             ^             )",
+            R"(           _/ \_           )",
+            R"(         _/     \_         )",
+            R"(       _/         \_       )",
+            R"(     _/             \_     )",
+            R"(   _/                 \_   )",
+            R"( _/                     \_ )",
+            R"('|     |==+|             |')",
+            R"( |     | / |             | )",
+            R"( |     |+==|             | )"
+          );
+          sprite_house->fill_sprite_fg_colors(0, Color::DarkRed);
+          sprite_house->fill_sprite_fg_colors(0, { 7, 7, 3, 5 }, Color::DarkGray);
+          {
+            int b1 = 4;
+            int b2 = 10;
+            sprite_house->set_sprite_bg_colors(0,
+              -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, b2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+              -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, b2, b1, b2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+              -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, b2, b2, b1, b1, b1, b2, b2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+              -2, -2, -2, -2, -2, -2, -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2, -2, -2, -2, -2, -2, -2,
+              -2, -2, -2, -2, -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2, -2, -2, -2, -2,
+              -2, -2, -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2, -2, -2,
+              -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2,
+              b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2,
+              -2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -2,
+              -2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -2
+            );
+          }
+          
+          sprite_maria = sprh.create_bitmap_sprite("maria");
+          sprite_maria->layer_id = 5;
+          sprite_maria->pos = { sh.num_rows() - ground_height - 4, sh.num_cols()/2 + 2 };
+          sprite_maria->init(7, 4);
+          sprite_maria->create_frame(0);
+          sprite_maria->set_sprite_chars_from_strings(0,
+            R"( _  )",
+            R"(( \ )",
+            R"( ||})",
+            R"( || )",
+            R"(/  \)",
+            R"(----)",
+            R"( VV )"
+          );
+          sprite_maria->set_sprite_fg_colors(0,
+             0,  1,  0,  0,
+            14, 14,  1,  0,
+             0,  8,  8,  1,
+             0,  8,  8,  0,
+            16,  8,  8,  16,
+             8,  8,  8,  8,
+             0,  2,  2,  0
+          );
+          sprite_maria->set_sprite_bg_colors(0,
+            -2, -2, -2, -2,
+            -2,  6, -2, -2,
+            -2, 16, 16, -2,
+            -2, 16, 16, -2,
+            -2, 16, 16, -2,
+            16, 16, 16, 16,
+            -2, -2, -2, -2
+          );
           
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
           sprite_bethlehem_star->layer_id = 1;
