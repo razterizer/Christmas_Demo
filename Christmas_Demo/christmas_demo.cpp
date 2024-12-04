@@ -88,7 +88,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
         return;
       for (auto* snowflake_sprite : it->second)
       {
-        auto* snowflake_texture = dynamic_cast<BitmapSprite*>(snowflake_sprite)->get_curr_frame(get_anim_count(0));
+        auto* snowflake_texture = dynamic_cast<BitmapSprite*>(snowflake_sprite)->get_curr_sim_frame(get_anim_count(0));
         if (snowflake_texture != nullptr)
         {
           auto sf_textel = (*snowflake_texture)(0, 0);
@@ -109,7 +109,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
       for (int c = 0; c < sprite->get_size().c; ++c)
       {
         int cw = c + pos.c;
-        auto* texture = sprite->get_curr_frame(get_anim_count(0));
+        auto* texture = sprite->get_curr_sim_frame(get_anim_count(0));
         auto textel = texture->operator()(r, c);
         if (textel.bg_color == dark_style.bg_color || textel.bg_color == light_style.bg_color)
         {
@@ -157,7 +157,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
   
   void update_lighting_ground(const RC& firesmoke_pos, float fire_light_radius_sq)
   {
-    auto* gnd_texture = dynamic_cast<BitmapSprite*>(sprite_ground)->get_curr_frame(get_anim_count(0));
+    auto* gnd_texture = dynamic_cast<BitmapSprite*>(sprite_ground)->get_curr_sim_frame(get_anim_count(0));
     if (gnd_texture != nullptr)
     {
       auto opaque_pts = sprite_ground->get_opaque_points(get_anim_count(0));
@@ -390,7 +390,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
           auto critter_centroid = critter_sprite->calc_curr_centroid(anim_ctr);
           for (auto* spr_tree : tree_sprites)
           {
-            auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_frame(anim_ctr);
+            auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_sim_frame(anim_ctr);
             auto r = critter_centroid.r - spr_tree->pos.r;
             auto c = critter_centroid.c - spr_tree->pos.c;
             if (texture != nullptr)
@@ -452,7 +452,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
         auto* sprite = dynamic_cast<BitmapSprite*>(rb->get_sprite());
         if (sprite != nullptr)
         {
-          auto* texture = sprite->get_curr_frame(get_anim_count(0));
+          auto* texture = sprite->get_curr_sim_frame(get_anim_count(0));
           if (texture != nullptr)
           {
             auto curr_textel = (*texture)(0, 0);
