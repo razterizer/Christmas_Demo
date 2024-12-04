@@ -2021,6 +2021,15 @@ private:
             0, 0, 0, 12, 0, 0, 0
           );
           sprite_bethlehem_star->fill_sprite_bg_colors(0, Color::Transparent2);
+          sprite_bethlehem_star->clone_frame(1, 0);
+          sprite_bethlehem_star->set_sprite_chars(1, { 2, 3, 5, 1 },
+            'v', '|', '*', '|', '^'
+          );
+          sprite_bethlehem_star->func_calc_anim_frame = [](auto sim_frame)
+          {
+            return ((sim_frame / 7) % 2);
+          };
+          
           
           generate_star_sprites();
           
