@@ -1431,11 +1431,12 @@ private:
   BitmapSprite* sprite_bethlehem_star = nullptr;
   
   BitmapSprite* sprite_camel = nullptr;
-  TransitionAnimationSingle anim_camel { 2.f,  0.f, 8.f };
+  TransitionAnimationSingle anim_camel { 12.f,  0.f, 8.f };
   
   BitmapSprite* sprite_maria = nullptr;
   
   BitmapSprite* sprite_josef = nullptr;
+  TransitionAnimationSingle anim_josef { 2.f, 0.f, 8.f };
   
   BitmapSprite* sprite_house = nullptr;
   
@@ -1757,9 +1758,9 @@ private:
           );
           sprite_camel->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
           {
-            if (anim_camel.done(scene_2_time))
-              return 0;
-            return (sim_frame / 5) % 2;
+            if (anim_camel.in_range(scene_2_time))
+              return (sim_frame / 5) % 2;
+            return 0;
           };
           
           sprite_house = sprh.create_bitmap_sprite("house");
@@ -1833,7 +1834,7 @@ private:
           
           sprite_josef = sprh.create_bitmap_sprite("josef");
           sprite_josef->layer_id = 5;
-          sprite_josef->pos = { sh.num_rows() - ground_height - 4, sh.num_cols()/2 - 11 };
+          sprite_josef->pos = { sh.num_rows() - ground_height - 4, -20 };
           sprite_josef->init(7, 8);
           sprite_josef->create_frame(0);
           sprite_josef->set_sprite_chars_from_strings(0,
@@ -1863,6 +1864,19 @@ private:
             -2, 16, 16, -2, -2, -2, -2, -2,
             -2, -2, -2, -2, -2, -2, -2, -2
           );
+          {
+            ttl::Rectangle bb { 6, 1, 2, 2 };
+            sprite_josef->clone_frame(1, 0);
+            sprite_josef->set_sprite_chars(1, bb, '|', 'D', 'D', ' ');
+            sprite_josef->clone_frame(2, 0);
+            sprite_josef->set_sprite_chars(2, bb, 'D', '|', ' ', 'D');
+          }
+          sprite_josef->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
+          {
+            if (anim_josef.in_range(scene_2_time))
+              return 1 + ((sim_frame / 5) % 2);
+            return 0;
+          };
           
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
           sprite_bethlehem_star->layer_id = 1;
@@ -1911,7 +1925,12 @@ private:
         }
       }
       
-      if (anim_camel.in_range(scene_2_time))
+      if (anim_josef.in_range(scene_2_time))
+      {
+        auto c = anim_josef.animate(scene_2_time, -20, 29, easings::ease_out_sine);
+        sprite_josef->pos.c = c;
+      }
+      else if (anim_camel.in_range(scene_2_time))
       {
         auto c = anim_camel.animate(scene_2_time, -20, 10, easings::ease_out_sine);
         sprite_camel->pos.c = c;
