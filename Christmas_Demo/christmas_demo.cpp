@@ -1925,12 +1925,12 @@ private:
         }
       }
       
-      if (anim_josef.in_range(scene_2_time))
+      if (sprite_josef != nullptr && anim_josef.in_range(scene_2_time))
       {
         auto c = anim_josef.animate(scene_2_time, -20, 29, easings::ease_out_sine);
         sprite_josef->pos.c = c;
       }
-      else if (anim_camel.in_range(scene_2_time))
+      else if (sprite_camel != nullptr && anim_camel.in_range(scene_2_time))
       {
         auto c = anim_camel.animate(scene_2_time, -20, 10, easings::ease_out_sine);
         sprite_camel->pos.c = c;
