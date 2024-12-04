@@ -1865,11 +1865,11 @@ private:
             -2, -2, -2, -2, -2, -2, -2, -2
           );
           {
-            ttl::Rectangle bb { 6, 1, 2, 2 };
+            ttl::Rectangle bb { 6, 1, 1, 2 };
             sprite_josef->clone_frame(1, 0);
-            sprite_josef->set_sprite_chars(1, bb, '|', 'D', 'D', ' ');
+            sprite_josef->set_sprite_chars(1, bb, '\'', 'D');
             sprite_josef->clone_frame(2, 0);
-            sprite_josef->set_sprite_chars(2, bb, 'D', '|', ' ', 'D');
+            sprite_josef->set_sprite_chars(2, bb, 'D', '\'');
           }
           sprite_josef->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
           {
