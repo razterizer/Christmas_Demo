@@ -1449,6 +1449,15 @@ private:
     TransitionAnimationSingle { 38.f, 0.f, 8.f }
   };
   
+  BitmapSprite* sprite_lamb = nullptr;
+  std::array<Sprite*, 3> sprite_lamb_arr;
+  std::array<TransitionAnimationSingle, 3> anim_lamb_arr
+  {
+    TransitionAnimationSingle { 24.f, 0.f, 6.f },
+    TransitionAnimationSingle { 34.f, 0.f, 6.f },
+    TransitionAnimationSingle { 39.f, 0.f, 6.f }
+  };
+  
   ParticleHandler fire_smoke_engine { 500 };
   
   ParticleGradientGroup smoke_0
@@ -1937,6 +1946,51 @@ private:
             };
           }
           
+          sprite_lamb = sprh.create_bitmap_sprite("lamb");
+          sprite_lamb->layer_id = 6;
+          sprite_lamb->pos = { sh.num_rows() - ground_height, 90 };
+          sprite_lamb->init(3, 7);
+          sprite_lamb->create_frame(0);
+          sprite_lamb->set_sprite_chars_from_strings(0,
+            R"(   @@  )",
+            R"(o:@@@@*)",
+            R"(  uuuu )"
+          );
+          // uuuu
+          // u uu
+          // uu u
+          sprite_lamb->set_sprite_fg_colors(0,
+            0, 0,  0,  8,  8,  0,  0,
+            1, 9,  8,  8,  8,  8, 16,
+            0, 0, 14, 14, 14, 14,  0
+          );
+          sprite_lamb->set_sprite_bg_colors(0,
+            -2, -2, -2, 16, 16, -2, -2,
+            -2, -2, 16, 16, 16, 16, -2,
+            -2, -2, -2, -2, -2, -2, -2
+          );
+          sprite_lamb->clone_frame(1, 0);
+          sprite_lamb->set_sprite_chars_horiz(1, 2, 2, 5,
+            'u', ' ', 'u', 'u'
+          );
+          sprite_lamb->clone_frame(2, 0);
+          sprite_lamb->set_sprite_chars_horiz(2, 2, 2, 5,
+            'u', 'u', ' ', 'u'
+          );
+          sprite_lamb_arr = sprh.clone_sprite_array<3>("lamb", "lamb");
+          sprite_lamb->enabled = false;
+          for (int i = 0; i < stlutils::sizeI(sprite_lamb_arr); ++i)
+          {
+            auto* anim = &anim_lamb_arr[i];
+            sprite_lamb_arr[i]->func_calc_anim_frame = [&scene_2_time, anim](auto sim_frame)
+            {
+              if (anim->in_range(scene_2_time))
+                return 1 + ((sim_frame / 5) % 2);
+              return 0;
+            };
+            sprite_lamb_arr[i]->layer_id = 6 + i;
+          }
+          
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
           sprite_bethlehem_star->layer_id = 1;
           sprite_bethlehem_star->pos = { 3, sh.num_cols() - 13 };
@@ -2004,6 +2058,17 @@ private:
             {
               auto c = anim_shepherd_arr[i].animate(scene_2_time, 90, 55 + 8*i, easings::ease_out_sine);
               sprite_shepherd_arr[i]->pos.c = c;
+            }
+          }
+        }
+        if (sprite_lamb != nullptr)
+        {
+          for (int i = 0; i < stlutils::sizeI(sprite_lamb_arr); ++i)
+          {
+            if (anim_lamb_arr[i].in_range(scene_2_time))
+            {
+              auto c = anim_lamb_arr[i].animate(scene_2_time, 90, 57 + 5*i, easings::ease_out_sine);
+              sprite_lamb_arr[i]->pos.c = c;
             }
           }
         }
