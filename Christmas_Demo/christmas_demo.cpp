@@ -1838,8 +1838,8 @@ private:
           sprite_josef->init(7, 8);
           sprite_josef->create_frame(0);
           sprite_josef->set_sprite_chars_from_strings(0,
-            R"( ,m  /-\)",
-            R"(: ') |  )",
+            R"( ,m   _ )",
+            R"(: ') | ))",
             R"( ||\_|  )",
             R"( ||  |  )",
             R"( ||  |  )",
@@ -1848,7 +1848,7 @@ private:
           );
           sprite_josef->set_sprite_fg_colors(0,
              0,  1,  1,  0,  0,  2,  2,  2,
-             1, 14,  5, 14,  0,  2,  0,  0,
+             1, 14,  5, 14,  0,  2,  0,  2,
              0,  8,  8,  8,  8,  2,  0,  0,
              0,  8,  8,  0,  0,  2,  0,  0,
              0,  8,  8,  0,  0,  2,  0,  0,
