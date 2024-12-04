@@ -1440,6 +1440,15 @@ private:
   
   BitmapSprite* sprite_house = nullptr;
   
+  BitmapSprite* sprite_shepherd = nullptr;
+  std::array<Sprite*, 3> sprite_shepherd_arr;
+  std::array<TransitionAnimationSingle, 3> anim_shepherd_arr
+  {
+    TransitionAnimationSingle { 22.f, 0.f, 8.f },
+    TransitionAnimationSingle { 30.f, 0.f, 8.f },
+    TransitionAnimationSingle { 38.f, 0.f, 8.f }
+  };
+  
   ParticleHandler fire_smoke_engine { 500 };
   
   ParticleGradientGroup smoke_0
@@ -1878,6 +1887,56 @@ private:
             return 0;
           };
           
+          sprite_shepherd = sprh.create_bitmap_sprite("shepherd");
+          sprite_shepherd->layer_id = 5;
+          sprite_shepherd->pos = { sh.num_rows() - ground_height - 4, 90 };
+          sprite_shepherd->init(6, 7);
+          sprite_shepherd->create_frame(0);
+          sprite_shepherd->set_sprite_chars_from_strings(0,
+            R"( _ {J  )",
+            R"(| )||  )",
+            R"(|_/||\ )",
+            R"(|  || ')",
+            R"(|  ||  )",
+            R"(|  CC  )"
+          );
+          sprite_shepherd->set_sprite_fg_colors(0,
+             0,  2,  0, 14,  2,  0,  0,
+             2,  0,  2,  8,  8,  0,  0,
+             2, 14,  8,  8,  8,  8,  0,
+             2,  0,  0,  8,  8,  0, 14,
+             2,  0,  0,  8,  8,  0,  0,
+             2,  0,  0,  1,  1,  0,  0
+          );
+          sprite_shepherd->set_sprite_bg_colors(0,
+            -2, -2, -2,  6, -2, -2, -2,
+            -2, -2, -2, 16, 16, -2, -2,
+            -2, -2, -2, 16, 16, -2, -2,
+            -2, -2, -2, 16, 16, -2, -2,
+            -2, -2, -2, 16, 16, -2, -2,
+            -2, -2, -2, -2, -2, -2, -2
+          );
+          {
+            ttl::Rectangle bb { 5, 3, 1, 2 };
+            sprite_shepherd->clone_frame(1, 0);
+            sprite_shepherd->set_sprite_chars(1, bb, '\'', 'C');
+            sprite_shepherd->clone_frame(2, 0);
+            sprite_shepherd->set_sprite_chars(2, bb, 'C', '\'');
+          }
+          
+          sprite_shepherd_arr = sprh.clone_sprite_array<3>("shepherd", "shepherd");
+          sprite_shepherd->enabled = false;
+          for (int i = 0; i < stlutils::sizeI(sprite_shepherd_arr); ++i)
+          {
+            auto* anim = &anim_shepherd_arr[i];
+            sprite_shepherd_arr[i]->func_calc_anim_frame = [&scene_2_time, anim](auto sim_frame)
+            {
+              if (anim->in_range(scene_2_time))
+                return 1 + ((sim_frame / 5) % 2);
+              return 0;
+            };
+          }
+          
           sprite_bethlehem_star = sprh.create_bitmap_sprite("bethlehem star");
           sprite_bethlehem_star->layer_id = 1;
           sprite_bethlehem_star->pos = { 3, sh.num_cols() - 13 };
@@ -1934,6 +1993,20 @@ private:
       {
         auto c = anim_camel.animate(scene_2_time, -20, 10, easings::ease_out_sine);
         sprite_camel->pos.c = c;
+      }
+      else
+      {
+        if (sprite_shepherd != nullptr)
+        {
+          for (int i = 0; i < stlutils::sizeI(sprite_shepherd_arr); ++i)
+          {
+            if (anim_shepherd_arr[i].in_range(scene_2_time))
+            {
+              auto c = anim_shepherd_arr[i].animate(scene_2_time, 90, 55 + 8*i, easings::ease_out_sine);
+              sprite_shepherd_arr[i]->pos.c = c;
+            }
+          }
+        }
       }
       
       if (draw_sprites)
