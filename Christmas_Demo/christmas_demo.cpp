@@ -339,34 +339,20 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
       {
         auto c_0 = title_anim_25.animate(scene_2_time, 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_25.animate(scene_2_time, -81.f, 9.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "The spotless lamb", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "to save mankind", 9, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Jesus Christ", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
+        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "a name so bright", 9, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
       else if (title_anim_26.in_range(scene_2_time))
       {
         auto c_0 = title_anim_26.animate(scene_2_time, 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
         auto c_1 = title_anim_26.animate(scene_2_time, -81.f, 9.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "A sacrifice", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "for us assigned", 9, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
-      }
-      else if (title_anim_27.in_range(scene_2_time))
-      {
-        auto c_0 = title_anim_27.animate(scene_2_time, 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-        auto c_1 = title_anim_27.animate(scene_2_time, -81.f, 9.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Jesus Christ", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
-        ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "a name so bright", 9, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
-      }
-      else if (title_anim_28.in_range(scene_2_time))
-      {
-        auto c_0 = title_anim_28.animate(scene_2_time, 81.f, 1.f, -81.f, easings::ease_out_sine, easings::ease_in_sine);
-        auto c_1 = title_anim_28.animate(scene_2_time, -81.f, 9.f, 81.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "Lit up the world", 1, math::roundI(c_0), ASCII_Fonts::Font::SMSlant);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "with such might", 9, math::roundI(c_1), ASCII_Fonts::Font::SMSlant);
       }
-      else if (title_anim_29.begun(scene_2_time))
+      else if (title_anim_27.begun(scene_2_time))
       {
-        auto c_0 = title_anim_29.animate(scene_2_time, -81.f, 1.f, easings::ease_out_sine);
-        auto c_1 = title_anim_29.animate(scene_2_time, -81.f, 9.f, easings::ease_out_sine);
+        auto c_0 = title_anim_27.animate(scene_2_time, -81.f, 1.f, easings::ease_out_sine);
+        auto c_1 = title_anim_27.animate(scene_2_time, -81.f, 9.f, easings::ease_out_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "The", 1, math::roundI(c_0), ASCII_Fonts::Font::Larry3D);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[1], "End!", 9, math::roundI(c_1), ASCII_Fonts::Font::Larry3D);
       }
@@ -1649,12 +1635,10 @@ private:
   
   TransitionAnimationInOut title_anim_23 { 5.f, 0.f, 2.f, 6.f, 8.f }; // A child was born / on Christmas Day
   TransitionAnimationInOut title_anim_24 { 20.f, 0.f, 2.f, 6.f, 8.f }; // A king that in / a manger lay
-  TransitionAnimationInOut title_anim_25 { 35.f, 0.f, 2.f, 6.f, 8.f }; // The spotless lamb / to save mankind
-  TransitionAnimationInOut title_anim_26 { 50.f, 0.f, 2.f, 6.f, 8.f }; // A sacrifice / for us assigned
-  TransitionAnimationInOut title_anim_27 { 65.f, 0.f, 2.f, 6.f, 8.f }; // Jesus Christ / a name so bright
-  TransitionAnimationInOut title_anim_28 { 80.f, 0.f, 2.f, 6.f, 8.f }; // Lit up the world / with such might
+  TransitionAnimationInOut title_anim_25 { 35.f, 0.f, 2.f, 6.f, 8.f }; // Jesus Christ / a name so bright
+  TransitionAnimationInOut title_anim_26 { 50.f, 0.f, 2.f, 6.f, 8.f }; // Lit up the world / with such might
   
-  TransitionAnimationSingle title_anim_29 { 95.f, 0.f, 2.f }; // The End!
+  TransitionAnimationSingle title_anim_27 { 95.f, 0.f, 2.f }; // The End!
   
   std::function<float(float)> f_r = [](float t)
   {
