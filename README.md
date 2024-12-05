@@ -1,5 +1,18 @@
 # Christmas_Demo
 
+![GitHub License](https://img.shields.io/github/license/razterizer/Christmas_Demo?color=blue)
+![Static Badge](https://img.shields.io/badge/C%2B%2B-20-yellow)
+
+![Top Languages](https://img.shields.io/github/languages/top/razterizer/Christmas_Demo)
+![GitHub repo size](https://img.shields.io/github/repo-size/razterizer/Christmas_Demo)
+![Commit Activity](https://img.shields.io/github/commit-activity/t/razterizer/Christmas_Demo)
+![Last Commit](https://img.shields.io/github/last-commit/razterizer/Christmas_Demo?color=blue)
+![Contributors](https://img.shields.io/github/contributors/razterizer/Christmas_Demo?color=blue)
+
+## Licensing
+
+For 3rd-party license-compatibilities, please refer to the information here: https://github.com/razterizer/8Beat/blob/main/README.md
+
 ## Build & Run Instructions
 
 There are two options on dealing with repo dependencies:
