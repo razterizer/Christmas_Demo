@@ -1477,6 +1477,10 @@ private:
   
   BitmapSprite* sprite_bethlehem_star = nullptr;
   
+  BitmapSprite* sprite_palm_tree = nullptr;
+  std::array<Sprite*, 3> sprite_palm_tree_arr;
+  std::array<int, 3> palm_tree_anim_offs { 2, 3, 6 };
+  
   BitmapSprite* sprite_camel = nullptr;
   TransitionAnimationSingle anim_camel { 12.f,  0.f, 8.f };
   
@@ -1871,6 +1875,119 @@ private:
               -2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -2
             );
             sprite_house->fill_sprite_fg_colors_horiz(0, 4, 12, 14, Color::DarkYellow);
+          }
+          
+          sprite_palm_tree = sprh.create_bitmap_sprite("palm_tree");
+          sprite_palm_tree->layer_id = 3;
+          sprite_palm_tree->pos = { sh.num_rows() - ground_height - 6, rnd::rand_int(-4, 2) };
+          sprite_palm_tree->init(6, 12);
+          sprite_palm_tree->create_frame(0);
+          sprite_palm_tree->set_sprite_chars_from_strings(0,
+            R"( //==\/==\\ )",
+            R"( |(  \/  )| )",
+            R"(     #      )",
+            R"(    #       )",
+            R"(    #       )",
+            R"(     #      )"
+          );
+          auto set_palm_tree_fg_colors = [this](int frame_id)
+          {
+            int leaf = 11;
+            int stem = 2;
+            sprite_palm_tree->set_sprite_fg_colors(frame_id,
+              leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf,
+              leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf,
+              leaf, leaf, stem, stem, stem, stem, stem, stem, stem, leaf, leaf, leaf,
+              stem, stem, stem, stem, stem, stem, stem, stem, stem, stem, stem, stem,
+              stem, stem, stem, stem, stem, stem, stem, stem, stem, stem, stem, stem,
+              stem, stem, stem, stem, stem, stem, stem, stem, stem, stem, stem, stem
+            );
+          };
+          set_palm_tree_fg_colors(0);
+          {
+            int leaf = 3;
+            int stem = 12;
+            sprite_palm_tree->set_sprite_bg_colors(0,
+                -2,   -2, leaf, leaf, leaf,   -2,   -2, leaf, leaf, leaf,   -2,   -2,
+                -2,   -2,   -2,   -2,   -2, leaf, leaf,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2
+            );
+          }
+          sprite_palm_tree->create_frame(1);
+          sprite_palm_tree->set_sprite_chars_from_strings(1,
+            R"(   //=\\/\\.)",
+            R"(  '"  \/ ))|)",
+            R"(      #  ")|)",
+            R"(     #      )",
+            R"(    #       )",
+            R"(     #      )"
+          );
+          set_palm_tree_fg_colors(1);
+          {
+            int leaf = 3;
+            int stem = 12;
+            sprite_palm_tree->set_sprite_bg_colors(1,
+                -2,   -2,   -2,   -2, leaf, leaf, leaf,   -2,   -2, leaf, leaf,   -2,
+                -2,   -2,   -2,   -2,   -2, leaf, leaf,   -2,   -2, leaf, leaf,   -2,
+                -2,   -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2, leaf,   -2,
+                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2
+            );
+          }
+          sprite_palm_tree->create_frame(2);
+          sprite_palm_tree->set_sprite_chars_from_strings(2,
+            R"(//==\/==\\  )",
+            R"(|(  \/  )|  )",
+            R"(:   #       )",
+            R"(    #       )",
+            R"(    #       )",
+            R"(     #      )"
+          );
+          set_palm_tree_fg_colors(2);
+          {
+            int leaf = 3;
+            int stem = 12;
+            sprite_palm_tree->set_sprite_bg_colors(2,
+                -2, leaf, leaf, leaf,   -2,   -2, leaf, leaf, leaf,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, leaf, leaf,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2
+            );
+          }
+          auto f_palm_tree_anim_sub = [](int anim_frame)
+          {
+            // #NOTE: I don't need to do it like this, but I thought it would be a fun challenge.
+            // 0, 1, 2, 3, 0 -> 0, 1, 0, 2, 0
+            // 0, 1, 2, 3, 0 % 2 -> 0, 1, 0, 1, 0 : A
+            // 0, 1, 2, 3, 0 / 2 -> 0, 0, 1, 1, 0 : B
+            //                      0, 1, 0, 2, 0
+            // !A -> A + B
+            int A = anim_frame % 2;
+            int B = anim_frame / 2;
+            return !A ? (A + B) % 3 : 0;
+          };
+          sprite_palm_tree->func_calc_anim_frame = [f_palm_tree_anim_sub](auto sim_frame)
+          {
+            int anim_frame = sim_frame / 8;
+            return f_palm_tree_anim_sub(anim_frame);
+          };
+          sprite_palm_tree_arr = sprh.clone_sprite_array<3>("palm_tree", "palm_tree");
+          for (int i = 0; i < stlutils::sizeI(sprite_palm_tree_arr); ++i)
+          {
+            auto* sprite = sprite_palm_tree_arr[i];
+            auto* offs = &palm_tree_anim_offs[i];
+            sprite->func_calc_anim_frame = [f_palm_tree_anim_sub, offs](auto sim_frame)
+            {
+              int anim_frame = (sim_frame + *offs) / 8 ;
+              return f_palm_tree_anim_sub(anim_frame);
+            };
+            sprite->pos.c = 17 + 24*i + rnd::rand_int(-2, +2);
           }
           
           sprite_maria = sprh.create_bitmap_sprite("maria");
