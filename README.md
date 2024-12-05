@@ -7,7 +7,7 @@ There are two options on dealing with repo dependencies:
 
 Run the following command from `<my_source_code_dir>`.
 ```sh
-./Christmas_Demo/fetch-dependencies ./Christmas_Demo/dependencies
+./Christmas_Demo/fetch-dependencies.py ./Christmas_Demo/dependencies
 ```
 This will make sure you are running the latest stable versions that work with `Christmas_Demo`.
 
