@@ -1626,12 +1626,12 @@ private:
   TransitionAnimationInOut title_anim_16 { 140.f, 0.f, 2.f, 5.f, 7.f }; // of the / rigidid bodies
   TransitionAnimationInOut title_anim_17 { 150.f, 0.f, 2.f, 5.f, 7.f }; // that some sprties / are attached to
   
-  TransitionAnimationSingle title_anim_18 { 162.f, 0.f, 40.f }; // Music is not from midi, ...
-  TransitionAnimationSingle title_anim_19 { 212.f, 0.f, 30.f }; // Go ahead and try to modify ...
+  TransitionAnimationSingle title_anim_18 { 162.f, 0.f, 50.f }; // Music is not from midi, ...
+  TransitionAnimationSingle title_anim_19 { 222.f, 0.f, 40.f }; // Go ahead and try to modify ...
   
-  TransitionAnimationInOut title_anim_20 { 242.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
-  TransitionAnimationInOut title_anim_21 { 252.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
-  TransitionAnimationInOut title_anim_22 { 264.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
+  TransitionAnimationInOut title_anim_20 { 262.f, 0.f, 2.f, 6.f, 8.f }; // Tis the season / to be folly
+  TransitionAnimationInOut title_anim_21 { 272.f, 0.f, 2.f, 6.f, 8.f }; // Falalala la
+  TransitionAnimationInOut title_anim_22 { 284.f, 0.f, 2.f, 6.f, 8.f }; // la la la la
   
   TransitionAnimationInOut title_anim_23 { 5.f, 0.f, 2.f, 6.f, 8.f }; // A child was born / on Christmas Day
   TransitionAnimationInOut title_anim_24 { 20.f, 0.f, 2.f, 6.f, 8.f }; // A king that in / a manger lay
