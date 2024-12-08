@@ -25,6 +25,10 @@
 
 /* Begin PBXFileReference section */
 		076D866B2D023E4A003BF28D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		076D86772D05D616003BF28D /* run.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = run.bat; sourceTree = "<group>"; };
+		076D86782D05D616003BF28D /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
+		076D86792D05D631003BF28D /* dependencies */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dependencies; sourceTree = SOURCE_ROOT; };
+		076D867A2D05D631003BF28D /* fetch-dependencies.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "fetch-dependencies.py"; sourceTree = SOURCE_ROOT; };
 		0788850A2CDD4F960068F108 /* Christmas_Demo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Christmas_Demo; sourceTree = BUILT_PRODUCTS_DIR; };
 		0788850D2CDD4F960068F108 /* christmas_demo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = christmas_demo.cpp; sourceTree = "<group>"; };
 		078885142CDD53100068F108 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -49,6 +53,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		076D86762D05D5EA003BF28D /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				076D867A2D05D631003BF28D /* fetch-dependencies.py */,
+				076D86792D05D631003BF28D /* dependencies */,
+				07B91EF92CF16F3E00449D7E /* build.bat */,
+				07B91EFA2CF16F3E00449D7E /* build.sh */,
+				076D86772D05D616003BF28D /* run.bat */,
+				076D86782D05D616003BF28D /* run.sh */,
+			);
+			name = scripts;
+			sourceTree = "<group>";
+		};
 		078885012CDD4F960068F108 = {
 			isa = PBXGroup;
 			children = (
@@ -71,13 +88,12 @@
 		0788850C2CDD4F960068F108 /* Christmas_Demo */ = {
 			isa = PBXGroup;
 			children = (
+				076D86762D05D5EA003BF28D /* scripts */,
 				07B91EFE2CF6FF3900449D7E /* nigh_bethlehem.ct */,
 				07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */,
 				07B91EFB2CF17D0E00449D7E /* silent_night.ct */,
 				07B91EFD2CF45FC400449D7E /* jingle_bells.ct */,
 				0788850D2CDD4F960068F108 /* christmas_demo.cpp */,
-				07B91EFA2CF16F3E00449D7E /* build.sh */,
-				07B91EF92CF16F3E00449D7E /* build.bat */,
 			);
 			path = Christmas_Demo;
 			sourceTree = "<group>";
