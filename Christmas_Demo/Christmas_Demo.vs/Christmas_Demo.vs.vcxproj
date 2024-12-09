@@ -124,7 +124,8 @@
 xcopy $(SolutionDir)silent_night.ct $(TargetDir) /Y
 xcopy $(SolutionDir)jingle_bells.ct $(TargetDir) /Y
 xcopy $(SolutionDir)nigh_bethlehem.ct $(TargetDir) /Y
-xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command>
+xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y
+xcopy $(SolutionDir)..\..\lib\3rdparty_OpenAL\lib\OpenAL32.dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +152,8 @@ xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)\fonts\ /Y</Command>
 xcopy $(SolutionDir)silent_night.ct $(TargetDir) /Y
 xcopy $(SolutionDir)jingle_bells.ct $(TargetDir) /Y
 xcopy $(SolutionDir)nigh_bethlehem.ct $(TargetDir) /Y
-xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)fonts\ /Y</Command>
+xcopy $(SolutionDir)..\..\lib\Termin8or\fonts\* $(TargetDir)fonts\ /Y
+xcopy $(SolutionDir)..\..\lib\3rdparty_OpenAL\lib\OpenAL32.dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
