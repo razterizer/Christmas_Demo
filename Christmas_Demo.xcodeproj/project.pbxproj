@@ -24,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		072AE7ED2D08C406004F92D3 /* setup_and_build_macos.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setup_and_build_macos.sh; sourceTree = SOURCE_ROOT; };
 		076D866B2D023E4A003BF28D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		076D86772D05D616003BF28D /* run.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = run.bat; sourceTree = "<group>"; };
 		076D86782D05D616003BF28D /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		076D86762D05D5EA003BF28D /* scripts */ = {
 			isa = PBXGroup;
 			children = (
+				072AE7ED2D08C406004F92D3 /* setup_and_build_macos.sh */,
 				076D867A2D05D631003BF28D /* fetch-dependencies.py */,
 				076D86792D05D631003BF28D /* dependencies */,
 				07B91EF92CF16F3E00449D7E /* build.bat */,
