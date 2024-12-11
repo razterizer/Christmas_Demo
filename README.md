@@ -53,7 +53,9 @@ setup_and_build_debian.bat
 
 In this method we basically outline the things done in the `setup_and_build`-scripts in Option 1.
 
-You need the following header-only libraries that I've made:
+This method is more suitable for development as we're not necessarily working with "locked" dependencies.
+
+You need the following header-only libraries:
 * https://github.com/razterizer/Core
 * https://github.com/razterizer/Termin8or
 * https://github.com/razterizer/8Beat
