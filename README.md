@@ -11,22 +11,47 @@
 
 ## Licensing
 
-For 3rd-party license-compatibilities, please refer to the information here: https://github.com/razterizer/8Beat/blob/main/README.md
+For 3rd-party license compatibility issues, please refer to the information here: https://github.com/razterizer/8Beat/blob/main/README.md
 
 ## Build & Run Instructions
 
 There are two options on dealing with repo dependencies:
+
 ### Repo Dependencies Option 1
 
-Run the following command from `<my_source_code_dir>`.
-```sh
-./Christmas_Demo/fetch-dependencies.py ./Christmas_Demo/dependencies
-```
-This will make sure you are running the latest stable versions that work with `Christmas_Demo`.
+This method will ensure that you are running the latest stable versions of the dependencies that work with `Christmas_Demo`.
 
-This script was created by [Thibaut Buchert](https://github.com/thibautbuchert).
+The script `fetch-dependencies.py` used for this was created by [Thibaut Buchert](https://github.com/thibautbuchert).
+`fetch-dependencies.py` are used in the following scripts below:
+
+After a successful build, the scripts will then prompt you with the question if you want to run the program.
+
+When the script has been successfully run for the first time, you can then go to sub-folder `Christmas_Demo` and use the `build.sh` / `build.bat` script instead, and after you have built, just run the `run.sh` or `run.bat` script.
+
+#### Windows
+
+Run the following script:
+```sh
+setup_and_build.bat
+```
+
+#### MacOS
+
+Run the following script:
+```sh
+setup_and_build_macos.sh
+```
+
+#### Linux (Debian-based, e.g. Ubuntu)
+
+Run the following script:
+```sh
+setup_and_build_debian.bat
+```
 
 ### Repo Dependencies Option 2
+
+In this method we basically outline the things done in the `setup_and_build`-scripts in Option 1.
 
 You need the following header-only libraries that I've made:
 * https://github.com/razterizer/Core
@@ -34,6 +59,7 @@ You need the following header-only libraries that I've made:
 * https://github.com/razterizer/8Beat
 * https://github.com/razterizer/AudioLibSwitcher_OpenAL ; Will be changed to something like AudioLibSwitcher_libsoundio in the future.
 * https://github.com/razterizer/TrainOfThought
+* https://github.com/razterizer/3rdparty_OpenAL ; Only needed for building on Windows.
 
 Make sure the folder structure looks like this:
 ```
@@ -42,33 +68,13 @@ Make sure the folder structure looks like this:
 <my_source_code_dir>/lib/8Beat/                  ; 8Beat repo workspace/checkout goes here.
 <my_source_code_dir>/lib/AudioLibSwitcher_OpenAL ; AudioLibSwitcher_OpenAL repo workspace/checkout goes here.
 <my_source_code_dir>/lib/TrainOfThought          ; TrainOfThought repo workspace/checkout goes here.
+<my_source_code_dir>/lib/3rdparty_OpenAL         ; 3rdparty_OpenAL repo workspace/checkout goes here (only needed for Windows).
 <my_source_code_dir>Christmas_Demo/              ; Christmas_Demo repo workspace/checkout goes here.
 ```
 
 These repos are not guaranteed to all the time work with the latest version of `Christmas_Demo`. If you want the more stable aproach then look at Option 1 instead.
 
 ### Windows
-
-You also need the following 3rdparty folder with subfolders:
-```
-<my_source_code_dir>/lib/3rdparty/
-<my_source_code_dir>/lib/3rdparty/include/
-<my_source_code_dir>/lib/3rdparty/include/OpenAL_Soft/
-<my_source_code_dir>/lib/3rdparty/lib/
-```
-
-`<my_source_code_dir>/lib/3rdparty/lib/` should contain:
-* `OpenAL32.lib`.
-
-`<my_source_code_dir>/lib/3rdparty/include/OpenAL_Soft/` should contain:
-* `al.h`.
-* `alc.h`.
-* `alext.h`.
-* `efx.h`.
-* `efx-creative.h`.
-* `efx-presets.h`.
-
-I will change the audio library to something like `libsoundio` in the future though for licensing reasons.
 
 Then just open `<my_source_code_dir>/Christmas_Demo/Christmas_Demo/Christmas_Demo.vs.sln` and build and run. That's it!
 
