@@ -21,7 +21,7 @@ set /p response=Do you want to run the program? (yes/no):
 REM Process the response
 if /i "%response%"=="yes" (
     echo Running the program...
-    call bin\christmas_demo
+    call run.bat
     goto end
 ) else if /i "%response%"=="no" (
     echo Alright. Have a nice day!
