@@ -230,8 +230,8 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
       }
       else if (title_anim_7.in_range(scene_1_time) || !title_anim_8.done(scene_1_time))
       {
-        auto t_2 = title_anim_7.animate(scene_1_time, 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
-        auto t_3 = title_anim_8.animate(scene_1_time, 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
+        float t_2 = title_anim_7.animate(scene_1_time, 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
+        float t_3 = title_anim_8.animate(scene_1_time, 0.f, 0.5f, 1.f, easings::ease_out_sine, easings::ease_in_sine);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "GFX via the", f_r(t_2), f_c(t_2), ASCII_Fonts::Font::Avatar);
         ASCII_Fonts::draw_text(sh, font_data, color_schemes[0], "Termin8or lib", 25-f_r(t_3), 7-f_c(t_3), ASCII_Fonts::Font::Avatar);
       }
