@@ -2216,7 +2216,7 @@ private:
       if (sprite_josef != nullptr && anim_josef.in_range(scene_2_time))
       {
         auto c = anim_josef.animate(scene_2_time, -20, 29, easings::ease_out_sine);
-        sprite_josef->pos.c = c;
+        sprite_josef->pos.c = math::roundI(c);
       }
       else if (sprite_camel != nullptr && anim_camel.in_range(scene_2_time))
       {
