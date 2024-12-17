@@ -2231,7 +2231,7 @@ private:
           {
             if (anim_shepherd_arr[i].in_range(scene_2_time))
             {
-              auto c = anim_shepherd_arr[i].animate(scene_2_time, 90, 55 + 8*i, easings::ease_out_sine);
+              auto c = anim_shepherd_arr[i].animate(scene_2_time, 90, static_cast<float>(55 + 8*i), easings::ease_out_sine);
               sprite_shepherd_arr[i]->pos.c = math::roundI(c);
             }
           }
