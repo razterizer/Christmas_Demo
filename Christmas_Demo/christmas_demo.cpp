@@ -2242,7 +2242,7 @@ private:
           {
             if (anim_lamb_arr[i].in_range(scene_2_time))
             {
-              auto c = anim_lamb_arr[i].animate(scene_2_time, 90, 57 + 5*i, easings::ease_out_sine);
+              auto c = anim_lamb_arr[i].animate(scene_2_time, 90, static_cast<float>(57 + 5*i), easings::ease_out_sine);
               sprite_lamb_arr[i]->pos.c = math::roundI(c);
             }
           }
