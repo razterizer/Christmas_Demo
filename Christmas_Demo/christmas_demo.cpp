@@ -1640,13 +1640,13 @@ private:
   
   TransitionAnimationSingle title_anim_27 { 95.f, 0.f, 2.f }; // The End!
   
-  std::function<float(float)> f_r = [](float t)
+  std::function<float(float)> f_r = [](float t) -> int
   {
-    return 6.f-5.f*std::sin(4.f*(t+0.5f));
+    return math::roundI(6.f-5.f*std::sin(4.f*(t+0.5f)));
   };
-  std::function<float(float)> f_c = [](float t)
+  std::function<float(float)> f_c = [](float t) -> int
   {
-    return -8.f+100.f*std::cos(3.05f*t)-20.f*std::sin(7.f*t);
+    return math::roundI(-8.f+100.f*std::cos(3.05f*t)-20.f*std::sin(7.f*t));
   };
   
   bool use_dynamics_system = true;
