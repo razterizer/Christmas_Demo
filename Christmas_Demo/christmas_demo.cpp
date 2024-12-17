@@ -2221,7 +2221,7 @@ private:
       else if (sprite_camel != nullptr && anim_camel.in_range(scene_2_time))
       {
         auto c = anim_camel.animate(scene_2_time, -20, 10, easings::ease_out_sine);
-        sprite_camel->pos.c = math::rouneI(c);
+        sprite_camel->pos.c = math::roundI(c);
       }
       else
       {
