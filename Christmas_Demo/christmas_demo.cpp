@@ -427,7 +427,7 @@ class Game : public GameEngine<>, public audio::ChipTuneEngineListener
         for (int counter = 0; counter < 1e3_i; ++counter)
         {
           critter_sprite->pos = RC { rnd::rand_int(0, nr - gnd_height), rnd::rand_int(0, nc) };
-          auto critter_centroid = critter_sprite->calc_curr_centroid(anim_ctr);
+          auto critter_centroid = to_RC_round(critter_sprite->calc_curr_centroid(anim_ctr));
           for (auto* spr_tree : tree_sprites)
           {
             auto* texture = static_cast<BitmapSprite*>(spr_tree)->get_curr_sim_frame(anim_ctr);
