@@ -9,6 +9,7 @@
 
 ![Top Languages](https://img.shields.io/github/languages/top/razterizer/Christmas_Demo)
 ![GitHub repo size](https://img.shields.io/github/repo-size/razterizer/Christmas_Demo)
+![](https://tokei.rs/b1/github/razterizer/Christmas_Demo)
 ![Commit Activity](https://img.shields.io/github/commit-activity/t/razterizer/Christmas_Demo)
 ![Last Commit](https://img.shields.io/github/last-commit/razterizer/Christmas_Demo?color=blue)
 ![Contributors](https://img.shields.io/github/contributors/razterizer/Christmas_Demo?color=blue)
