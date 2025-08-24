@@ -1,4 +1,4 @@
-lib/Core                    https://github.com/razterizer/Core.git                60143dd942bf5c4ee404afe5fd9d663bc88813fa
+lib/Core                    https://github.com/razterizer/Core.git                e7ee2ed207102d381130bdd64272b3242ca9c90d
 lib/Termin8or               https://github.com/razterizer/Termin8or.git           7f4a5bbf0c2eb978250a14b2c120da7aabce89df
 lib/8Beat                   https://github.com/razterizer/8Beat                   7bf7998cc5c12fbc46b32469a10210223dd65789
 lib/AudioLibSwitcher_OpenAL https://github.com/razterizer/AudioLibSwitcher_OpenAL a1ed935898cc21284db58bce9c26cb9fd9279f47
