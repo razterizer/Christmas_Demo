@@ -124,7 +124,7 @@
 xcopy "$(SolutionDir)silent_night.ct" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)jingle_bells.ct" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)nigh_bethlehem.ct" "$(TargetDir)" /Y
-xcopy "$(SolutionDir)..\..\lib\Termin8or\fonts\*" "$(TargetDir)\fonts\" /Y
+xcopy "$(SolutionDir)..\..\lib\Termin8or\title\fonts\*" "$(TargetDir)\fonts\" /Y
 xcopy "$(SolutionDir)..\..\lib\3rdparty_OpenAL\lib\OpenAL32.dll" "$(TargetDir)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -152,7 +152,7 @@ xcopy "$(SolutionDir)..\..\lib\3rdparty_OpenAL\lib\OpenAL32.dll" "$(TargetDir)" 
 xcopy "$(SolutionDir)silent_night.ct" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)jingle_bells.ct" "$(TargetDir)" /Y
 xcopy "$(SolutionDir)nigh_bethlehem.ct" "$(TargetDir)" /Y
-xcopy "$(SolutionDir)..\..\lib\Termin8or\fonts\*" "$(TargetDir)fonts\" /Y
+xcopy "$(SolutionDir)..\..\lib\Termin8or\title\fonts\*" "$(TargetDir)\fonts\" /Y
 xcopy "$(SolutionDir)..\..\lib\3rdparty_OpenAL\lib\OpenAL32.dll" "$(TargetDir)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
