@@ -34,7 +34,7 @@ using DynamicsSystem = t8x::DynamicsSystem;
 using CollisionHandler = t8x::CollisionHandler;
 
 
-class Game : public t8x::GameEngine<>, public audio::ChipTuneEngineListener
+class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
 {
   void play_tune(const std::string& tune_filename)
   {
@@ -545,7 +545,7 @@ class Game : public t8x::GameEngine<>, public audio::ChipTuneEngineListener
     }
   }
   
-  virtual void on_tune_ended(audio::ChipTuneEngine* engine, const std::string& curr_tune_filepath) override
+  virtual void on_tune_ended(beat::ChipTuneEngine* engine, const std::string& curr_tune_filepath) override
   {
     std::string tune;
     if (get_sim_time_s() < scene_2_start_time)
@@ -575,7 +575,7 @@ public:
     //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
     
-    chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
+    chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
     chip_tune->add_listener(this);
   }
   
@@ -1612,9 +1612,9 @@ private:
   float wind_accumulated_rand_phase = math::deg2rad(rnd::rand_float(0.f, 45.f));
   float wind_angle = 0.f;
   
-  audio::AudioSourceHandler audio;
-  audio::WaveformGeneration wave_gen;
-  std::unique_ptr<audio::ChipTuneEngine> chip_tune;
+  beat::AudioSourceHandler audio;
+  beat::WaveformGeneration wave_gen;
+  std::unique_ptr<beat::ChipTuneEngine> chip_tune;
   OneShot trg_scene_2_tune;
   
   std::vector<t8x::ColorScheme> color_schemes;
@@ -2222,7 +2222,7 @@ private:
         }
         else if (scene_2_time > 6.f*dt_scene_transition && trg_scene_2_tune.once())
         {
-          chip_tune = std::make_unique<audio::ChipTuneEngine>(audio, wave_gen);
+          chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
           chip_tune->add_listener(this);
           Delay::sleep(150'000);
           play_tune("nigh_bethlehem.ct");
