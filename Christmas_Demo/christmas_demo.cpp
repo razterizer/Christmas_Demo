@@ -21,7 +21,6 @@
 
 using RC = t8::RC;
 using Color = t8::Color;
-using Style = t8::Style;
 using Sprite = t8x::Sprite;
 using BitmapSprite = t8x::BitmapSprite;
 using SpriteHandler = t8x::SpriteHandler;
@@ -89,7 +88,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
   }
 
   void update_lighting_rb_sprite(BitmapSprite* sprite, RigidBody* rb,
-                                 const Style& dark_style,
+                                 const t8::Style& dark_style,
                                  bool use_fire, const RC& firesmoke_pos, float fire_light_radius_sq,
                                  bool is_moon_up, bool casts_shadow)
   {
@@ -591,11 +590,11 @@ public:
     font_data_path = t8x::get_path_to_font_data(get_exe_folder());
     std::cout << font_data_path << std::endl;
     
-    Style style_0 { Color::White, Color::Red };
-    Style style_1 { Color::Red, Color::DarkRed };
-    Style style_2 { Color::Red, Color::White };
-    Style style_3 { Color::Red, Color::LightGray };
-    Style style_4 { Color::Red, Color::DarkGray };
+    t8::Style style_0 { Color::White, Color::Red };
+    t8::Style style_1 { Color::Red, Color::DarkRed };
+    t8::Style style_2 { Color::Red, Color::White };
+    t8::Style style_3 { Color::Red, Color::LightGray };
+    t8::Style style_4 { Color::Red, Color::DarkGray };
     auto& cs0 = color_schemes.emplace_back();
     cs0.internal = style_0;
     cs0.side_h = style_1;
@@ -1443,7 +1442,7 @@ private:
   BitmapSprite* sprite_tree = nullptr;
   std::array<Sprite*, 10> sprite_tree_arr;
   std::array<RigidBody*, 10> rb_tree_arr;
-  Style tree_dark_style { Color::Green, Color::DarkGreen };
+  t8::Style tree_dark_style { Color::Green, Color::DarkGreen };
 
   BitmapSprite* sprite_moon = nullptr;
   
@@ -1454,7 +1453,7 @@ private:
   
   BitmapSprite* sprite_mountains = nullptr;
   RigidBody* rb_mountains = nullptr;
-  Style mountains_dark_style { Color::LightGray, Color::DarkGray };
+  t8::Style mountains_dark_style { Color::LightGray, Color::DarkGray };
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 1000> sprite_snowflake_arr;
