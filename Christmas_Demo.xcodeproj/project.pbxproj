@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0788850E2CDD4F960068F108 /* christmas_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0788850D2CDD4F960068F108 /* christmas_demo.cpp */; };
-		078885172CDD54B70068F108 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 078885162CDD54B70068F108 /* OpenAL.framework */; };
+		0799EFF12E7879DC00BAE112 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0799EFF02E7879DC00BAE112 /* AudioToolbox.framework */; };
+		0799EFF32E7879E100BAE112 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0799EFF22E7879E100BAE112 /* CoreAudio.framework */; };
+		0799EFF52E7879F700BAE112 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0799EFF42E7879F700BAE112 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +41,9 @@
 		0788850D2CDD4F960068F108 /* christmas_demo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = christmas_demo.cpp; sourceTree = "<group>"; };
 		078885142CDD53100068F108 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		078885162CDD54B70068F108 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		0799EFF02E7879DC00BAE112 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0799EFF22E7879E100BAE112 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0799EFF42E7879F700BAE112 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = deck_the_halls.ct; sourceTree = "<group>"; };
 		07B91EF92CF16F3E00449D7E /* build.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.bat; sourceTree = "<group>"; };
 		07B91EFA2CF16F3E00449D7E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
@@ -52,7 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				078885172CDD54B70068F108 /* OpenAL.framework in Frameworks */,
+				0799EFF52E7879F700BAE112 /* CoreFoundation.framework in Frameworks */,
+				0799EFF32E7879E100BAE112 /* CoreAudio.framework in Frameworks */,
+				0799EFF12E7879DC00BAE112 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +128,9 @@
 		078885152CDD54B70068F108 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0799EFF42E7879F700BAE112 /* CoreFoundation.framework */,
+				0799EFF22E7879E100BAE112 /* CoreAudio.framework */,
+				0799EFF02E7879DC00BAE112 /* AudioToolbox.framework */,
 				078885162CDD54B70068F108 /* OpenAL.framework */,
 			);
 			name = Frameworks;
@@ -320,12 +330,12 @@
 				DEVELOPMENT_TEAM = HFL2Q84SZB;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
-					"/opt/homebrew/opt/openal-soft/include/",
 					../lib/Core/include/,
 					../lib/Termin8or/include/,
 					../lib/8Beat/include/,
 					../lib/TrainOfThought/include/,
-					../lib/AudioLibSwitcher_OpenAL/include,
+					../lib/AudioLibSwitcher_applaudio/include,
+					../lib/applaudio/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -338,12 +348,12 @@
 				DEVELOPMENT_TEAM = HFL2Q84SZB;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
-					"/opt/homebrew/opt/openal-soft/include/",
 					../lib/Core/include/,
 					../lib/Termin8or/include/,
 					../lib/8Beat/include/,
 					../lib/TrainOfThought/include/,
-					../lib/AudioLibSwitcher_OpenAL/include,
+					../lib/AudioLibSwitcher_applaudio/include,
+					../lib/applaudio/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
