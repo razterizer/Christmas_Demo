@@ -2,7 +2,7 @@
 
 REPO_DIR="Christmas_Demo"
 
-brew install openal-soft
+# brew install openal-soft
 
 cd ..
 
