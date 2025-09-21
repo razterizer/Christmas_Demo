@@ -329,6 +329,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HFL2Q84SZB;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					USE_APPLAUDIO,
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					../lib/Core/include/,
 					../lib/Termin8or/include/,
@@ -347,6 +352,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HFL2Q84SZB;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = USE_APPLAUDIO;
 				HEADER_SEARCH_PATHS = (
 					../lib/Core/include/,
 					../lib/Termin8or/include/,
