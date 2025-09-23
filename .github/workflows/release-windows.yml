@@ -44,13 +44,13 @@ jobs:
       - name: Prepare files for upload
         run: |
           New-Item -ItemType Directory -Force -Path "upload-temp"
-          Copy-Item "x64/Release/Christmas_Demo.vs.exe" "upload-temp/"
-          Copy-Item "x64/Release/nigh_bethlehem.ct" "upload-temp/"
-          Copy-Item "x64/Release/deck_the_halls.ct" "upload-temp/"
-          Copy-Item "x64/Release/silent_night.ct" "upload-temp/"
-          Copy-Item "x64/Release/jingle_bells.ct" "upload-temp/"
-          if (Test-Path "x64/Release/fonts") {
-              Copy-Item -Recurse "x64/Release/fonts" "upload-temp/"
+          Copy-Item "Christmas_Demo/x64/Release/Christmas_Demo.vs.exe" "upload-temp/"
+          Copy-Item "Christmas_Demo/x64/Release/nigh_bethlehem.ct" "upload-temp/"
+          Copy-Item "Christmas_Demo/x64/Release/deck_the_halls.ct" "upload-temp/"
+          Copy-Item "Christmas_Demo/x64/Release/silent_night.ct" "upload-temp/"
+          Copy-Item "Christmas_Demo/x64/Release/jingle_bells.ct" "upload-temp/"
+          if (Test-Path "Christmas_Demo/x64/Release/fonts") {
+              Copy-Item -Recurse "Christmas_Demo/x64/Release/fonts" "upload-temp/"
           }
 
       # Step 4: Upload build artifact
