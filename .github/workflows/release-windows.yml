@@ -44,13 +44,13 @@ jobs:
       - name: Prepare files for upload
         run: |
           New-Item -ItemType Directory -Force -Path "upload-temp"
-          Copy-Item "Christmas_Demo.vs/x64/Release/Christmas_Demo.exe" "upload-temp/"
-          Copy-Item "Christmas_Demo.vs/x64/Release/nigh_bethlehem.ct" "upload-temp/"
-          Copy-Item "Christmas_Demo.vs/x64/Release/deck_the_halls.ct" "upload-temp/"
-          Copy-Item "Christmas_Demo.vs/x64/Release/silent_night.ct" "upload-temp/"
-          Copy-Item "Christmas_Demo.vs/x64/Release/jingle_bells.ct" "upload-temp/"
-          if (Test-Path "Christmas_Demo.vs/x64/Release/fonts") {
-              Copy-Item -Recurse "Christmas_Demo.vs/x64/Release/fonts" "upload-temp/"
+          Copy-Item "x64/Release/Christmas_Demo.vs.exe" "upload-temp/"
+          Copy-Item "x64/Release/nigh_bethlehem.ct" "upload-temp/"
+          Copy-Item "x64/Release/deck_the_halls.ct" "upload-temp/"
+          Copy-Item "x64/Release/silent_night.ct" "upload-temp/"
+          Copy-Item "x64/Release/jingle_bells.ct" "upload-temp/"
+          if (Test-Path "x64/Release/fonts") {
+              Copy-Item -Recurse "x64/Release/fonts" "upload-temp/"
           }
 
       # Step 4: Upload build artifact
@@ -87,7 +87,7 @@ jobs:
           # Create a clean distribution folder
           New-Item -ItemType Directory -Force -Path "christmas_demo-${{ github.ref_name }}"
           # Copy the executable and necessary files
-          Copy-Item "Christmas_Demo.exe" "christmas_demo-${{ github.ref_name }}/"
+          Copy-Item "Christmas_Demo.vs.exe" "christmas_demo-${{ github.ref_name }}/"
           Copy-Item "nigh_bethlehem.ct" "christmas_demo-${{ github.ref_name }}/"
           Copy-Item "deck_the_halls.ct" "christmas_demo-${{ github.ref_name }}/"
           Copy-Item "silent_night.ct" "christmas_demo-${{ github.ref_name }}/"
