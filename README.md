@@ -14,6 +14,9 @@
 ![Last Commit](https://img.shields.io/github/last-commit/razterizer/Christmas_Demo?color=blue)
 ![Contributors](https://img.shields.io/github/contributors/razterizer/Christmas_Demo?color=blue)
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/razterizer/Christmas_Demo/total)
+
+
 <img width="567" alt="image" src="https://github.com/user-attachments/assets/d348db98-e8cf-4ee5-b6fd-b023329ecab1" />
 <img width="559" alt="image" src="https://github.com/user-attachments/assets/44560a58-542a-44a7-8658-e8f18219e178" />
 
