@@ -123,6 +123,11 @@ jobs:
           echo "- christmas_demo-glibc2.35: for legacy systems (WSL, Ubuntu 22.04)" >> christmas_demo-${{ github.ref_name }}/README.txt
           echo "" >> christmas_demo-${{ github.ref_name }}/README.txt
           echo "Run the binary that matches your system's glibc version." >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo "" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo "To run either executable, you might have to first do:" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo "  chmod ugo+x christmas_demo-glibc2.38" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo " or:" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo "  chmod ugo+x christmas_demo-glibc2.35" >> christmas_demo-${{ github.ref_name }}/README.txt
           tar -czf christmas_demo-${{ github.ref_name }}-linux.tar.gz christmas_demo-${{ github.ref_name }}/
 
       - name: Upload Linux package to release

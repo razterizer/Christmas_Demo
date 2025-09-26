@@ -78,6 +78,12 @@ jobs:
           if [ -d fonts ]; then
             cp -r fonts christmas_demo-${{ github.ref_name }}/
           fi
+          echo "Unblock instructions:" > christmas_demo-${{ github.ref_name }}/README.txt
+          echo "=====================" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo "To tell the gatekeeper that this executable is fine" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo " you can unblock the executable with" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo " the following command:" >> christmas_demo-${{ github.ref_name }}/README.txt
+          echo "   xattr -dr com.apple.quarantine christmas_demo" >> christmas_demo-${{ github.ref_name }}/README.txt
           # Create zip archive
           zip -r christmas_demo-${{ github.ref_name }}-macos.zip christmas_demo-${{ github.ref_name }}/
           
