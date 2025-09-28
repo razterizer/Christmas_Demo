@@ -96,7 +96,7 @@ Then goto `<my_source_code_dir>/Christmas_Demo/Christmas_Demo/` and build with `
 
 Then run by typing `./bin/christmas_demo`.
 
-### Linux (Ubuntu)
+### Linux
 
 Then goto `<my_source_code_dir>/Christmas_Demo/Christmas_Demo/` and build with `./build.sh`.
 
