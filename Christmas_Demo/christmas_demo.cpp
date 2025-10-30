@@ -568,10 +568,12 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
   }
 
 public:
-  Game(int argc, char** argv, const t8x::GameEngineParams& params, bool use_audio, float music_volume)
+  Game(int argc, char** argv, const t8x::GameEngineParams& params,
+       bool use_audio, float music_volume, bool use_texts)
     : GameEngine(argv[0], params)
     , audio(use_audio)
     , m_music_volume(music_volume)
+    , m_use_texts(use_texts)
   {
     //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
@@ -1668,6 +1670,8 @@ private:
     return math::roundI(-8.f+100.f*std::cos(3.05f*t)-20.f*std::sin(7.f*t));
   };
   
+  bool m_use_texts = true;
+  
   bool use_dynamics_system = true;
   bool dbg_draw_rigid_bodies = false;
   bool dbg_draw_sprites = false;
@@ -1682,7 +1686,8 @@ private:
   
   virtual void update() override
   {
-    update_texts();
+    if (m_use_texts)
+      update_texts();
   
     if (get_sim_time_s() < scene_2_start_time)
     {
@@ -2333,6 +2338,7 @@ int main(int argc, char** argv)
   
   bool use_audio = true;
   float music_volume = 0.1f;
+  bool use_texts = true;
   bool show_help = false;
 
   for (int i = 1; i < argc; ++i)
@@ -2345,6 +2351,8 @@ int main(int argc, char** argv)
       use_audio = false;
     else if (std::strcmp(argv[i], "--music_volume") == 0)
       music_volume = static_cast<float>(std::atof(argv[i + 1]));
+    else if (std::strcmp(argv[i], "--disable_texts") == 0)
+      use_texts = false;
     else if (std::strcmp(argv[i], "--help") == 0)
       show_help = true;
   }
@@ -2353,7 +2361,7 @@ int main(int argc, char** argv)
     use_audio = false;
 
   
-  Game game(argc, argv, params, use_audio, music_volume);
+  Game game(argc, argv, params, use_audio, music_volume, use_texts);
   
   for (int i = 1; i < argc; ++i)
   {
@@ -2365,7 +2373,7 @@ int main(int argc, char** argv)
 
   if (show_help)
   {
-    std::cout << "christmas_demo --help | [--suppress_tty_output] [--suppress_tty_input] [--set_fps <fps>] [--set_sim_delay_us <delay_us>] [--disable_audio] [--music_volume <music_vol>]" << std::endl;
+    std::cout << "christmas_demo --help | [--suppress_tty_output] [--suppress_tty_input] [--set_fps <fps>] [--set_sim_delay_us <delay_us>] [--disable_audio] [--music_volume <music_vol>] [--disable_texts]" << std::endl;
     std::cout << "  default values:" << std::endl;
     std::cout << "    <fps>       : " << game.get_real_fps() << std::endl;
     std::cout << "    <delay_us>  : " << game.get_sim_delay_us() << std::endl;
