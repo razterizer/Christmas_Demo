@@ -568,13 +568,16 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
   }
 
 public:
-  Game(int argc, char** argv, const t8x::GameEngineParams& params)
+  Game(int argc, char** argv, const t8x::GameEngineParams& params, bool use_audio, float music_volume)
     : GameEngine(argv[0], params)
+    , audio(use_audio)
+    , m_music_volume(music_volume)
   {
     //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
     
     chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
+    chip_tune->set_volume(m_music_volume);
     chip_tune->add_listener(this);
   }
   
@@ -1612,6 +1615,7 @@ private:
   float wind_angle = 0.f;
   
   beat::AudioSourceHandler audio;
+  float m_music_volume = 0.1f;
   beat::WaveformGeneration wave_gen;
   std::unique_ptr<beat::ChipTuneEngine> chip_tune;
   OneShot trg_scene_2_tune;
@@ -2222,6 +2226,7 @@ private:
         else if (scene_2_time > 6.f*dt_scene_transition && trg_scene_2_tune.once())
         {
           chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
+          chip_tune->set_volume(m_music_volume);
           chip_tune->add_listener(this);
           Delay::sleep(150'000);
           play_tune("nigh_bethlehem.ct");
@@ -2326,7 +2331,47 @@ int main(int argc, char** argv)
   params.enable_instructions_screen = true;
   params.screen_bg_color_instructions = Color::Black;
   
-  Game game(argc, argv, params);
+  bool use_audio = true;
+  float music_volume = 0.1f;
+  bool show_help = false;
+
+  for (int i = 1; i < argc; ++i)
+  {
+    if (std::strcmp(argv[i], "--suppress_tty_output") == 0)
+      params.suppress_tty_output = true;
+    else if (std::strcmp(argv[i], "--suppress_tty_input") == 0)
+      params.suppress_tty_input = true;
+    else if (std::strcmp(argv[i], "--disable_audio") == 0)
+      use_audio = false;
+    else if (std::strcmp(argv[i], "--music_volume") == 0)
+      music_volume = static_cast<float>(std::atof(argv[i + 1]));
+    else if (std::strcmp(argv[i], "--help") == 0)
+      show_help = true;
+  }
+
+  if (show_help)
+    use_audio = false;
+
+  
+  Game game(argc, argv, params, use_audio, music_volume);
+  
+  for (int i = 1; i < argc; ++i)
+  {
+    if (i + 1 < argc && std::strcmp(argv[i], "--set_fps") == 0)
+      game.set_real_fps(static_cast<float>(std::atof(argv[i + 1])));
+    else if (i + 1 < argc && std::strcmp(argv[i], "--set_sim_delay_us") == 0)
+      game.set_sim_delay_us(static_cast<float>(std::atof(argv[i + 1])));
+  }
+
+  if (show_help)
+  {
+    std::cout << "christmas_demo --help | [--suppress_tty_output] [--suppress_tty_input] [--set_fps <fps>] [--set_sim_delay_us <delay_us>] [--disable_audio] [--music_volume <music_vol>]" << std::endl;
+    std::cout << "  default values:" << std::endl;
+    std::cout << "    <fps>       : " << game.get_real_fps() << std::endl;
+    std::cout << "    <delay_us>  : " << game.get_sim_delay_us() << std::endl;
+    std::cout << "    <music_vol> : " << "0.1 (valid range: [0, 1])" << std::endl;
+    return EXIT_SUCCESS;
+  }
   
   game.init();
   game.generate_data();
@@ -2334,3 +2379,4 @@ int main(int argc, char** argv)
 
   return EXIT_SUCCESS;
 }
+
