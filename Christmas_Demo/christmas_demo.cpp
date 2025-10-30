@@ -386,7 +386,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
   
   void update_moon()
   {
-    moon_angle = moon_w * get_sim_time_s() + moon_angle0;
+    moon_angle = m_moon_speed_factor * moon_w * get_sim_time_s() + moon_angle0;
     sprite_moon->pos = t8::to_RC_round({
       moon_pivot.r - 25.f*std::sin(moon_angle),
       moon_pivot.c + 30.f*std::cos(moon_angle)
@@ -569,8 +569,10 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
 
 public:
   Game(int argc, char** argv, const t8x::GameEngineParams& params,
-       bool use_audio, float music_volume, bool use_texts)
+       bool use_audio, float music_volume, bool use_texts,
+       float moon_speed_factor)
     : GameEngine(argv[0], params)
+    , m_moon_speed_factor(moon_speed_factor)
     , audio(use_audio)
     , m_music_volume(music_volume)
     , m_use_texts(use_texts)
@@ -1603,6 +1605,7 @@ private:
   const float moon_angle0 = math::deg2rad(7.5f);
   float moon_angle = 0.f;
   bool is_moon_up = false;
+  float m_moon_speed_factor = 1.f;
   
   float e_ground = 0.05f;
   float e_tree = 0.1f;
@@ -2340,6 +2343,7 @@ int main(int argc, char** argv)
   float music_volume = 0.1f;
   bool use_texts = true;
   bool show_help = false;
+  float moon_speed_factor = 1.f;
 
   for (int i = 1; i < argc; ++i)
   {
@@ -2353,6 +2357,8 @@ int main(int argc, char** argv)
       music_volume = static_cast<float>(std::atof(argv[i + 1]));
     else if (std::strcmp(argv[i], "--disable_texts") == 0)
       use_texts = false;
+    else if (std::strcmp(argv[i], "--moon_speed_factor") == 0)
+      moon_speed_factor = static_cast<float>(std::atof(argv[i + 1]));
     else if (std::strcmp(argv[i], "--help") == 0)
       show_help = true;
   }
@@ -2361,7 +2367,9 @@ int main(int argc, char** argv)
     use_audio = false;
 
   
-  Game game(argc, argv, params, use_audio, music_volume, use_texts);
+  Game game(argc, argv, params,
+            use_audio, music_volume, use_texts,
+            moon_speed_factor);
   
   for (int i = 1; i < argc; ++i)
   {
@@ -2373,11 +2381,12 @@ int main(int argc, char** argv)
 
   if (show_help)
   {
-    std::cout << "christmas_demo --help | [--suppress_tty_output] [--suppress_tty_input] [--set_fps <fps>] [--set_sim_delay_us <delay_us>] [--disable_audio] [--music_volume <music_vol>] [--disable_texts]" << std::endl;
+    std::cout << "christmas_demo --help | [--suppress_tty_output] [--suppress_tty_input] [--set_fps <fps>] [--set_sim_delay_us <delay_us>] [--disable_audio] [--music_volume <music_vol>] [--disable_texts] [--moon_speed_factor <msf>]" << std::endl;
     std::cout << "  default values:" << std::endl;
     std::cout << "    <fps>       : " << game.get_real_fps() << std::endl;
     std::cout << "    <delay_us>  : " << game.get_sim_delay_us() << std::endl;
     std::cout << "    <music_vol> : " << "0.1 (valid range: [0, 1])" << std::endl;
+    std::cout << "    <msf>       : " << "1 (valid range: [0, FLT_MAX)" << std::endl;
     return EXIT_SUCCESS;
   }
   
