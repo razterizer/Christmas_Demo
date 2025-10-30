@@ -470,7 +470,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
   float update_wind()
   {
     wind_angle = wind_speed_w * get_sim_time_s() + wind_accumulated_rand_phase;
-    auto wind_speed = wind_speed_amplitude * std::sin(wind_angle);
+    auto wind_speed = m_wind_speed_factor * wind_speed_amplitude * std::sin(wind_angle);
     if (rnd::one_in(20))
     {
       wind_accumulated_rand_phase += math::deg2rad(rnd::rand_float(-10.f, 20.f));
@@ -495,7 +495,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
         rb->set_curr_lin_vel(f_snowflake_vel(0));
       }
       
-      auto vel_factor = math::value_to_param_clamped(rb->get_curr_cm_r(), 20.f, 0.f);
+      auto vel_factor = math::value_to_param_clamped(rb->get_curr_cm_r(), m_snow_wind_gradient_max, m_snow_wind_gradient_min);
       rb->set_curr_lin_speed_c(wind_speed * vel_factor);
       if (rb->get_curr_cm_c() < 0.f)
         rb->set_curr_cm_c(static_cast<float>(sh.num_cols() - 1));
@@ -570,9 +570,15 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
 public:
   Game(int argc, char** argv, const t8x::GameEngineParams& params,
        bool use_audio, float music_volume, bool use_texts,
-       float moon_speed_factor)
+       float moon_speed_factor, float wind_speed_factor,
+       float snow_wind_gradient_max, float snow_wind_gradient_min,
+       float fire_wind_speed_factor)
     : GameEngine(argv[0], params)
+    , m_fire_wind_speed_factor(fire_wind_speed_factor)
     , m_moon_speed_factor(moon_speed_factor)
+    , m_snow_wind_gradient_max(snow_wind_gradient_max)
+    , m_snow_wind_gradient_min(snow_wind_gradient_min)
+    , m_wind_speed_factor(wind_speed_factor)
     , audio(use_audio)
     , m_music_volume(music_volume)
     , m_use_texts(use_texts)
@@ -1599,6 +1605,7 @@ private:
   const float smoke_vel_r = -2.5f;
   float smoke_vel_c = 0.1f;
   const float smoke_acc = -1.5f;
+  float m_fire_wind_speed_factor = 1.f;
   
   const Vec2 moon_pivot = { 30.f, 37.f };
   const float moon_w = 8e-4f * math::c_2pi; //5e-4f * math::c_2pi;
@@ -1613,11 +1620,14 @@ private:
   float friction_ground = 0.5f;
   float friction_tree = 0.95f;
   float friction_snowflake = 0.8f;
+  float m_snow_wind_gradient_max = 20.f;
+  float m_snow_wind_gradient_min = 0.f;
   
   float wind_speed_amplitude = 5.f;
   float wind_speed_w = 1e-1f * math::c_2pi;
   float wind_accumulated_rand_phase = math::deg2rad(rnd::rand_float(0.f, 45.f));
   float wind_angle = 0.f;
+  float m_wind_speed_factor = 1.f;
   
   beat::AudioSourceHandler audio;
   float m_music_volume = 0.1f;
@@ -1715,7 +1725,7 @@ private:
       update_critters();
       
       auto wind_speed = update_wind();
-      smoke_vel_c = wind_speed * 0.65f;
+      smoke_vel_c = m_fire_wind_speed_factor * wind_speed * 0.65f;
       
       update_snowflakes(wind_speed);
       
@@ -2344,6 +2354,10 @@ int main(int argc, char** argv)
   bool use_texts = true;
   bool show_help = false;
   float moon_speed_factor = 1.f;
+  float wind_speed_factor = 1.f;
+  float snow_wind_gradient_max = 20.f;
+  float snow_wind_gradient_min = 0.f;
+  float fire_wind_speed_factor = 1.f;
 
   for (int i = 1; i < argc; ++i)
   {
@@ -2359,6 +2373,10 @@ int main(int argc, char** argv)
       use_texts = false;
     else if (std::strcmp(argv[i], "--moon_speed_factor") == 0)
       moon_speed_factor = static_cast<float>(std::atof(argv[i + 1]));
+    else if (std::strcmp(argv[i], "--wind_speed_factor") == 0)
+      wind_speed_factor = static_cast<float>(std::atof(argv[i + 1]));
+    else if (std::strcmp(argv[i], "--fire_wind_speed_factor") == 0)
+      fire_wind_speed_factor = static_cast<float>(std::atof(argv[i + 1]));
     else if (std::strcmp(argv[i], "--help") == 0)
       show_help = true;
   }
@@ -2368,8 +2386,10 @@ int main(int argc, char** argv)
 
   
   Game game(argc, argv, params,
-            use_audio, music_volume, use_texts,
-            moon_speed_factor);
+            use_audio, std::clamp(music_volume, 0.f, 1.f), use_texts,
+            std::max(0.f, moon_speed_factor), std::max(0.f, wind_speed_factor),
+            std::clamp(snow_wind_gradient_max, 0.f, 20.f), std::clamp(snow_wind_gradient_min, 0.f, 20.f),
+            std::clamp(fire_wind_speed_factor, 0.f, 1.f));
   
   for (int i = 1; i < argc; ++i)
   {
@@ -2381,12 +2401,29 @@ int main(int argc, char** argv)
 
   if (show_help)
   {
-    std::cout << "christmas_demo --help | [--suppress_tty_output] [--suppress_tty_input] [--set_fps <fps>] [--set_sim_delay_us <delay_us>] [--disable_audio] [--music_volume <music_vol>] [--disable_texts] [--moon_speed_factor <msf>]" << std::endl;
+    std::cout << "christmas_demo --help | " << std::endl;
+    std::cout << "   [--suppress_tty_output]" << std::endl;
+    std::cout << "   [--suppress_tty_input]" << std::endl;
+    std::cout << "   [--set_fps <fps>]" << std::endl;
+    std::cout << "   [--set_sim_delay_us <delay_us>]" << std::endl;
+    std::cout << "   [--disable_audio]" << std::endl;
+    std::cout << "   [--music_volume <music_vol>]" << std::endl;
+    std::cout << "   [--disable_texts]" << std::endl;
+    std::cout << "   [--moon_speed_factor <msf>]" << std::endl;
+    std::cout << "   [--wind_speed_factor <wsf>]" << std::endl;
+    std::cout << "   [--snow_wind_gradient_max <swgmax>]" << std::endl;
+    std::cout << "   [--snow_wind_gradient_min <swgmin>]" << std::endl;
+    std::cout << "   [--fire_wind_speed_factor <fwsf>]" << std::endl;
+    std::cout << std::endl;
     std::cout << "  default values:" << std::endl;
     std::cout << "    <fps>       : " << game.get_real_fps() << std::endl;
     std::cout << "    <delay_us>  : " << game.get_sim_delay_us() << std::endl;
-    std::cout << "    <music_vol> : " << "0.1 (valid range: [0, 1])" << std::endl;
-    std::cout << "    <msf>       : " << "1 (valid range: [0, FLT_MAX)" << std::endl;
+    std::cout << "    <music_vol> : " << music_volume << " (valid range: [0, 1])" << std::endl;
+    std::cout << "    <msf>       : " << moon_speed_factor << " (valid range: [0, FLT_MAX))" << std::endl;
+    std::cout << "    <wsf>       : " << wind_speed_factor << " (valid range: [0, FLT_MAX))" << std::endl;
+    std::cout << "    <sgwmax>    : " << snow_wind_gradient_max << " (valid range: [0, 20))" << std::endl;
+    std::cout << "    <sgwmin>    : " << snow_wind_gradient_min << " (valid range: [0, 20))" << std::endl;
+    std::cout << "    <fwsf>      : " << fire_wind_speed_factor << " (valid range: [0, 1])" << std::endl;
     return EXIT_SUCCESS;
   }
   
