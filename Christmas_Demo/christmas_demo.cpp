@@ -493,10 +493,15 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
       {
         rb->reset_curr_cm();
         rb->set_curr_lin_vel(f_snowflake_vel(0));
+        snowflake_horiz_vel_factor[rb] = f_calc_per_snowflake_vel_factor();
       }
       
       auto vel_factor = math::value_to_param_clamped(rb->get_curr_cm_r(), m_snow_wind_gradient_max, m_snow_wind_gradient_min);
-      rb->set_curr_lin_speed_c(wind_speed * vel_factor);
+      auto it_hvf = snowflake_horiz_vel_factor.find(rb);
+      auto per_snowflake_vel_factor = 1.f;
+      if (it_hvf != snowflake_horiz_vel_factor.end())
+        per_snowflake_vel_factor = it_hvf->second;
+      rb->set_curr_lin_speed_c(wind_speed * vel_factor * per_snowflake_vel_factor);
       if (rb->get_curr_cm_c() < 0.f)
         rb->set_curr_cm_c(static_cast<float>(sh.num_cols() - 1));
       else if (rb->get_curr_cm_c() >= static_cast<float>(sh.num_cols()))
@@ -1147,9 +1152,12 @@ public:
       [](int){ return rnd::rand_float(0.7f, 4.f); } // crit speed r
     );
     for (auto* rb : rb_snowflake_arr)
+    {
       rb->set_sleeping(true,
                        0.05f, 0.5f, // vel, time
                        10.f); // impulse
+      snowflake_horiz_vel_factor[rb] = f_calc_per_snowflake_vel_factor();
+    }
     
     
     generate_star_sprites();
@@ -1473,6 +1481,8 @@ private:
   std::array<RigidBody*, 1000> rb_snowflake_arr;
   std::map<RC, std::vector<Sprite*>> snowflake_map;
   std::function<Vec2(int)> f_snowflake_vel;
+  std::map<RigidBody*, float> snowflake_horiz_vel_factor;
+  std::function<float()> f_calc_per_snowflake_vel_factor = []() { return rnd::randn_range_clamp(0.1f, 2.f); };
   
   BitmapSprite* sprite_squirrel = nullptr;
   int squirrel_timestamp = 50;
