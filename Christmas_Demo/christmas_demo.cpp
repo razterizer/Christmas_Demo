@@ -574,7 +574,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
 
 public:
   Game(int argc, char** argv, const t8x::GameEngineParams& params,
-       bool use_audio, float music_gain, bool use_texts,
+       bool use_audio, float music_volume, bool use_texts,
        float moon_speed_factor, float wind_speed_factor,
        float snow_wind_gradient_max, float snow_wind_gradient_min,
        float fire_wind_speed_factor)
@@ -585,14 +585,14 @@ public:
     , m_snow_wind_gradient_min(snow_wind_gradient_min)
     , m_wind_speed_factor(wind_speed_factor)
     , audio(use_audio)
-    , m_music_gain(music_gain)
+    , m_music_volume(music_volume)
     , m_use_texts(use_texts)
   {
     //GameEngine::set_real_fps(1000);
     GameEngine::set_anim_rate(0, 4);
     
     chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
-    chip_tune->set_gain(m_music_gain);
+    chip_tune->set_volume_slider(m_music_volume);
     chip_tune->add_listener(this);
   }
   
@@ -1640,7 +1640,7 @@ private:
   float m_wind_speed_factor = 1.f;
   
   beat::AudioSourceHandler audio;
-  float m_music_gain = 0.1f;
+  float m_music_volume = 1.f;
   beat::WaveformGeneration wave_gen;
   std::unique_ptr<beat::ChipTuneEngine> chip_tune;
   OneShot trg_scene_2_tune;
@@ -2254,7 +2254,7 @@ private:
         else if (scene_2_time > 6.f*dt_scene_transition && trg_scene_2_tune.once())
         {
           chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
-          chip_tune->set_gain(m_music_gain);
+          chip_tune->set_volume_slider(m_music_volume);
           chip_tune->add_listener(this);
           Delay::sleep(150'000);
           play_tune("nigh_bethlehem.ct");
@@ -2360,7 +2360,7 @@ int main(int argc, char** argv)
   params.screen_bg_color_instructions = Color::Black;
   
   bool use_audio = true;
-  float music_gain = 0.1f;
+  float music_volume = 1.f;
   bool use_texts = true;
   bool show_help = false;
   float moon_speed_factor = 1.f;
@@ -2377,8 +2377,8 @@ int main(int argc, char** argv)
       params.suppress_tty_input = true;
     else if (std::strcmp(argv[i], "--disable_audio") == 0)
       use_audio = false;
-    else if (std::strcmp(argv[i], "--music_gain") == 0)
-      music_gain = static_cast<float>(std::atof(argv[i + 1]));
+    else if (std::strcmp(argv[i], "--music_volume") == 0)
+      music_volume = static_cast<float>(std::atof(argv[i + 1]));
     else if (std::strcmp(argv[i], "--disable_texts") == 0)
       use_texts = false;
     else if (std::strcmp(argv[i], "--moon_speed_factor") == 0)
@@ -2396,7 +2396,7 @@ int main(int argc, char** argv)
 
   
   Game game(argc, argv, params,
-            use_audio, std::clamp(music_gain, 0.f, 1.f), use_texts,
+            use_audio, std::clamp(music_volume, 0.f, 1.f), use_texts,
             std::max(0.f, moon_speed_factor), std::max(0.f, wind_speed_factor),
             std::clamp(snow_wind_gradient_max, 0.f, 20.f), std::clamp(snow_wind_gradient_min, 0.f, 20.f),
             std::clamp(fire_wind_speed_factor, 0.f, 1.f));
@@ -2417,7 +2417,7 @@ int main(int argc, char** argv)
     std::cout << "   [--set_fps <fps>]" << std::endl;
     std::cout << "   [--set_sim_delay_us <delay_us>]" << std::endl;
     std::cout << "   [--disable_audio]" << std::endl;
-    std::cout << "   [--music_gain <music_gain>]" << std::endl;
+    std::cout << "   [--music_volume <music_vol>]" << std::endl;
     std::cout << "   [--disable_texts]" << std::endl;
     std::cout << "   [--moon_speed_factor <msf>]" << std::endl;
     std::cout << "   [--wind_speed_factor <wsf>]" << std::endl;
@@ -2428,7 +2428,7 @@ int main(int argc, char** argv)
     std::cout << "  default values:" << std::endl;
     std::cout << "    <fps>       : " << game.get_real_fps() << std::endl;
     std::cout << "    <delay_us>  : " << game.get_sim_delay_us() << std::endl;
-    std::cout << "    <music_gain> : " << music_gain << " (valid range: [0, 1])" << std::endl;
+    std::cout << "    <music_vol> : " << music_volume << " (valid range: [0, 1])" << std::endl;
     std::cout << "    <msf>       : " << moon_speed_factor << " (valid range: [0, FLT_MAX))" << std::endl;
     std::cout << "    <wsf>       : " << wind_speed_factor << " (valid range: [0, FLT_MAX))" << std::endl;
     std::cout << "    <sgwmax>    : " << snow_wind_gradient_max << " (valid range: [0, 20))" << std::endl;
