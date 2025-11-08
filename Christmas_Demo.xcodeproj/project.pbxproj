@@ -32,6 +32,7 @@
 		072AE7FC2D0E6D53004F92D3 /* build-windows.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = "build-windows.yml"; path = ".github/workflows/build-windows.yml"; sourceTree = SOURCE_ROOT; };
 		072AE7FD2D0E6D53004F92D3 /* build-ubuntu.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = "build-ubuntu.yml"; path = ".github/workflows/build-ubuntu.yml"; sourceTree = SOURCE_ROOT; };
 		072AE7FE2D0E6D53004F92D3 /* build-macos.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = "build-macos.yml"; path = ".github/workflows/build-macos.yml"; sourceTree = SOURCE_ROOT; };
+		0733A5A02EBEC5450045BCFD /* RELEASE_NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = RELEASE_NOTES.md; sourceTree = "<group>"; };
 		076D866B2D023E4A003BF28D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		076D86772D05D616003BF28D /* run.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = run.bat; sourceTree = "<group>"; };
 		076D86782D05D616003BF28D /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 			children = (
 				076D866B2D023E4A003BF28D /* LICENSE */,
 				078885142CDD53100068F108 /* README.md */,
+				0733A5A02EBEC5450045BCFD /* RELEASE_NOTES.md */,
 				0788850C2CDD4F960068F108 /* Christmas_Demo */,
 				0788850B2CDD4F960068F108 /* Products */,
 				078885152CDD54B70068F108 /* Frameworks */,
