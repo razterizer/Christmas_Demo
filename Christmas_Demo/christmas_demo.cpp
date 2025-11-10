@@ -32,6 +32,8 @@ using RigidBody = t8x::RigidBody;
 using DynamicsSystem = t8x::DynamicsSystem;
 using CollisionHandler = t8x::CollisionHandler;
 
+static const float c_default_vol = 0.5f;
+
 
 class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
 {
@@ -592,7 +594,7 @@ public:
     GameEngine::set_anim_rate(0, 4);
     
     chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
-    chip_tune->set_volume_slider(m_music_volume);
+    chip_tune->set_volume_slider(m_music_volume, min_dB, nl_taper);
     chip_tune->add_listener(this);
   }
   
@@ -1640,10 +1642,12 @@ private:
   float m_wind_speed_factor = 1.f;
   
   beat::AudioSourceHandler audio;
-  float m_music_volume = 1.f;
+  float m_music_volume = c_default_vol;
   beat::WaveformGeneration wave_gen;
   std::unique_ptr<beat::ChipTuneEngine> chip_tune;
   OneShot trg_scene_2_tune;
+  float min_dB = -60.f;
+  float nl_taper = 0.28f;
   
   std::vector<t8x::ColorScheme> color_schemes;
   std::string font_data_path;
@@ -2254,7 +2258,7 @@ private:
         else if (scene_2_time > 6.f*dt_scene_transition && trg_scene_2_tune.once())
         {
           chip_tune = std::make_unique<beat::ChipTuneEngine>(audio, wave_gen);
-          chip_tune->set_volume_slider(m_music_volume);
+          chip_tune->set_volume_slider(m_music_volume, min_dB, nl_taper);
           chip_tune->add_listener(this);
           Delay::sleep(150'000);
           play_tune("nigh_bethlehem.ct");
@@ -2360,7 +2364,7 @@ int main(int argc, char** argv)
   params.screen_bg_color_instructions = Color::Black;
   
   bool use_audio = true;
-  float music_volume = 1.f;
+  float music_volume = c_default_vol;
   bool use_texts = true;
   bool show_help = false;
   float moon_speed_factor = 1.f;
@@ -2428,7 +2432,7 @@ int main(int argc, char** argv)
     std::cout << "  default values:" << std::endl;
     std::cout << "    <fps>       : " << game.get_real_fps() << std::endl;
     std::cout << "    <delay_us>  : " << game.get_sim_delay_us() << std::endl;
-    std::cout << "    <music_vol> : " << music_volume << " (valid range: [0, 1])" << std::endl;
+    std::cout << "    <music_vol> : " << c_default_vol << " (valid range: [0, 1])" << std::endl;
     std::cout << "    <msf>       : " << moon_speed_factor << " (valid range: [0, FLT_MAX))" << std::endl;
     std::cout << "    <wsf>       : " << wind_speed_factor << " (valid range: [0, FLT_MAX))" << std::endl;
     std::cout << "    <sgwmax>    : " << snow_wind_gradient_max << " (valid range: [0, 20))" << std::endl;
