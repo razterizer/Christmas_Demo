@@ -395,7 +395,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
     });
     
     auto moon_centroid = t8::to_RC_round(sprite_moon->calc_curr_centroid(get_anim_count(0)));
-    is_moon_up = math::in_range<float>(std::fmod(math::rad2deg(moon_angle), 360.f), 18.f, 162.f, Range::Open)
+    is_moon_up = math::in_range(std::fmod(math::rad2deg(moon_angle), 360.f), 18.f, 162.f, Range::Open)
       && !sprite_ground->is_opaque(get_anim_count(0), moon_centroid)
       && (!sprite_mountains->is_opaque(get_anim_count(0), moon_centroid)
           || !sprite_mountains->is_opaque(get_anim_count(0), moon_centroid + RC { -2, -1 }) // To reduce flutter.
@@ -1767,15 +1767,15 @@ private:
       auto scene_2_time = get_sim_time_s() - scene_2_start_time;
       if (trg_scene_1_end.once())
         sprh.clear();
-      else if (math::in_range<float>(scene_2_time, 0.f*dt_scene_transition, 1.f*dt_scene_transition, Range::ClosedOpen))
+      else if (math::in_range(scene_2_time, 0.f*dt_scene_transition, 1.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::LightGray);
-      else if (math::in_range<float>(scene_2_time, 1.f*dt_scene_transition, 2.f*dt_scene_transition, Range::ClosedOpen))
+      else if (math::in_range(scene_2_time, 1.f*dt_scene_transition, 2.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::DarkGray);
-      else if (math::in_range<float>(scene_2_time, 2.f*dt_scene_transition, 3.f*dt_scene_transition, Range::ClosedOpen))
+      else if (math::in_range(scene_2_time, 2.f*dt_scene_transition, 3.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::Black);
-      else if (math::in_range<float>(scene_2_time, 3.f*dt_scene_transition, 4.f*dt_scene_transition, Range::ClosedOpen))
+      else if (math::in_range(scene_2_time, 3.f*dt_scene_transition, 4.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::DarkGray);
-      else if (math::in_range<float>(scene_2_time, 4.f*dt_scene_transition, 5.f*dt_scene_transition, Range::ClosedOpen))
+      else if (math::in_range(scene_2_time, 4.f*dt_scene_transition, 5.f*dt_scene_transition, Range::ClosedOpen))
         set_screen_bg_color_default(Color::LightGray);
       else
       {
