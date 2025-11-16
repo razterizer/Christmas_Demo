@@ -1,0 +1,402 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0788850E2CDD4F960068F108 /* christmas_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0788850D2CDD4F960068F108 /* christmas_demo.cpp */; };
+		0799EFF12E7879DC00BAE112 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0799EFF02E7879DC00BAE112 /* AudioToolbox.framework */; };
+		0799EFF32E7879E100BAE112 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0799EFF22E7879E100BAE112 /* CoreAudio.framework */; };
+		0799EFF52E7879F700BAE112 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0799EFF42E7879F700BAE112 /* CoreFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		078885082CDD4F960068F108 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		072AE7ED2D08C406004F92D3 /* setup_and_build_macos.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setup_and_build_macos.sh; sourceTree = SOURCE_ROOT; };
+		072AE7EE2D08C542004F92D3 /* setup_and_build_debian.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = setup_and_build_debian.sh; sourceTree = SOURCE_ROOT; };
+		072AE7EF2D08C621004F92D3 /* setup_and_build.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = setup_and_build.bat; sourceTree = SOURCE_ROOT; };
+		072AE7FC2D0E6D53004F92D3 /* build-windows.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = "build-windows.yml"; path = ".github/workflows/build-windows.yml"; sourceTree = SOURCE_ROOT; };
+		072AE7FD2D0E6D53004F92D3 /* build-ubuntu.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = "build-ubuntu.yml"; path = ".github/workflows/build-ubuntu.yml"; sourceTree = SOURCE_ROOT; };
+		072AE7FE2D0E6D53004F92D3 /* build-macos.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = "build-macos.yml"; path = ".github/workflows/build-macos.yml"; sourceTree = SOURCE_ROOT; };
+		0733A5A02EBEC5450045BCFD /* RELEASE_NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = RELEASE_NOTES.md; sourceTree = "<group>"; };
+		076D866B2D023E4A003BF28D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		076D86772D05D616003BF28D /* run.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = run.bat; sourceTree = "<group>"; };
+		076D86782D05D616003BF28D /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
+		076D86792D05D631003BF28D /* dependencies */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dependencies; sourceTree = SOURCE_ROOT; };
+		076D867A2D05D631003BF28D /* fetch-dependencies.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "fetch-dependencies.py"; sourceTree = SOURCE_ROOT; };
+		0788850A2CDD4F960068F108 /* Christmas_Demo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Christmas_Demo; sourceTree = BUILT_PRODUCTS_DIR; };
+		0788850D2CDD4F960068F108 /* christmas_demo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = christmas_demo.cpp; sourceTree = "<group>"; };
+		078885142CDD53100068F108 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		078885162CDD54B70068F108 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		07980B912E827801007A0EB4 /* release-linux.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = "release-linux.yml"; path = ".github/workflows/release-linux.yml"; sourceTree = SOURCE_ROOT; };
+		07980B922E827801007A0EB4 /* release-macos.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = "release-macos.yml"; path = ".github/workflows/release-macos.yml"; sourceTree = SOURCE_ROOT; };
+		07980B932E827801007A0EB4 /* release-windows.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = "release-windows.yml"; path = ".github/workflows/release-windows.yml"; sourceTree = SOURCE_ROOT; };
+		07980B942E827ED9007A0EB4 /* tag_release.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = tag_release.sh; sourceTree = SOURCE_ROOT; };
+		0799EFF02E7879DC00BAE112 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0799EFF22E7879E100BAE112 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0799EFF42E7879F700BAE112 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = deck_the_halls.ct; sourceTree = "<group>"; };
+		07B91EF92CF16F3E00449D7E /* build.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.bat; sourceTree = "<group>"; };
+		07B91EFA2CF16F3E00449D7E /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		07B91EFB2CF17D0E00449D7E /* silent_night.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = silent_night.ct; sourceTree = "<group>"; };
+		07B91EFD2CF45FC400449D7E /* jingle_bells.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jingle_bells.ct; sourceTree = "<group>"; };
+		07B91EFE2CF6FF3900449D7E /* nigh_bethlehem.ct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nigh_bethlehem.ct; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		078885072CDD4F960068F108 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0799EFF52E7879F700BAE112 /* CoreFoundation.framework in Frameworks */,
+				0799EFF32E7879E100BAE112 /* CoreAudio.framework in Frameworks */,
+				0799EFF12E7879DC00BAE112 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		072AE7FB2D0E6CF0004F92D3 /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				072AE7FE2D0E6D53004F92D3 /* build-macos.yml */,
+				072AE7FD2D0E6D53004F92D3 /* build-ubuntu.yml */,
+				072AE7FC2D0E6D53004F92D3 /* build-windows.yml */,
+				07980B922E827801007A0EB4 /* release-macos.yml */,
+				07980B912E827801007A0EB4 /* release-linux.yml */,
+				07980B932E827801007A0EB4 /* release-windows.yml */,
+			);
+			name = workflows;
+			sourceTree = "<group>";
+		};
+		076D86762D05D5EA003BF28D /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				07980B942E827ED9007A0EB4 /* tag_release.sh */,
+				072AE7EF2D08C621004F92D3 /* setup_and_build.bat */,
+				072AE7EE2D08C542004F92D3 /* setup_and_build_debian.sh */,
+				072AE7ED2D08C406004F92D3 /* setup_and_build_macos.sh */,
+				076D867A2D05D631003BF28D /* fetch-dependencies.py */,
+				076D86792D05D631003BF28D /* dependencies */,
+				07B91EF92CF16F3E00449D7E /* build.bat */,
+				07B91EFA2CF16F3E00449D7E /* build.sh */,
+				076D86772D05D616003BF28D /* run.bat */,
+				076D86782D05D616003BF28D /* run.sh */,
+			);
+			name = scripts;
+			sourceTree = "<group>";
+		};
+		078885012CDD4F960068F108 = {
+			isa = PBXGroup;
+			children = (
+				076D866B2D023E4A003BF28D /* LICENSE */,
+				078885142CDD53100068F108 /* README.md */,
+				0733A5A02EBEC5450045BCFD /* RELEASE_NOTES.md */,
+				0788850C2CDD4F960068F108 /* Christmas_Demo */,
+				0788850B2CDD4F960068F108 /* Products */,
+				078885152CDD54B70068F108 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0788850B2CDD4F960068F108 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0788850A2CDD4F960068F108 /* Christmas_Demo */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0788850C2CDD4F960068F108 /* Christmas_Demo */ = {
+			isa = PBXGroup;
+			children = (
+				076D86762D05D5EA003BF28D /* scripts */,
+				072AE7FB2D0E6CF0004F92D3 /* workflows */,
+				07B91EFE2CF6FF3900449D7E /* nigh_bethlehem.ct */,
+				07B91EF82CEFC4BF00449D7E /* deck_the_halls.ct */,
+				07B91EFB2CF17D0E00449D7E /* silent_night.ct */,
+				07B91EFD2CF45FC400449D7E /* jingle_bells.ct */,
+				0788850D2CDD4F960068F108 /* christmas_demo.cpp */,
+			);
+			path = Christmas_Demo;
+			sourceTree = "<group>";
+		};
+		078885152CDD54B70068F108 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0799EFF42E7879F700BAE112 /* CoreFoundation.framework */,
+				0799EFF22E7879E100BAE112 /* CoreAudio.framework */,
+				0799EFF02E7879DC00BAE112 /* AudioToolbox.framework */,
+				078885162CDD54B70068F108 /* OpenAL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		078885092CDD4F960068F108 /* Christmas_Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 078885112CDD4F960068F108 /* Build configuration list for PBXNativeTarget "Christmas_Demo" */;
+			buildPhases = (
+				078885062CDD4F960068F108 /* Sources */,
+				078885072CDD4F960068F108 /* Frameworks */,
+				078885082CDD4F960068F108 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Christmas_Demo;
+			productName = Christmas_Demo;
+			productReference = 0788850A2CDD4F960068F108 /* Christmas_Demo */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		078885022CDD4F960068F108 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					078885092CDD4F960068F108 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 078885052CDD4F960068F108 /* Build configuration list for PBXProject "Christmas_Demo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 078885012CDD4F960068F108;
+			productRefGroup = 0788850B2CDD4F960068F108 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				078885092CDD4F960068F108 /* Christmas_Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		078885062CDD4F960068F108 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0788850E2CDD4F960068F108 /* christmas_demo.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0788850F2CDD4F960068F108 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/opt/homebrew/opt/openal-soft/include/",
+					../lib/,
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		078885102CDD4F960068F108 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/opt/homebrew/opt/openal-soft/include/",
+					../lib/,
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		078885122CDD4F960068F108 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HFL2Q84SZB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					USE_APPLAUDIO,
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					../lib/Core/include/,
+					../lib/Termin8or/include/,
+					../lib/8Beat/include/,
+					../lib/TrainOfThought/include/,
+					../lib/AudioLibSwitcher_applaudio/include,
+					../lib/applaudio/include/,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		078885132CDD4F960068F108 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HFL2Q84SZB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = USE_APPLAUDIO;
+				HEADER_SEARCH_PATHS = (
+					../lib/Core/include/,
+					../lib/Termin8or/include/,
+					../lib/8Beat/include/,
+					../lib/TrainOfThought/include/,
+					../lib/AudioLibSwitcher_applaudio/include,
+					../lib/applaudio/include/,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		078885052CDD4F960068F108 /* Build configuration list for PBXProject "Christmas_Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0788850F2CDD4F960068F108 /* Debug */,
+				078885102CDD4F960068F108 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		078885112CDD4F960068F108 /* Build configuration list for PBXNativeTarget "Christmas_Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				078885122CDD4F960068F108 /* Debug */,
+				078885132CDD4F960068F108 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 078885022CDD4F960068F108 /* Project object */;
+}
