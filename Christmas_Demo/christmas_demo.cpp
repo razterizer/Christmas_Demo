@@ -20,6 +20,7 @@
 #include <Core/Benchmark.h>
 
 using RC = t8::RC;
+using Color16 = t8::Color16;
 using Color = t8::Color;
 using Sprite = t8x::Sprite;
 using BitmapSprite = t8x::BitmapSprite;
@@ -72,12 +73,12 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
       sprite_star->create_frame(0);
       char star_ch = rnd::rand_select<char>({ '.', '+' });
       sprite_star->set_sprite_chars(0, star_ch);
-      sprite_star->set_sprite_fg_colors(0, rnd::rand_select<Color>({ Color::White, Color::White, Color::White, Color::White, Color::White, Color::Yellow, Color::Yellow, Color::Yellow, Color::Red, Color::Blue, Color::Blue, Color::Blue }));
-      sprite_star->set_sprite_bg_colors(0, Color::Transparent2);
+      sprite_star->set_sprite_fg_colors(0, rnd::rand_select<Color16>({ Color16::White, Color16::White, Color16::White, Color16::White, Color16::White, Color16::Yellow, Color16::Yellow, Color16::Yellow, Color16::Red, Color16::Blue, Color16::Blue, Color16::Blue }));
+      sprite_star->set_sprite_bg_colors(0, Color16::Transparent2);
       sprite_star->create_frame(1);
       sprite_star->set_sprite_chars(1, star_ch);
-      sprite_star->set_sprite_fg_colors(1, Color::Black);
-      sprite_star->set_sprite_bg_colors(1, Color::Transparent2);
+      sprite_star->set_sprite_fg_colors(1, Color16::Black);
+      sprite_star->set_sprite_bg_colors(1, Color16::Transparent2);
       const int max_twinkle = 100;
       int twinkle_offs = rnd::rand_int(0, max_twinkle);
       sprite_star->func_calc_anim_frame = [twinkle_offs](int sim_frame)
@@ -94,7 +95,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
                                  bool use_fire, const RC& firesmoke_pos, float fire_light_radius_sq,
                                  bool is_moon_up, bool casts_shadow)
   {
-    auto light_style = t8::shade_style(dark_style, t8::ShadeType::Bright, true);
+    auto light_style = t8::shade_style16(dark_style, t8::ShadeType::Bright, true);
   
     auto set_snowflake_color = [this](int rw, int cw, Color col)
     {
@@ -132,17 +133,17 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
             rw - moon_centroid.r,
             cw - moon_centroid.c }));
           textel.set_style(dark_style);
-          set_snowflake_color(rw, cw, Color::LightGray);
+          set_snowflake_color(rw, cw, Color16::LightGray);
           auto n = rb->fetch_surface_normal({ r, c });
           if ((n.r != 0.f && n.c != 0.f && math::dot(n, moon_dir_center) < -0.2f && is_moon_up)
               || (use_fire && math::distance_squared(rw*1.5f, static_cast<float>(cw), firesmoke_pos.r*1.5f, static_cast<float>(firesmoke_pos.c)) < fire_light_radius_sq))
           {
             textel.set_style(light_style);
-            set_snowflake_color(rw, cw, Color::White);
+            set_snowflake_color(rw, cw, Color16::White);
           }
           texture->set_textel(r, c, textel);
         }
-        if (textel.bg_color != Color::Transparent2 && is_moon_up && casts_shadow)
+        if (textel.bg_color != Color16::Transparent2 && is_moon_up && casts_shadow)
         {
           auto moon_opaque_pts = sprite_moon->get_opaque_points(get_anim_count(0));
           auto t1 = math::lerp(static_cast<float>(std::sin(moon_angle)), 20.f, 2.f);
@@ -185,7 +186,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
         {
           auto textel = (*gnd_texture)(r, c);
           auto style = textel.get_style();
-          auto bright_style = t8::shade_style(style, t8::ShadeType::Bright, true);
+          auto bright_style = t8::shade_style16(style, t8::ShadeType::Bright, true);
           textel.set_style(bright_style);
           gnd_texture->set_textel(r, c, textel);
         }
@@ -453,7 +454,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
             if (texture != nullptr)
             {
               auto textel = (*texture)(r, c);
-              if (textel.bg_color == Color::Green || textel.bg_color == Color::DarkGreen)
+              if (textel.bg_color == Color16::Green || textel.bg_color == Color16::DarkGreen)
                 goto critter_placed;
             }
           }
@@ -521,8 +522,8 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
             if (curr_textel.ch != '#')
             {
               curr_textel.ch = '#';
-              curr_textel.fg_color = Color::LightGray;
-              curr_textel.bg_color = Color::LightGray;
+              curr_textel.fg_color = Color16::LightGray;
+              curr_textel.bg_color = Color16::LightGray;
               texture->set_textel(0, 0, curr_textel);
               snowflake_map[sprite->pos].emplace_back(sprite);
             }
@@ -542,7 +543,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
     if (lake_texture != nullptr)
     {
       offscreen_buffer.buffer_texture = lake_texture;
-      sh.print_screen_buffer(Color::Black, offscreen_buffer);
+      sh.print_screen_buffer(Color16::Black, offscreen_buffer);
       for (const auto& rp : reflection_positions)
       {
         lake_texture->set_textel_char(rp.r, rp.c, textel_reflection.ch);
@@ -610,11 +611,11 @@ public:
     font_data_path = t8x::get_path_to_font_data(get_exe_folder());
     std::cout << font_data_path << std::endl;
     
-    t8::Style style_0 { Color::White, Color::Red };
-    t8::Style style_1 { Color::Red, Color::DarkRed };
-    t8::Style style_2 { Color::Red, Color::White };
-    t8::Style style_3 { Color::Red, Color::LightGray };
-    t8::Style style_4 { Color::Red, Color::DarkGray };
+    t8::Style style_0 { Color16::White, Color16::Red };
+    t8::Style style_1 { Color16::Red, Color16::DarkRed };
+    t8::Style style_2 { Color16::Red, Color16::White };
+    t8::Style style_3 { Color16::Red, Color16::LightGray };
+    t8::Style style_4 { Color16::Red, Color16::DarkGray };
     auto& cs0 = color_schemes.emplace_back();
     cs0.internal = style_0;
     cs0.side_h = style_1;
@@ -693,59 +694,59 @@ public:
       R"(    .   . .    .      .          .              .    .     =-.        )", // 11
       R"( .   - .     -   ~.       ..         ;,.       .       .      }       )"  // 12
     );
-    sprite_mountains->fill_sprite_fg_colors(0, Color::LightGray);
-    sprite_mountains->fill_sprite_bg_colors(0, Color::Transparent2);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 0, 1, Color::DarkGray); // anim_frame, r, c0, c1, color
+    sprite_mountains->fill_sprite_fg_colors(0, Color16::LightGray);
+    sprite_mountains->fill_sprite_bg_colors(0, Color16::Transparent2);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 0, 1, Color16::DarkGray); // anim_frame, r, c0, c1, color
     sprite_mountains->fill_sprite_materials_horiz(0, 0, 0, 1, 1);               // anim_frame, r, c0, c1, mat
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 6, 12, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 6, 12, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 0, 6, 12, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 23, 24, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 23, 24, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 0, 23, 24, 1);
-    sprite_mountains->set_sprite_bg_color(0, 0, 29, Color::DarkGray); // anim_frame, r, c, color
+    sprite_mountains->set_sprite_bg_color(0, 0, 29, Color16::DarkGray); // anim_frame, r, c, color
     sprite_mountains->set_sprite_material(0, 0, 29, 1);
-    sprite_mountains->set_sprite_bg_color(0, 0, 31, Color::DarkGray);
+    sprite_mountains->set_sprite_bg_color(0, 0, 31, Color16::DarkGray);
     sprite_mountains->set_sprite_material(0, 0, 31, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 0, 16, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 0, 16, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 1, 0, 16, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 21, 32, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 21, 32, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 1, 21, 32, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 2, 0, 39, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 2, 0, 39, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 2, 0, 39, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 2, 41, 42, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 2, 41, 42, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 2, 41, 42, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 3, 0, 44, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 3, 0, 44, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 3, 0, 44, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 0, 45, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 0, 45, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 4, 0, 45, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 5, 0, 47, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 5, 0, 47, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 5, 0, 47, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 6, 0, 48, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 6, 0, 48, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 6, 0, 48, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 7, 0, 49, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 7, 0, 49, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 7, 0, 49, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 8, 0, 51, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 8, 0, 51, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 8, 0, 51, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 9, 0, 53, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 9, 0, 53, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 9, 0, 53, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 10, 0, 55, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 10, 0, 55, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 10, 0, 55, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 11, 0, 59, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 11, 0, 59, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 11, 0, 59, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 12, 0, 61, Color::DarkGray);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 12, 0, 61, Color16::DarkGray);
     sprite_mountains->fill_sprite_materials_horiz(0, 12, 0, 61, 1);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 8, 12, Color::DarkGreen);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 27, 28, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 0, 30, Color::DarkGreen);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 6, 7, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 1, 12, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 3, 4, Color::DarkGreen);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 4, 5, Color::DarkGreen);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 10, 11, Color::DarkGreen);
-    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 18, 19, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 5, 8, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 5, 34, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 6, 21, Color::DarkGreen);
-    sprite_mountains->set_sprite_bg_color(0, 8, 1, Color::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 8, 12, Color16::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 0, 27, 28, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 0, 30, Color16::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 1, 6, 7, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 1, 12, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 3, 4, Color16::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 4, 5, Color16::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 10, 11, Color16::DarkGreen);
+    sprite_mountains->fill_sprite_bg_colors_horiz(0, 4, 18, 19, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 5, 8, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 5, 34, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 6, 21, Color16::DarkGreen);
+    sprite_mountains->set_sprite_bg_color(0, 8, 1, Color16::DarkGreen);
     rb_mountains = dyn_sys.add_rigid_body(sprite_mountains, .0f, std::nullopt);
     
     sprite_moon = sprh.create_bitmap_sprite("moon");
@@ -761,18 +762,18 @@ public:
       "   #o##   "
     );
     sprite_moon->set_sprite_fg_colors(0,
-      -2, -2, -2, 12, 12, 12, 12, -2, -2, -2,
-      -2,  4, 12, 12,  4, 12, 12, 12, 12, -2,
-      12, 12,  4, 12,  4, 12, 12,  4, 12, 12,
-      -2, 12, 12,  4, 12, 12, 12, 12, 12, -2,
-      -2, -2, -2, 12,  4, 12, 12, -2, -2, -2
+      -3, -3, -3, 11, 11, 11, 11, -3, -3, -3,
+      -3,  3, 11, 11,  3, 11, 11, 11, 11, -3,
+      11, 11,  3, 11,  3, 11, 11,  3, 11, 11,
+      -3, 11, 11,  3, 11, 11, 11, 11, 11, -3,
+      -3, -3, -3, 11,  3, 11, 11, -3, -3, -3
     );
     sprite_moon->set_sprite_bg_colors(0,
-      -2, -2, -2, 12, 12, 12, 12, -2, -2, -2,
-      -2, 12, 12, 12, 12, 12, 12, 12, 12, -2,
-      12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
-      -2, 12, 12, 12, 12, 12, 12, 12, 12, -2,
-      -2, -2, -2, 12, 12, 12, 12, -2, -2, -2
+      -3, -3, -3, 11, 11, 11, 11, -3, -3, -3,
+      -3, 11, 11, 11, 11, 11, 11, 11, 11, -3,
+      11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
+      -3, 11, 11, 11, 11, 11, 11, 11, 11, -3,
+      -3, -3, -3, 11, 11, 11, 11, -3, -3, -3
     );
     
   
@@ -794,28 +795,28 @@ public:
       R"(    |    )"
     );
     sprite_tree->set_sprite_fg_colors(0,
-       0,  0,  0,  0, 11,  0,  0,  0,  0,
-       0,  0,  0, 11, 11, 11,  0,  0,  0,
-       0,  0, 11, 11, 11, 11, 11,  0,  0,
-       0,  0, 11, 11, 11, 11, 11,  0,  0,
-       0, 11, 11, 11, 11, 11, 11, 11,  0,
-       0, 11, 11, 11, 11, 11, 11, 11,  0,
-      11, 11, 11, 11, 11, 11, 11, 11, 11,
-      11, 11, 11,  0, 10,  0, 11, 11, 11,
-       0,  0,  0,  0, 10,  0,  0,  0,  0,
-       0,  0,  0,  0, 10,  0,  0,  0,  0
+      -1, -1, -1, -1, 10, -1, -1, -1, -1,
+      -1, -1, -1, 10, 10, 10, -1, -1, -1,
+      -1, -1, 10, 10, 10, 10, 10, -1, -1,
+      -1, -1, 10, 10, 10, 10, 10, -1, -1,
+      -1, 10, 10, 10, 10, 10, 10, 10, -1,
+      -1, 10, 10, 10, 10, 10, 10, 10, -1,
+      10, 10, 10, 10, 10, 10, 10, 10, 10,
+      10, 10, 10, -1,  9, -1, 10, 10, 10,
+      -1, -1, -1, -1,  9, -1, -1, -1, -1,
+      -1, -1, -1, -1,  9, -1, -1, -1, -1
     );
     sprite_tree->set_sprite_bg_colors(0,
-      -2, -2, -2, -2,  3, -2, -2, -2, -2,
-      -2, -2, -2,  3,  3,  3, -2, -2, -2,
-      -2, -2,  3,  3,  3,  3,  3, -2, -2,
-      -2, -2,  3,  3,  3,  3,  3, -2, -2,
-      -2,  3,  3,  3,  3,  3,  3,  3, -2,
-      -2,  3,  3,  3,  3,  3,  3,  3, -2,
-       3,  3,  3,  3,  3,  3,  3,  3,  3,
-       3,  3,  3, -2,  2, -2,  3,  3,  3,
-      -2, -2, -2, -2,  2, -2, -2, -2, -2,
-      -2, -2, -2, -2,  2, -2, -2, -2, -2
+      -3, -3, -3, -3,  2, -3, -3, -3, -3,
+      -3, -3, -3,  2,  2,  2, -3, -3, -3,
+      -3, -3,  2,  2,  2,  2,  2, -3, -3,
+      -3, -3,  2,  2,  2,  2,  2, -3, -3,
+      -3,  2,  2,  2,  2,  2,  2,  2, -3,
+      -3,  2,  2,  2,  2,  2,  2,  2, -3,
+       2,  2,  2,  2,  2,  2,  2,  2,  2,
+       2,  2,  2, -3,  1, -3,  2,  2,  2,
+      -3, -3, -3, -3,  1, -3, -3, -3, -3,
+      -3, -3, -3, -3,  1, -3, -3, -3, -3
     );
     sprite_tree->set_sprite_materials(0,
        0,  0,  0,  0,  1,  0,  0,  0,  0,
@@ -865,17 +866,17 @@ public:
       R"(/()==\O))"
     );
     sprite_fireplace->set_sprite_fg_colors(0,
-      Color::Transparent2, Color::DarkRed, Color::Red, Color::DarkRed, Color::DarkRed, Color::Red, Color::DarkRed, Color::Transparent2,
-      Color::DarkRed, Color::Red, Color::Red, Color::Red, Color::Red, Color::Red, Color::Red, Color::DarkRed
+      Color16::Transparent2, Color16::DarkRed, Color16::Red, Color16::DarkRed, Color16::DarkRed, Color16::Red, Color16::DarkRed, Color16::Transparent2,
+      Color16::DarkRed, Color16::Red, Color16::Red, Color16::Red, Color16::Red, Color16::Red, Color16::Red, Color16::DarkRed
     );
     sprite_fireplace->set_sprite_bg_colors(0,
-      Color::Transparent2, Color::Transparent2, Color::DarkRed, Color::Black, Color::Black, Color::DarkRed, Color::Transparent2, Color::Transparent2,
-      Color::Transparent2, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::DarkRed, Color::Transparent2
+      Color16::Transparent2, Color16::Transparent2, Color16::DarkRed, Color16::Black, Color16::Black, Color16::DarkRed, Color16::Transparent2, Color16::Transparent2,
+      Color16::Transparent2, Color16::DarkRed, Color16::DarkRed, Color16::DarkRed, Color16::DarkRed, Color16::DarkRed, Color16::DarkRed, Color16::Transparent2
     );
     sprite_fireplace->clone_frame(1, 0);
-    sprite_fireplace->set_sprite_bg_color(1, 0, 3, Color::Red);
+    sprite_fireplace->set_sprite_bg_color(1, 0, 3, Color16::Red);
     sprite_fireplace->clone_frame(2, 0);
-    sprite_fireplace->set_sprite_bg_color(2, 0, 4, Color::Red);
+    sprite_fireplace->set_sprite_bg_color(2, 0, 4, Color16::Red);
     sprite_fireplace->func_calc_anim_frame = [](int sim_frame)
     {
       int anim_frame = sim_frame % 10;
@@ -904,12 +905,12 @@ public:
       R"(oo/)"
     );
     sprite_squirrel->set_sprite_fg_colors(0,
-      Color::White, Color::White, Color::DarkRed,
-      Color::Black, Color::Black, Color::Red
+      Color16::White, Color16::White, Color16::DarkRed,
+      Color16::Black, Color16::Black, Color16::Red
     );
     sprite_squirrel->set_sprite_bg_colors(0,
-      Color::Red, Color::Red, Color::Red,
-      Color::Red, Color::Red, Color::DarkRed
+      Color16::Red, Color16::Red, Color16::Red,
+      Color16::Red, Color16::Red, Color16::DarkRed
     );
     sprite_squirrel->create_frame(1);
     sprite_squirrel->set_sprite_chars_from_strings(1,
@@ -917,17 +918,17 @@ public:
       R"(  /)"
     );
     sprite_squirrel->set_sprite_fg_colors(1,
-      Color::White, Color::White, Color::DarkRed,
-      Color::Transparent2, Color::Transparent2, Color::Red
+      Color16::White, Color16::White, Color16::DarkRed,
+      Color16::Transparent2, Color16::Transparent2, Color16::Red
     );
     sprite_squirrel->set_sprite_bg_colors(1,
-      Color::Red, Color::Red, Color::Red,
-        Color::Transparent2, Color::Transparent2, Color::DarkRed
+      Color16::Red, Color16::Red, Color16::Red,
+        Color16::Transparent2, Color16::Transparent2, Color16::DarkRed
     );
     sprite_squirrel->create_frame(2);
     sprite_squirrel->fill_sprite_chars(2, ' ');
-    sprite_squirrel->fill_sprite_fg_colors(2, Color::Transparent2);
-    sprite_squirrel->fill_sprite_bg_colors(2, Color::Transparent2);
+    sprite_squirrel->fill_sprite_fg_colors(2, Color16::Transparent2);
+    sprite_squirrel->fill_sprite_bg_colors(2, Color16::Transparent2);
     sprite_squirrel->enabled = true;
     sprite_squirrel->func_calc_anim_frame = [this](int sim_frame)
     {
@@ -1005,14 +1006,14 @@ public:
       R"(mm)"
     );
     sprite_owl->set_sprite_fg_colors(0,
-      Color::Black, Color::Black,
-      Color::DarkGray, Color::LightGray,
-      Color::DarkGray, Color::DarkGray
+      Color16::Black, Color16::Black,
+      Color16::DarkGray, Color16::LightGray,
+      Color16::DarkGray, Color16::DarkGray
     );
     sprite_owl->set_sprite_bg_colors(0,
-      Color::LightGray, Color::LightGray,
-      Color::LightGray, Color::DarkGray,
-      Color::Transparent2, Color::Transparent2
+      Color16::LightGray, Color16::LightGray,
+      Color16::LightGray, Color16::DarkGray,
+      Color16::Transparent2, Color16::Transparent2
     );
     sprite_owl->create_frame(1);
     sprite_owl->set_sprite_chars_from_strings(1,
@@ -1021,14 +1022,14 @@ public:
       R"(mm)"
     );
     sprite_owl->set_sprite_fg_colors(1,
-      Color::Black, Color::Black,
-      Color::DarkGray, Color::LightGray,
-      Color::DarkGray, Color::DarkGray
+      Color16::Black, Color16::Black,
+      Color16::DarkGray, Color16::LightGray,
+      Color16::DarkGray, Color16::DarkGray
     );
     sprite_owl->set_sprite_bg_colors(1,
-      Color::LightGray, Color::LightGray,
-      Color::LightGray, Color::DarkGray,
-      Color::Transparent2, Color::Transparent2
+      Color16::LightGray, Color16::LightGray,
+      Color16::LightGray, Color16::DarkGray,
+      Color16::Transparent2, Color16::Transparent2
     );
     sprite_owl->create_frame(2);
     sprite_owl->set_sprite_chars_from_strings(2,
@@ -1037,19 +1038,19 @@ public:
       R"(  )"
     );
     sprite_owl->set_sprite_fg_colors(2,
-      Color::Black, Color::Black,
-      Color::DarkGray, Color::Transparent2,
-      Color::Transparent2, Color::Transparent2
+      Color16::Black, Color16::Black,
+      Color16::DarkGray, Color16::Transparent2,
+      Color16::Transparent2, Color16::Transparent2
     );
     sprite_owl->set_sprite_bg_colors(2,
-      Color::LightGray, Color::LightGray,
-      Color::LightGray, Color::Transparent2,
-      Color::Transparent2, Color::Transparent2
+      Color16::LightGray, Color16::LightGray,
+      Color16::LightGray, Color16::Transparent2,
+      Color16::Transparent2, Color16::Transparent2
     );
     sprite_owl->create_frame(3);
     sprite_owl->fill_sprite_chars(3, ' ');
-    sprite_owl->fill_sprite_fg_colors(3, Color::Transparent2);
-    sprite_owl->fill_sprite_bg_colors(3, Color::Transparent2);
+    sprite_owl->fill_sprite_fg_colors(3, Color16::Transparent2);
+    sprite_owl->fill_sprite_bg_colors(3, Color16::Transparent2);
     sprite_owl->enabled = true;
     sprite_owl->func_calc_anim_frame = [this](int sim_frame)
     {
@@ -1096,20 +1097,20 @@ public:
     sprite_lake->init(3, 35);
     sprite_lake->create_frame(0);
     sprite_lake->fill_sprite_chars(0, ' ');
-    sprite_lake->fill_sprite_fg_colors(0, Color::Black);
+    sprite_lake->fill_sprite_fg_colors(0, Color16::Black);
     // upside down.
     sprite_lake->set_sprite_bg_colors(0,
-      -2, -2, -2,  1,  1,  1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1, -2, -2, -2, -2, -2,
-       1,  1,  1,  1,  1,  1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-      -2, -2, -2, -2, -2, -2,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1,  1,  1, -2, -2
+      -3, -3, -3,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, -3, -3, -3, -3,
+       0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,
+      -3, -3, -3, -3, -3, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0, -3, -3
     );
     sprite_lake->clone_frame(1, 0);
     
     offscreen_buffer.buffer_screen_pos = sprite_lake->pos + RC { -9, 0 };
     offscreen_buffer.exclude_src_chars = { ' ' };
-    offscreen_buffer.exclude_src_bg_colors = { Color::DarkGray };
-    offscreen_buffer.dst_fill_bg_colors = { Color::Black };
-    offscreen_buffer.replace_src_dst_bg_colors.emplace_back(Color::Transparent2, Color::Black);
+    offscreen_buffer.exclude_src_bg_colors = { Color16::DarkGray };
+    offscreen_buffer.dst_fill_bg_colors = { Color16::Black };
+    offscreen_buffer.replace_src_dst_bg_colors.emplace_back(Color16::Transparent2, Color16::Black);
     
     sprite_meteor = sprh.create_bitmap_sprite("meteor");
     sprite_meteor->pos.r = sh.num_rows();
@@ -1123,12 +1124,12 @@ public:
       " O   "
     );
     sprite_meteor->set_sprite_fg_colors(0,
-      Color::Transparent2, Color::Transparent2, Color::Transparent2, Color::Transparent2, Color::Yellow,
-      Color::Transparent2, Color::Transparent2, Color::Transparent2, Color::Yellow, Color::Transparent2,
-      Color::Transparent2, Color::Yellow, Color::Yellow, Color::Transparent2, Color::Transparent2,
-      Color::Transparent2, Color::Red, Color::Transparent2, Color::Transparent2, Color::Transparent2
+      Color16::Transparent2, Color16::Transparent2, Color16::Transparent2, Color16::Transparent2, Color16::Yellow,
+      Color16::Transparent2, Color16::Transparent2, Color16::Transparent2, Color16::Yellow, Color16::Transparent2,
+      Color16::Transparent2, Color16::Yellow, Color16::Yellow, Color16::Transparent2, Color16::Transparent2,
+      Color16::Transparent2, Color16::Red, Color16::Transparent2, Color16::Transparent2, Color16::Transparent2
     );
-    sprite_meteor->fill_sprite_bg_colors(0, Color::Transparent2);
+    sprite_meteor->fill_sprite_bg_colors(0, Color16::Transparent2);
     
     sprite_snowflake = sprh.create_bitmap_sprite("snowflake");
     sprite_snowflake->layer_id = 5;
@@ -1136,8 +1137,8 @@ public:
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
     sprite_snowflake->set_sprite_chars(0, '*');
-    sprite_snowflake->set_sprite_fg_colors(0, Color::White);
-    sprite_snowflake->set_sprite_bg_colors(0, Color::Transparent2);
+    sprite_snowflake->set_sprite_fg_colors(0, Color16::White);
+    sprite_snowflake->set_sprite_bg_colors(0, Color16::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
     f_snowflake_vel = [](int) -> Vec2 { return Vec2 { rnd::rand_float(0.4f, 0.6f), rnd::rand_float(-4.f, -2.f)}; };
     sprite_snowflake_arr = sprh.clone_sprite_array<1000>("snowflake", "snowflake");
@@ -1175,8 +1176,8 @@ public:
       "               ",
       "               "
     );
-    sprite_aurora->fill_sprite_fg_colors(0, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(0, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(0, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(0, Color16::Transparent2);
     sprite_aurora->create_frame(1);
     sprite_aurora->set_sprite_chars_from_strings(1,
       "       ..      ",
@@ -1185,8 +1186,8 @@ public:
       "  .     .    . ",
       "               "
     );
-    sprite_aurora->fill_sprite_fg_colors(1, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(1, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(1, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(1, Color16::Transparent2);
     sprite_aurora->create_frame(2);
     sprite_aurora->set_sprite_chars_from_strings(2,
       "       ./      ",
@@ -1195,8 +1196,8 @@ public:
       "  .     .    . ",
       "               "
     );
-    sprite_aurora->fill_sprite_fg_colors(2, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(2, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(2, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(2, Color16::Transparent2);
     sprite_aurora->create_frame(3);
     sprite_aurora->set_sprite_chars_from_strings(3,
       "       ./      ",
@@ -1205,8 +1206,8 @@ public:
       "  .     .    . ",
       "               "
     );
-    sprite_aurora->fill_sprite_fg_colors(3, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(3, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(3, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(3, Color16::Transparent2);
     sprite_aurora->create_frame(4);
     sprite_aurora->set_sprite_chars_from_strings(4,
       "       ./      ",
@@ -1215,8 +1216,8 @@ public:
       "  .     .    . ",
       "               "
     );
-    sprite_aurora->fill_sprite_fg_colors(4, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(4, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(4, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(4, Color16::Transparent2);
     sprite_aurora->create_frame(5);
     sprite_aurora->set_sprite_chars_from_strings(5,
       "       ./      ",
@@ -1225,8 +1226,8 @@ public:
       "  .     ./   . ",
       "               "
     );
-    sprite_aurora->fill_sprite_fg_colors(5, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(5, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(5, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(5, Color16::Transparent2);
     sprite_aurora->create_frame(6);
     sprite_aurora->set_sprite_chars_from_strings(6,
       "       ./      ",
@@ -1235,8 +1236,8 @@ public:
       "  ./    ./   . ",
       "           .   "
     );
-    sprite_aurora->fill_sprite_fg_colors(6, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(6, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(6, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(6, Color16::Transparent2);
     sprite_aurora->create_frame(7);
     sprite_aurora->set_sprite_chars_from_strings(7,
       "       ./      ",
@@ -1245,8 +1246,8 @@ public:
       "  ./    ./   . ",
       "            ,  "
     );
-    sprite_aurora->fill_sprite_fg_colors(7, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(7, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(7, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(7, Color16::Transparent2);
     sprite_aurora->create_frame(8);
     sprite_aurora->set_sprite_chars_from_strings(8,
       "       ./      ",
@@ -1255,8 +1256,8 @@ public:
       "  ./    ./   . ",
       "      .    ,   "
     );
-    sprite_aurora->fill_sprite_fg_colors(8, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(8, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(8, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(8, Color16::Transparent2);
     sprite_aurora->create_frame(9);
     sprite_aurora->set_sprite_chars_from_strings(9,
       "       .//     ",
@@ -1265,8 +1266,8 @@ public:
       "  ./    ./   . ",
       "      .    ,   "
     );
-    sprite_aurora->fill_sprite_fg_colors(9, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(9, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(9, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(9, Color16::Transparent2);
     sprite_aurora->create_frame(10);
     sprite_aurora->set_sprite_chars_from_strings(10,
       "       .// /   ",
@@ -1275,8 +1276,8 @@ public:
       "  ./    ./   . ",
       "      .   ,    "
     );
-    sprite_aurora->fill_sprite_fg_colors(10, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(10, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(10, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(10, Color16::Transparent2);
     sprite_aurora->create_frame(11);
     sprite_aurora->set_sprite_chars_from_strings(11,
       "       .// / / ",
@@ -1285,8 +1286,8 @@ public:
       "   ./ /  ./  . ",
       "     /.   ,    "
     );
-    sprite_aurora->fill_sprite_fg_colors(11, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(11, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(11, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(11, Color16::Transparent2);
     sprite_aurora->create_frame(12);
     sprite_aurora->set_sprite_chars_from_strings(12,
       "      .:// / / ",
@@ -1295,8 +1296,8 @@ public:
       "    .//   .//. ",
       "    /:. / ,    "
     );
-    sprite_aurora->fill_sprite_fg_colors(12, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(12, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(12, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(12, Color16::Transparent2);
     sprite_aurora->create_frame(13);
     sprite_aurora->set_sprite_chars_from_strings(13,
       "     .:// / // ",
@@ -1305,8 +1306,8 @@ public:
       "     .//, .//. ",
       "    /:.// ,    "
     );
-    sprite_aurora->fill_sprite_fg_colors(13, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(13, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(13, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(13, Color16::Transparent2);
     sprite_aurora->create_frame(14);
     sprite_aurora->set_sprite_chars_from_strings(14,
       "    .:/// / //.",
@@ -1315,8 +1316,8 @@ public:
       "      .//, .//.",
       "    /:.// ,  / "
     );
-    sprite_aurora->fill_sprite_fg_colors(14, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(14, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(14, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(14, Color16::Transparent2);
     sprite_aurora->create_frame(15);
     sprite_aurora->set_sprite_chars_from_strings(15,
       "   ,.:/// ////,",
@@ -1325,8 +1326,8 @@ public:
       "       .//,.//.",
       "   / /:.// , / "
     );
-    sprite_aurora->fill_sprite_fg_colors(15, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(15, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(15, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(15, Color16::Transparent2);
     sprite_aurora->create_frame(16);
     sprite_aurora->set_sprite_chars_from_strings(16,
       " . ,.:/// ////,",
@@ -1335,8 +1336,8 @@ public:
       "        .//,//.",
       " / / /:.// ,/  "
     );
-    sprite_aurora->fill_sprite_fg_colors(16, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(16, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(16, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(16, Color16::Transparent2);
     sprite_aurora->create_frame(17);
     sprite_aurora->set_sprite_chars_from_strings(17,
       " . ,./////.///,",
@@ -1345,8 +1346,8 @@ public:
       "         .////.",
       " / ///.// /,/  "
     );
-    sprite_aurora->fill_sprite_fg_colors(17, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(17, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(17, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(17, Color16::Transparent2);
     sprite_aurora->create_frame(18);
     sprite_aurora->set_sprite_chars_from_strings(18,
       " .,//////.///, ",
@@ -1355,8 +1356,8 @@ public:
       "        .// //.",
       "   ////.///,/  "
     );
-    sprite_aurora->fill_sprite_fg_colors(18, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(18, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(18, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(18, Color16::Transparent2);
     sprite_aurora->create_frame(19);
     sprite_aurora->set_sprite_chars_from_strings(19,
       " .,//////.///, ",
@@ -1365,8 +1366,8 @@ public:
       "       .//,//. ",
       "  / ////.///,/ "
     );
-    sprite_aurora->fill_sprite_fg_colors(19, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(19, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(19, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(19, Color16::Transparent2);
     sprite_aurora->create_frame(20);
     sprite_aurora->set_sprite_chars_from_strings(20,
       " .,//////.///,.",
@@ -1375,8 +1376,8 @@ public:
       "     ./ /,// . ",
       " //////.///,/  "
     );
-    sprite_aurora->fill_sprite_fg_colors(20, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(20, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(20, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(20, Color16::Transparent2);
     sprite_aurora->create_frame(21);
     sprite_aurora->set_sprite_chars_from_strings(21,
       " .,//////.///,.",
@@ -1385,8 +1386,8 @@ public:
       "    ./ /,/ / . ",
       " // ////.///,/ "
     );
-    sprite_aurora->fill_sprite_fg_colors(21, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(21, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(21, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(21, Color16::Transparent2);
     sprite_aurora->create_frame(22);
     sprite_aurora->set_sprite_chars_from_strings(22,
       "/.,////././//,.",
@@ -1395,8 +1396,8 @@ public:
       "  ./ /,/ /..   ",
       " //// //.///,/ "
     );
-    sprite_aurora->fill_sprite_fg_colors(22, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(22, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(22, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(22, Color16::Transparent2);
     sprite_aurora->create_frame(23);
     sprite_aurora->set_sprite_chars_from_strings(23,
       "/.,////././//,.",
@@ -1405,8 +1406,8 @@ public:
       " .//,/ /..     ",
       " // /// /.//// "
     );
-    sprite_aurora->fill_sprite_fg_colors(23, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(23, Color::Transparent2);
+    sprite_aurora->fill_sprite_fg_colors(23, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(23, Color16::Transparent2);
     sprite_aurora->create_frame(24);
     sprite_aurora->set_sprite_chars_from_strings(24,
       " /,// /././ //,",
@@ -1415,10 +1416,10 @@ public:
       "./// /. .      ",
       " / / /// /./// "
     );
-    sprite_aurora->fill_sprite_fg_colors(24, Color::Green);
-    sprite_aurora->fill_sprite_bg_colors(24, Color::Transparent2);
-    //sprite_aurora->fill_sprite_bg_colors_horiz(0, 0, 7, 8, Color::Cyan);
-    //sprite_aurora->set_sprite_bg_colors(0, 1, 6, Color::Cyan);
+    sprite_aurora->fill_sprite_fg_colors(24, Color16::Green);
+    sprite_aurora->fill_sprite_bg_colors(24, Color16::Transparent2);
+    //sprite_aurora->fill_sprite_bg_colors_horiz(0, 0, 7, 8, Color16::Cyan);
+    //sprite_aurora->set_sprite_bg_colors(0, 1, 6, Color16::Cyan);
     
     sprite_aurora->func_calc_anim_frame = [this](int sim_frame)
     {
@@ -1458,14 +1459,14 @@ private:
   const int ground_height = 5;
   BitmapSprite* sprite_ground = nullptr;
   RigidBody* rb_ground = nullptr;
-  Color ground_dark_color = Color::DarkGray;
-  Color ground_light_color = Color::LightGray;
-  Color ground_shadow_color = Color::DarkGray;
+  Color ground_dark_color = Color16::DarkGray;
+  Color ground_light_color = Color16::LightGray;
+  Color ground_shadow_color = Color16::DarkGray;
   
   BitmapSprite* sprite_tree = nullptr;
   std::array<Sprite*, 10> sprite_tree_arr;
   std::array<RigidBody*, 10> rb_tree_arr;
-  t8::Style tree_dark_style { Color::Green, Color::DarkGreen };
+  t8::Style tree_dark_style { Color16::Green, Color16::DarkGreen };
 
   BitmapSprite* sprite_moon = nullptr;
   
@@ -1476,7 +1477,7 @@ private:
   
   BitmapSprite* sprite_mountains = nullptr;
   RigidBody* rb_mountains = nullptr;
-  t8::Style mountains_dark_style { Color::LightGray, Color::DarkGray };
+  t8::Style mountains_dark_style { Color16::LightGray, Color16::DarkGray };
     
   BitmapSprite* sprite_snowflake = nullptr;
   std::array<Sprite*, 1000> sprite_snowflake_arr;
@@ -1497,7 +1498,7 @@ private:
   
   BitmapSprite* sprite_lake = nullptr;
   t8::OffscreenBuffer offscreen_buffer;
-  t8::Textel textel_reflection { '/', Color::Blue, Color::Transparent2 };
+  t8::Textel textel_reflection { '/', Color16::Blue, Color16::Transparent2 };
   std::vector<RC> reflection_positions { { 1, 10 }, { 1, 11 }, { 1, 24 }, { 1, 26 }, { 1, 28 }, { 1, 29 } };
   
   BitmapSprite* sprite_meteor = nullptr;
@@ -1548,21 +1549,21 @@ private:
   {
     {
       {
-        { 0.00f, Color::White },
-        { 0.27f, Color::Red },
-        { 0.60f, Color::Yellow },
-        { 0.75f, Color::LightGray },
-        { 0.88f, Color::DarkGray },
+        { 0.00f, Color16::White },
+        { 0.27f, Color16::Red },
+        { 0.60f, Color16::Yellow },
+        { 0.75f, Color16::LightGray },
+        { 0.88f, Color16::DarkGray },
       }
     },
     {
       {
-        { 0.12f, Color::Blue },
-        { 0.20f, Color::White },
-        { 0.30f, Color::Yellow },   // 0.125f
-        { 0.55f, Color::DarkRed },  // 0.375f
-        { 0.70f, Color::DarkGray }, // 0.625f
-        { 0.85f, Color::Black },    // 0.875f
+        { 0.12f, Color16::Blue },
+        { 0.20f, Color16::White },
+        { 0.30f, Color16::Yellow },   // 0.125f
+        { 0.55f, Color16::DarkRed },  // 0.375f
+        { 0.70f, Color16::DarkGray }, // 0.625f
+        { 0.85f, Color16::Black },    // 0.875f
       }
     },
     {
@@ -1581,21 +1582,21 @@ private:
   {
     {
       {
-        { 0.10f, Color::White },
-        { 0.37f, Color::Red },
-        { 0.70f, Color::Yellow },
-        { 0.85f, Color::LightGray },
-        { 0.98f, Color::DarkGray },
+        { 0.10f, Color16::White },
+        { 0.37f, Color16::Red },
+        { 0.70f, Color16::Yellow },
+        { 0.85f, Color16::LightGray },
+        { 0.98f, Color16::DarkGray },
       }
     },
     {
       {
-        { 0.05f, Color::Blue },
-        { 0.15f, Color::White },
-        { 0.50f, Color::Yellow },   // 0.125f
-        { 0.74f, Color::DarkRed },  // 0.375f
-        { 0.86f, Color::DarkGray }, // 0.625f
-        { 1.00f, Color::Black },    // 0.875f
+        { 0.05f, Color16::Blue },
+        { 0.15f, Color16::White },
+        { 0.50f, Color16::Yellow },   // 0.125f
+        { 0.74f, Color16::DarkRed },  // 0.375f
+        { 0.86f, Color16::DarkGray }, // 0.625f
+        { 1.00f, Color16::Black },    // 0.875f
       }
     },
     {
@@ -1768,20 +1769,20 @@ private:
       if (trg_scene_1_end.once())
         sprh.clear();
       else if (math::in_range(scene_2_time, 0.f*dt_scene_transition, 1.f*dt_scene_transition, Range::ClosedOpen))
-        set_screen_bg_color_default(Color::LightGray);
+        set_screen_bg_color_default(Color16::LightGray);
       else if (math::in_range(scene_2_time, 1.f*dt_scene_transition, 2.f*dt_scene_transition, Range::ClosedOpen))
-        set_screen_bg_color_default(Color::DarkGray);
+        set_screen_bg_color_default(Color16::DarkGray);
       else if (math::in_range(scene_2_time, 2.f*dt_scene_transition, 3.f*dt_scene_transition, Range::ClosedOpen))
-        set_screen_bg_color_default(Color::Black);
+        set_screen_bg_color_default(Color16::Black);
       else if (math::in_range(scene_2_time, 3.f*dt_scene_transition, 4.f*dt_scene_transition, Range::ClosedOpen))
-        set_screen_bg_color_default(Color::DarkGray);
+        set_screen_bg_color_default(Color16::DarkGray);
       else if (math::in_range(scene_2_time, 4.f*dt_scene_transition, 5.f*dt_scene_transition, Range::ClosedOpen))
-        set_screen_bg_color_default(Color::LightGray);
+        set_screen_bg_color_default(Color16::LightGray);
       else
       {
         if (trg_scene_2_start.once())
         {
-          set_screen_bg_color_default(Color::Black);
+          set_screen_bg_color_default(Color16::Black);
           
           sprite_ground = sprh.create_bitmap_sprite("ground");
           sprite_ground->layer_id = 3;
@@ -1789,25 +1790,25 @@ private:
           sprite_ground->init(ground_height, sh.num_cols());
           sprite_ground->create_frame(0);
           sprite_ground->fill_sprite_chars(0, ':');
-          sprite_ground->fill_sprite_fg_colors(0, Color::DarkGray);
-          sprite_ground->fill_sprite_bg_colors(0, Color::DarkYellow);
+          sprite_ground->fill_sprite_fg_colors(0, Color16::DarkGray);
+          sprite_ground->fill_sprite_bg_colors(0, Color16::DarkYellow);
           
-          // Black,         //  1
-          // DarkRed,       //  2
-          // DarkGreen,     //  3
-          // DarkYellow,    //  4
-          // DarkBlue,      //  5
-          // DarkMagenta,   //  6
-          // DarkCyan,      //  7
-          // LightGray,     //  8
-          // DarkGray,      //  9
-          // Red,           // 10
-          // Green,         // 11
-          // Yellow,        // 12
-          // Blue,          // 13
-          // Magenta,       // 14
-          // Cyan,          // 15
-          // White          // 16
+          // Black,         //  0
+          // DarkRed,       //  1
+          // DarkGreen,     //  2
+          // DarkYellow,    //  3
+          // DarkBlue,      //  4
+          // DarkMagenta,   //  5
+          // DarkCyan,      //  6
+          // LightGray,     //  7
+          // DarkGray,      //  8
+          // Red,           //  9
+          // Green,         // 10
+          // Yellow,        // 11
+          // Blue,          // 12
+          // Magenta,       // 13
+          // Cyan,          // 14
+          // White          // 15
           
           sprite_manger = sprh.create_bitmap_sprite("manger");
           sprite_manger->layer_id = 4;
@@ -1822,18 +1823,18 @@ private:
             R"(+---+  )"
           );
           sprite_manger->set_sprite_fg_colors(0,
-            0, 0, 12, 12, 12, 12, 12,
-            0, 12, 14, 14, 14, 12, 12,
-            12, 12, 12, 12, 12, 12, 12,
-            12, 12, 2, 12, 12, 12, 0,
-            12, 12, 12, 12, 12, 0, 0
+            -1, -1, 11, 11, 11, 11, 11,
+            -1, 11, 13, 13, 13, 11, 11,
+            11, 11, 11, 11, 11, 11, 11,
+            11, 11,  1, 11, 11, 11, -1,
+            11, 11, 11, 11, 11, -1, -1
           );
           sprite_manger->set_sprite_bg_colors(0,
-            -2, -2, 4, 4, 4, 4, 4,
-            -2, 4, 16, 16, 16, 4, 4,
-            4, 4, 4, 4, 4, 4, 4,
-            4, 4, 4, 4, 4, 4, -2,
-            4, 4, 4, 4, 4, -2, -2
+            -3, -3,  3,  3,  3,  3,  3,
+            -3,  3, 15, 15, 15,  3,  3,
+             3,  3,  3,  3,  3,  3,  3,
+             3,  3,  3,  3,  3,  3, -3,
+             3,  3,  3,  3,  3, -3, -3
           );
           
           sprite_camel = sprh.create_bitmap_sprite("camel");
@@ -1849,14 +1850,14 @@ private:
             R"(   / / /  / / /    )",
             R"(   ##D#D  ##D#D    )"
           );
-          sprite_camel->fill_sprite_fg_colors(0, Color::Yellow);
+          sprite_camel->fill_sprite_fg_colors(0, Color16::Yellow);
           sprite_camel->set_sprite_bg_colors(0,
-            -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,  4, -2, -2, -2,
-            -2, -2, -2, -2, -2,  4,  4,  4, -2,  4,  4,  4, -2, -2,  4,  4,  4,  4,  4,
-            -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2,
-            -2, -2, -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2, -2, -2,
-            -2, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2, -2,
-            -2, -2, -2,  4,  4,  4,  4,  4, -2, -2,  4,  4,  4,  4,  4, -2, -2, -2, -2
+            -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3,  3, -3, -3, -3,
+            -3, -3, -3, -3, -3,  3,  3,  3, -3,  3,  3,  3, -3, -3,  3,  3,  3,  3,  3,
+            -3, -3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3, -3, -3,
+            -3, -3, -3, -3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3, -3, -3, -3, -3,
+            -3, -3, -3, -3,  3,  3,  3,  3, -3, -3, -3,  3,  3,  3,  3, -3, -3, -3, -3,
+            -3, -3, -3,  3,  3,  3,  3,  3, -3, -3,  3,  3,  3,  3,  3, -3, -3, -3, -3
           );
           sprite_camel->create_frame(1);
           sprite_camel->set_sprite_chars_from_strings(1,
@@ -1867,14 +1868,14 @@ private:
             R"(    \' /   \' /    )",
             R"(   ##D#D  ##D#D    )"
           );
-          sprite_camel->fill_sprite_fg_colors(1, Color::Yellow);
+          sprite_camel->fill_sprite_fg_colors(1, Color16::Yellow);
           sprite_camel->set_sprite_bg_colors(1,
-            -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,  4, -2, -2, -2,
-            -2, -2, -2, -2, -2,  4,  4,  4, -2,  4,  4,  4, -2, -2,  4,  4,  4,  4,  4,
-            -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2,
-            -2, -2, -2, -2,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, -2, -2, -2, -2,
-            -2, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2,  4,  4,  4,  4, -2, -2, -2, -2,
-            -2, -2, -2,  4,  4,  4,  4,  4, -2, -2,  4,  4,  4,  4,  4, -2, -2, -2, -2
+            -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3,  3, -3, -3, -3,
+            -3, -3, -3, -3, -3,  3,  3,  3, -3,  3,  3,  3, -3, -3,  3,  3,  3,  3,  3,
+            -3, -3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3, -3, -3,
+            -3, -3, -3, -3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3, -3, -3, -3, -3,
+            -3, -3, -3, -3,  3,  3,  3,  3, -3, -3, -3,  3,  3,  3,  3, -3, -3, -3, -3,
+            -3, -3, -3,  3,  3,  3,  3,  3, -3, -3,  3,  3,  3,  3,  3, -3, -3, -3, -3
           );
           sprite_camel->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
           {
@@ -1900,25 +1901,25 @@ private:
             R"( |     | / |             | )",
             R"( |     |+==|             | )"
           );
-          sprite_house->fill_sprite_fg_colors(0, Color::DarkRed);
-          sprite_house->fill_sprite_fg_colors(0, { 7, 7, 3, 5 }, Color::DarkGray);
+          sprite_house->fill_sprite_fg_colors(0, Color16::DarkRed);
+          sprite_house->fill_sprite_fg_colors(0, { 7, 7, 3, 5 }, Color16::DarkGray);
           {
-            int b1 = 4;
-            int b2 = 10;
-            int b3 = 1;
+            int b1 = 3;
+            int b2 = 9;
+            int b3 = 0;
             sprite_house->set_sprite_bg_colors(0,
-              -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, b2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-              -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, b2, b1, b2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-              -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, b2, b2, b1, b1, b1, b2, b2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-              -2, -2, -2, -2, -2, -2, -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2, -2, -2, -2, -2, -2, -2,
-              -2, -2, -2, -2, -2, -2, b2, b2, b1, b1, b1, b1, b3, b3, b3, b1, b1, b1, b1, b2, b2, -2, -2, -2, -2, -2, -2,
-              -2, -2, -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2, -2, -2,
-              -2, -2, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -2, -2,
+              -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, b2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3,
+              -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, b2, b1, b2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3,
+              -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, b2, b2, b1, b1, b1, b2, b2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3,
+              -3, -3, -3, -3, -3, -3, -3, -3, b2, b2, b1, b1, b1, b1, b1, b1, b1, b2, b2, -3, -3, -3, -3, -3, -3, -3, -3,
+              -3, -3, -3, -3, -3, -3, b2, b2, b1, b1, b1, b1, b3, b3, b3, b1, b1, b1, b1, b2, b2, -3, -3, -3, -3, -3, -3,
+              -3, -3, -3, -3, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -3, -3, -3, -3,
+              -3, -3, b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2, -3, -3,
               b2, b2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b2, b2,
-              -2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -2,
-              -2, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -2
+              -3, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -3,
+              -3, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, b1, -3
             );
-            sprite_house->fill_sprite_fg_colors_horiz(0, 4, 12, 14, Color::DarkYellow);
+            sprite_house->fill_sprite_fg_colors_horiz(0, 4, 12, 14, Color16::DarkYellow);
           }
           
           sprite_palm_tree = sprh.create_bitmap_sprite("palm_tree");
@@ -1936,8 +1937,8 @@ private:
           );
           auto set_palm_tree_fg_colors = [this](int frame_id)
           {
-            int leaf = 11;
-            int stem = 2;
+            int leaf = 10;
+            int stem = 1;
             sprite_palm_tree->set_sprite_fg_colors(frame_id,
               leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf,
               leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf, leaf,
@@ -1949,15 +1950,15 @@ private:
           };
           set_palm_tree_fg_colors(0);
           {
-            int leaf = 3;
-            int stem = 12;
+            int leaf = 2;
+            int stem = 11;
             sprite_palm_tree->set_sprite_bg_colors(0,
-                -2,   -2, leaf, leaf, leaf,   -2,   -2, leaf, leaf, leaf,   -2,   -2,
-                -2,   -2,   -2,   -2,   -2, leaf, leaf,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2
+                -3,   -3, leaf, leaf, leaf,   -3,   -3, leaf, leaf, leaf,   -3,   -3,
+                -3,   -3,   -3,   -3,   -3, leaf, leaf,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3
             );
           }
           sprite_palm_tree->create_frame(1);
@@ -1971,8 +1972,8 @@ private:
           );
           set_palm_tree_fg_colors(1);
           {
-            int leaf = 3;
-            int stem = 12;
+            int leaf = 2;
+            int stem = 11;
             sprite_palm_tree->set_sprite_bg_colors(1,
                 -2,   -2,   -2,   -2, leaf, leaf, leaf,   -2,   -2, leaf, leaf,   -2,
                 -2,   -2,   -2,   -2,   -2, leaf, leaf,   -2,   -2, leaf, leaf,   -2,
@@ -1993,15 +1994,15 @@ private:
           );
           set_palm_tree_fg_colors(2);
           {
-            int leaf = 3;
-            int stem = 12;
+            int leaf = 2;
+            int stem = 11;
             sprite_palm_tree->set_sprite_bg_colors(2,
-                -2, leaf, leaf, leaf,   -2,   -2, leaf, leaf, leaf,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2, leaf, leaf,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
-                -2,   -2,   -2,   -2,   -2, stem,   -2,   -2,   -2,   -2,   -2,   -2
+                -3, leaf, leaf, leaf,   -3,   -3, leaf, leaf, leaf,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3, leaf, leaf,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3,   -3,
+                -3,   -3,   -3,   -3,   -3, stem,   -3,   -3,   -3,   -3,   -3,   -3
             );
           }
           auto f_palm_tree_anim_sub = [](int anim_frame)
@@ -2049,22 +2050,22 @@ private:
             R"( VV )"
           );
           sprite_maria->set_sprite_fg_colors(0,
-             0,  1,  0,  0,
-            14, 14,  1,  0,
-             0,  8,  8,  1,
-             0,  8,  8,  0,
-            16,  8,  8,  16,
-             8,  8,  8,  8,
-             0,  2,  2,  0
+            -1,  0, -1, -1,
+            13, 13,  0, -1,
+            -1,  7,  7,  0,
+            -1,  7,  7, -1,
+            15,  7,  7,  15,
+             7,  7,  7,  7,
+            -1,  1,  1, -1
           );
           sprite_maria->set_sprite_bg_colors(0,
-            -2, -2, -2, -2,
-            -2,  6, -2, -2,
-            -2, 16, 16, -2,
-            -2, 16, 16, -2,
-            -2, 16, 16, -2,
-            16, 16, 16, 16,
-            -2, -2, -2, -2
+            -3, -3, -3, -3,
+            -3,  5, -3, -3,
+            -3, 15, 15, -3,
+            -3, 15, 15, -3,
+            -3, 15, 15, -3,
+            15, 15, 15, 15,
+            -3, -3, -3, -3
           );
           
           sprite_josef = sprh.create_bitmap_sprite("josef");
@@ -2082,22 +2083,22 @@ private:
             R"( DD  |  )"
           );
           sprite_josef->set_sprite_fg_colors(0,
-             0,  1,  1,  0,  0,  2,  2,  2,
-             1, 14, 15, 14,  0,  2,  0,  2,
-             0,  8,  8,  8,  8,  2,  0,  0,
-             0,  8,  8,  0,  0,  2,  0,  0,
-             0,  8,  8,  0,  0,  2,  0,  0,
-             0,  8,  8,  0,  0,  2,  0,  0,
-             0,  1,  1,  0,  0,  2,  0,  0
+            -1,  0,  0, -1, -1,  1,  1,  1,
+             0, 13, 14, 13, -1,  1, -1,  1,
+            -1,  7,  7,  7,  7,  1, -1, -1,
+            -1,  7,  7, -1, -1,  1, -1, -1,
+            -1,  7,  7, -1, -1,  1, -1, -1,
+            -1,  7,  7, -1, -1,  1, -1, -1,
+            -1,  0,  0, -1, -1,  1, -1, -1
           );
           sprite_josef->set_sprite_bg_colors(0,
-            -2, -2, -2, -2, -2, -2, -2, -2,
-            -2,  6,  6, -2, -2, -2, -2, -2,
-            -2, 16, 16, -2, -2, -2, -2, -2,
-            -2, 16, 16, -2, -2, -2, -2, -2,
-            -2, 16, 16, -2, -2, -2, -2, -2,
-            -2, 16, 16, -2, -2, -2, -2, -2,
-            -2, -2, -2, -2, -2, -2, -2, -2
+            -3, -3, -3, -3, -3, -3, -3, -3,
+            -3,  5,  5, -3, -3, -3, -3, -3,
+            -3, 15, 15, -3, -3, -3, -3, -3,
+            -3, 15, 15, -3, -3, -3, -3, -3,
+            -3, 15, 15, -3, -3, -3, -3, -3,
+            -3, 15, 15, -3, -3, -3, -3, -3,
+            -3, -3, -3, -3, -3, -3, -3, -3
           );
           {
             t8::Rectangle bb { 6, 1, 1, 2 };
@@ -2127,20 +2128,20 @@ private:
             R"(|  CC  )"
           );
           sprite_shepherd->set_sprite_fg_colors(0,
-             0,  2,  0, 14,  9,  0,  0,
-             2,  0,  2,  8,  8,  0,  0,
-             2, 14,  8,  8,  8,  8,  0,
-             2,  0,  0,  8,  8,  0, 14,
-             2,  0,  0,  8,  8,  0,  0,
-             2,  0,  0,  1,  1,  0,  0
+            -1,  1, -1, 13,  8, -1, -1,
+             1, -1,  1,  7,  7, -1, -1,
+             1, 13,  7,  7,  7,  7, -1,
+             1, -1, -1,  7,  7, -1, 13,
+             1, -1, -1,  7,  7, -1, -1,
+             1, -1, -1,  0,  0, -1, -1
           );
           sprite_shepherd->set_sprite_bg_colors(0,
-            -2, -2, -2,  6, -2, -2, -2,
-            -2, -2, -2, 16, 16, -2, -2,
-            -2, -2, -2, 16, 16, -2, -2,
-            -2, -2, -2, 16, 16, -2, -2,
-            -2, -2, -2, 16, 16, -2, -2,
-            -2, -2, -2, -2, -2, -2, -2
+            -3, -3, -3,  5, -3, -3, -3,
+            -3, -3, -3, 15, 15, -3, -3,
+            -3, -3, -3, 15, 15, -3, -3,
+            -3, -3, -3, 15, 15, -3, -3,
+            -3, -3, -3, 15, 15, -3, -3,
+            -3, -3, -3, -3, -3, -3, -3
           );
           {
             t8::Rectangle bb { 5, 3, 1, 2 };
@@ -2177,14 +2178,14 @@ private:
           // u uu
           // uu u
           sprite_lamb->set_sprite_fg_colors(0,
-            0, 0,  0,  8,  8,  0,  0,
-            1, 9,  8,  8,  8,  8, 16,
-            0, 0, 14, 14, 14, 14,  0
+           -1, -1, -1,  7,  7, -1, -1,
+            0,  8,  7,  7,  7,  7, 15,
+           -1, -1, 13, 13, 13, 13, -1
           );
           sprite_lamb->set_sprite_bg_colors(0,
-            -2, -2, -2, 16, 16, -2, -2,
-            -2, -2, 16, 16, 16, 16, -2,
-            -2, -2, -2, -2, -2, -2, -2
+            -3, -3, -3, 15, 15, -3, -3,
+            -3, -3, 15, 15, 15, 15, -3,
+            -3, -3, -3, -3, -3, -3, -3
           );
           sprite_lamb->clone_frame(1, 0);
           sprite_lamb->set_sprite_chars_horiz(1, 2, 2, 5,
@@ -2226,18 +2227,18 @@ private:
             R"(   :   )"
           );
           sprite_bethlehem_star->set_sprite_fg_colors(0,
-            0, 0, 0, 12, 0, 0, 0,
-            0, 0, 0, 12, 0, 0, 0,
-            0, 12, 0, 12, 0, 12, 0,
-            0, 0, 12, 16, 12, 0, 0,
-            12, 12, 16, 16, 16, 12, 12,
-            0, 0, 12, 16, 12, 0, 0,
-            0, 12, 0, 12, 0, 12, 0,
-            0, 0, 0, 12, 0, 0, 0,
-            0, 0, 0, 12, 0, 0, 0,
-            0, 0, 0, 12, 0, 0, 0
+            -1, -1, -1, 11, -1, -1, -1,
+            -1, -1, -1, 11, -1, -1, -1,
+            -1, 11, -1, 11, -1, 11, -1,
+            -1, -1, 11, 15, 11, -1, -1,
+            11, 11, 15, 15, 15, 11, 11,
+            -1, -1, 11, 15, 11, -1, -1,
+            -1, 11, -1, 11, -1, 11, -1,
+            -1, -1, -1, 11, -1, -1, -1,
+            -1, -1, -1, 11, -1, -1, -1,
+            -1, -1, -1, 11, -1, -1, -1
           );
-          sprite_bethlehem_star->fill_sprite_bg_colors(0, Color::Transparent2);
+          sprite_bethlehem_star->fill_sprite_bg_colors(0, Color16::Transparent2);
           sprite_bethlehem_star->clone_frame(1, 0);
           sprite_bethlehem_star->set_sprite_chars(1, { 2, 3, 5, 1 },
             'v', '|', '*', '|', '^'
@@ -2310,13 +2311,13 @@ private:
   
   virtual void draw_instructions() override
   {
-    sh.write_buffer("INSTRUCTIONS", 1, 20, Color::White);
-    sh.write_buffer("============", 2, 20, Color::White);
-    sh.write_buffer("Keys:", 4, 2, Color::White);
-    sh.write_buffer("<space> : Next scene.", 5, 3, Color::White);
-    sh.write_buffer("    'p' : Pause", 6, 3, Color::White);
-    sh.write_buffer("    'q' : Quit", 7, 3, Color::White);
-    sh.write_buffer("Press space-bar to continue", 29, 25, Color::White);
+    sh.write_buffer("INSTRUCTIONS", 1, 20, Color16::White);
+    sh.write_buffer("============", 2, 20, Color16::White);
+    sh.write_buffer("Keys:", 4, 2, Color16::White);
+    sh.write_buffer("<space> : Next scene.", 5, 3, Color16::White);
+    sh.write_buffer("    'p' : Pause", 6, 3, Color16::White);
+    sh.write_buffer("    'q' : Quit", 7, 3, Color16::White);
+    sh.write_buffer("Press space-bar to continue", 29, 25, Color16::White);
   }
   
   virtual void on_exit_instructions() override
@@ -2355,13 +2356,11 @@ private:
 
 int main(int argc, char** argv)
 {
-  using Color = t8::Color;
-
   t8x::GameEngineParams params;
-  params.screen_bg_color_default = Color::Black;
+  params.screen_bg_color_default = Color16::Black;
   params.enable_title_screen = false;
   params.enable_instructions_screen = true;
-  params.screen_bg_color_instructions = Color::Black;
+  params.screen_bg_color_instructions = Color16::Black;
   
   bool use_audio = true;
   float music_volume = c_default_vol;
