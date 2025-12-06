@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.2.0.5
+- Using Termin8or 2.0.0.2 with 8-bit color support. But we still render in black and white though.
+- Improving volume levels.
+
 ## 1.1.2.4
 - Adding command line arguments.
 - jingle_bells.ct: Fixed note bug that caused the chiptune player to bail out internally upon attempting to play that note.
