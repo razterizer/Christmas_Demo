@@ -95,7 +95,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
                                  bool use_fire, const RC& firesmoke_pos, float fire_light_radius_sq,
                                  bool is_moon_up, bool casts_shadow)
   {
-    auto light_style = t8::shade_style16(dark_style, t8::ShadeType::Bright, true);
+    auto light_style = t8::shade_style(dark_style, t8::ShadeType::Bright, true);
   
     auto set_snowflake_color = [this](int rw, int cw, Color col)
     {
@@ -186,7 +186,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
         {
           auto textel = (*gnd_texture)(r, c);
           auto style = textel.get_style();
-          auto bright_style = t8::shade_style16(style, t8::ShadeType::Bright, true);
+          auto bright_style = t8::shade_style(style, t8::ShadeType::Bright, true);
           textel.set_style(bright_style);
           gnd_texture->set_textel(r, c, textel);
         }
