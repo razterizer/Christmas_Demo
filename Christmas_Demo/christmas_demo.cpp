@@ -519,9 +519,9 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
           if (texture != nullptr)
           {
             auto curr_textel = (*texture)(0, 0);
-            if (curr_textel.ch != '#')
+            if (curr_textel.glyph != '#')
             {
-              curr_textel.ch = '#';
+              curr_textel.glyph = '#';
               curr_textel.fg_color = Color16::LightGray;
               curr_textel.bg_color = Color16::LightGray;
               texture->set_textel(0, 0, curr_textel);
