@@ -546,7 +546,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
       sh.print_screen_buffer(Color16::Black, offscreen_buffer);
       for (const auto& rp : reflection_positions)
       {
-        lake_texture->set_textel_char(rp.r, rp.c, textel_reflection.ch);
+        lake_texture->set_textel_glyph(rp.r, rp.c, textel_reflection.glyph);
         lake_texture->set_textel_fg_color(rp.r, rp.c, textel_reflection.fg_color);
       }
     }
