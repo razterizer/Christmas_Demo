@@ -72,11 +72,11 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
       sprite_star->init(1, 1);
       sprite_star->create_frame(0);
       char star_ch = rnd::rand_select<char>({ '.', '+' });
-      sprite_star->set_sprite_chars(0, star_ch);
       sprite_star->set_sprite_fg_colors(0, rnd::rand_select<Color16>({ Color16::White, Color16::White, Color16::White, Color16::White, Color16::White, Color16::Yellow, Color16::Yellow, Color16::Yellow, Color16::Red, Color16::Blue, Color16::Blue, Color16::Blue }));
+      sprite_star->set_sprite_glyphs(0, star_ch);
       sprite_star->set_sprite_bg_colors(0, Color16::Transparent2);
       sprite_star->create_frame(1);
-      sprite_star->set_sprite_chars(1, star_ch);
+      sprite_star->set_sprite_glyphs(1, star_ch);
       sprite_star->set_sprite_fg_colors(1, Color16::Black);
       sprite_star->set_sprite_bg_colors(1, Color16::Transparent2);
       const int max_twinkle = 100;
@@ -1136,7 +1136,7 @@ public:
     sprite_snowflake->pos = { 0, 27 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
-    sprite_snowflake->set_sprite_chars(0, '*');
+    sprite_snowflake->set_sprite_glyphs(0, '*');
     sprite_snowflake->set_sprite_fg_colors(0, Color16::White);
     sprite_snowflake->set_sprite_bg_colors(0, Color16::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
@@ -2103,9 +2103,9 @@ private:
           {
             t8::Rectangle bb { 6, 1, 1, 2 };
             sprite_josef->clone_frame(1, 0);
-            sprite_josef->set_sprite_chars(1, bb, '\'', 'D');
+            sprite_josef->set_sprite_glyphs(1, bb, '\'', 'D');
             sprite_josef->clone_frame(2, 0);
-            sprite_josef->set_sprite_chars(2, bb, 'D', '\'');
+            sprite_josef->set_sprite_glyphs(2, bb, 'D', '\'');
           }
           sprite_josef->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
           {
@@ -2146,9 +2146,9 @@ private:
           {
             t8::Rectangle bb { 5, 3, 1, 2 };
             sprite_shepherd->clone_frame(1, 0);
-            sprite_shepherd->set_sprite_chars(1, bb, '\'', 'C');
+            sprite_shepherd->set_sprite_glyphs(1, bb, '\'', 'C');
             sprite_shepherd->clone_frame(2, 0);
-            sprite_shepherd->set_sprite_chars(2, bb, 'C', '\'');
+            sprite_shepherd->set_sprite_glyphs(2, bb, 'C', '\'');
           }
           
           sprite_shepherd_arr = sprh.clone_sprite_array<3>("shepherd", "shepherd");
@@ -2240,7 +2240,7 @@ private:
           );
           sprite_bethlehem_star->fill_sprite_bg_colors(0, Color16::Transparent2);
           sprite_bethlehem_star->clone_frame(1, 0);
-          sprite_bethlehem_star->set_sprite_chars(1, { 2, 3, 5, 1 },
+          sprite_bethlehem_star->set_sprite_glyphs(1, { 2, 3, 5, 1 },
             'v', '|', '*', '|', '^'
           );
           sprite_bethlehem_star->func_calc_anim_frame = [](auto sim_frame)
