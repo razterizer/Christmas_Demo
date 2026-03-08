@@ -665,7 +665,7 @@ public:
     sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
     sprite_ground->init(ground_height, sh.num_cols());
     sprite_ground->create_frame(0);
-    sprite_ground->fill_sprite_chars(0, ' ');
+    sprite_ground->fill_sprite_glyphs(0, ' ');
     sprite_ground->fill_sprite_bg_colors(0, ground_dark_color);
     sprite_ground->fill_sprite_materials(0, 1);
     rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f, // Zero mass == immovable.
@@ -926,7 +926,7 @@ public:
         Color16::Transparent2, Color16::Transparent2, Color16::DarkRed
     );
     sprite_squirrel->create_frame(2);
-    sprite_squirrel->fill_sprite_chars(2, ' ');
+    sprite_squirrel->fill_sprite_glyphs(2, ' ');
     sprite_squirrel->fill_sprite_fg_colors(2, Color16::Transparent2);
     sprite_squirrel->fill_sprite_bg_colors(2, Color16::Transparent2);
     sprite_squirrel->enabled = true;
@@ -1048,7 +1048,7 @@ public:
       Color16::Transparent2, Color16::Transparent2
     );
     sprite_owl->create_frame(3);
-    sprite_owl->fill_sprite_chars(3, ' ');
+    sprite_owl->fill_sprite_glyphs(3, ' ');
     sprite_owl->fill_sprite_fg_colors(3, Color16::Transparent2);
     sprite_owl->fill_sprite_bg_colors(3, Color16::Transparent2);
     sprite_owl->enabled = true;
@@ -1096,7 +1096,7 @@ public:
     sprite_lake->layer_id = 4;
     sprite_lake->init(3, 35);
     sprite_lake->create_frame(0);
-    sprite_lake->fill_sprite_chars(0, ' ');
+    sprite_lake->fill_sprite_glyphs(0, ' ');
     sprite_lake->fill_sprite_fg_colors(0, Color16::Black);
     // upside down.
     sprite_lake->set_sprite_bg_colors(0,
@@ -1789,7 +1789,7 @@ private:
           sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
           sprite_ground->init(ground_height, sh.num_cols());
           sprite_ground->create_frame(0);
-          sprite_ground->fill_sprite_chars(0, ':');
+          sprite_ground->fill_sprite_glyphs(0, ':');
           sprite_ground->fill_sprite_fg_colors(0, Color16::DarkGray);
           sprite_ground->fill_sprite_bg_colors(0, Color16::DarkYellow);
           
