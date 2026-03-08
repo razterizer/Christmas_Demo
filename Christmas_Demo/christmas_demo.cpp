@@ -2188,11 +2188,11 @@ private:
             -3, -3, -3, -3, -3, -3, -3
           );
           sprite_lamb->clone_frame(1, 0);
-          sprite_lamb->set_sprite_chars_horiz(1, 2, 2, 5,
+          sprite_lamb->set_sprite_glyphs_horiz(1, 2, 2, 5,
             'u', ' ', 'u', 'u'
           );
           sprite_lamb->clone_frame(2, 0);
-          sprite_lamb->set_sprite_chars_horiz(2, 2, 2, 5,
+          sprite_lamb->set_sprite_glyphs_horiz(2, 2, 2, 5,
             'u', 'u', ' ', 'u'
           );
           sprite_lamb_arr = sprh.clone_sprite_array<3>("lamb", "lamb");
