@@ -844,8 +844,8 @@ public:
       [this](int){ return friction_tree; },
       [](int){ return 0.f; }, // crit speed r
       [](int){ return 0.f; }, // crit speed c
-      [](int){ return std::vector { 1 }; }, // inertia mats
-      [](int){ return std::vector { 1 }; } // coll mats
+      [](int){ return std::vector<uint8_t> { 1 }; }, // inertia mats
+      [](int){ return std::vector<uint8_t> { 1 }; } // coll mats
     );
     for (auto* sprite : sprite_tree_arr)
     {
