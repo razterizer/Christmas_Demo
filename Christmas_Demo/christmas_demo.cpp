@@ -2440,8 +2440,6 @@ int main(int argc, char** argv)
     return EXIT_SUCCESS;
   }
   
-  game.init();
-  game.generate_data();
   game.run();
 
   return EXIT_SUCCESS;
