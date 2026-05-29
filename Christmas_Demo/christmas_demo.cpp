@@ -28,7 +28,7 @@ using SpriteHandler = t8x::SpriteHandler;
 using TransitionAnimationSingle = t8x::TransitionAnimationSingle;
 using TransitionAnimationInOut = t8x::TransitionAnimationInOut;
 using ParticleHandler = t8x::ParticleHandler;
-using ParticleGradientGroup = t8x::ParticleGradientGroup;
+using ParticleGradientGroup = t8x::ParticleGradientGroup<std::string>;
 using RigidBody = t8x::RigidBody;
 using DynamicsSystem = t8x::DynamicsSystem;
 using CollisionHandler = t8x::CollisionHandler;
@@ -72,11 +72,11 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
       sprite_star->init(1, 1);
       sprite_star->create_frame(0);
       char star_ch = rnd::rand_select<char>({ '.', '+' });
-      sprite_star->set_sprite_chars(0, star_ch);
       sprite_star->set_sprite_fg_colors(0, rnd::rand_select<Color16>({ Color16::White, Color16::White, Color16::White, Color16::White, Color16::White, Color16::Yellow, Color16::Yellow, Color16::Yellow, Color16::Red, Color16::Blue, Color16::Blue, Color16::Blue }));
+      sprite_star->set_sprite_glyphs(0, star_ch);
       sprite_star->set_sprite_bg_colors(0, Color16::Transparent2);
       sprite_star->create_frame(1);
-      sprite_star->set_sprite_chars(1, star_ch);
+      sprite_star->set_sprite_glyphs(1, star_ch);
       sprite_star->set_sprite_fg_colors(1, Color16::Black);
       sprite_star->set_sprite_bg_colors(1, Color16::Transparent2);
       const int max_twinkle = 100;
@@ -519,9 +519,9 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
           if (texture != nullptr)
           {
             auto curr_textel = (*texture)(0, 0);
-            if (curr_textel.ch != '#')
+            if (curr_textel.glyph != '#')
             {
-              curr_textel.ch = '#';
+              curr_textel.glyph = '#';
               curr_textel.fg_color = Color16::LightGray;
               curr_textel.bg_color = Color16::LightGray;
               texture->set_textel(0, 0, curr_textel);
@@ -546,7 +546,7 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
       sh.print_screen_buffer(Color16::Black, offscreen_buffer);
       for (const auto& rp : reflection_positions)
       {
-        lake_texture->set_textel_char(rp.r, rp.c, textel_reflection.ch);
+        lake_texture->set_textel_glyph(rp.r, rp.c, textel_reflection.glyph);
         lake_texture->set_textel_fg_color(rp.r, rp.c, textel_reflection.fg_color);
       }
     }
@@ -665,7 +665,7 @@ public:
     sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
     sprite_ground->init(ground_height, sh.num_cols());
     sprite_ground->create_frame(0);
-    sprite_ground->fill_sprite_chars(0, ' ');
+    sprite_ground->fill_sprite_glyphs(0, ' ');
     sprite_ground->fill_sprite_bg_colors(0, ground_dark_color);
     sprite_ground->fill_sprite_materials(0, 1);
     rb_ground = dyn_sys.add_rigid_body(sprite_ground, 0.f, // Zero mass == immovable.
@@ -844,8 +844,8 @@ public:
       [this](int){ return friction_tree; },
       [](int){ return 0.f; }, // crit speed r
       [](int){ return 0.f; }, // crit speed c
-      [](int){ return std::vector { 1 }; }, // inertia mats
-      [](int){ return std::vector { 1 }; } // coll mats
+      [](int){ return std::vector<int> { 1 }; }, // inertia mats
+      [](int){ return std::vector<int> { 1 }; } // coll mats
     );
     for (auto* sprite : sprite_tree_arr)
     {
@@ -926,7 +926,7 @@ public:
         Color16::Transparent2, Color16::Transparent2, Color16::DarkRed
     );
     sprite_squirrel->create_frame(2);
-    sprite_squirrel->fill_sprite_chars(2, ' ');
+    sprite_squirrel->fill_sprite_glyphs(2, ' ');
     sprite_squirrel->fill_sprite_fg_colors(2, Color16::Transparent2);
     sprite_squirrel->fill_sprite_bg_colors(2, Color16::Transparent2);
     sprite_squirrel->enabled = true;
@@ -1048,7 +1048,7 @@ public:
       Color16::Transparent2, Color16::Transparent2
     );
     sprite_owl->create_frame(3);
-    sprite_owl->fill_sprite_chars(3, ' ');
+    sprite_owl->fill_sprite_glyphs(3, ' ');
     sprite_owl->fill_sprite_fg_colors(3, Color16::Transparent2);
     sprite_owl->fill_sprite_bg_colors(3, Color16::Transparent2);
     sprite_owl->enabled = true;
@@ -1096,7 +1096,7 @@ public:
     sprite_lake->layer_id = 4;
     sprite_lake->init(3, 35);
     sprite_lake->create_frame(0);
-    sprite_lake->fill_sprite_chars(0, ' ');
+    sprite_lake->fill_sprite_glyphs(0, ' ');
     sprite_lake->fill_sprite_fg_colors(0, Color16::Black);
     // upside down.
     sprite_lake->set_sprite_bg_colors(0,
@@ -1136,7 +1136,7 @@ public:
     sprite_snowflake->pos = { 0, 27 };
     sprite_snowflake->init(1, 1);
     sprite_snowflake->create_frame(0);
-    sprite_snowflake->set_sprite_chars(0, '*');
+    sprite_snowflake->set_sprite_glyphs(0, '*');
     sprite_snowflake->set_sprite_fg_colors(0, Color16::White);
     sprite_snowflake->set_sprite_bg_colors(0, Color16::Transparent2);
     sprite_snowflake->set_sprite_materials(0, 1);
@@ -1789,7 +1789,7 @@ private:
           sprite_ground->pos = { sh.num_rows() - ground_height, 0 };
           sprite_ground->init(ground_height, sh.num_cols());
           sprite_ground->create_frame(0);
-          sprite_ground->fill_sprite_chars(0, ':');
+          sprite_ground->fill_sprite_glyphs(0, ':');
           sprite_ground->fill_sprite_fg_colors(0, Color16::DarkGray);
           sprite_ground->fill_sprite_bg_colors(0, Color16::DarkYellow);
           
@@ -2103,9 +2103,9 @@ private:
           {
             t8::Rectangle bb { 6, 1, 1, 2 };
             sprite_josef->clone_frame(1, 0);
-            sprite_josef->set_sprite_chars(1, bb, '\'', 'D');
+            sprite_josef->set_sprite_glyphs(1, bb, '\'', 'D');
             sprite_josef->clone_frame(2, 0);
-            sprite_josef->set_sprite_chars(2, bb, 'D', '\'');
+            sprite_josef->set_sprite_glyphs(2, bb, 'D', '\'');
           }
           sprite_josef->func_calc_anim_frame = [this, &scene_2_time](auto sim_frame)
           {
@@ -2146,9 +2146,9 @@ private:
           {
             t8::Rectangle bb { 5, 3, 1, 2 };
             sprite_shepherd->clone_frame(1, 0);
-            sprite_shepherd->set_sprite_chars(1, bb, '\'', 'C');
+            sprite_shepherd->set_sprite_glyphs(1, bb, '\'', 'C');
             sprite_shepherd->clone_frame(2, 0);
-            sprite_shepherd->set_sprite_chars(2, bb, 'C', '\'');
+            sprite_shepherd->set_sprite_glyphs(2, bb, 'C', '\'');
           }
           
           sprite_shepherd_arr = sprh.clone_sprite_array<3>("shepherd", "shepherd");
@@ -2188,11 +2188,11 @@ private:
             -3, -3, -3, -3, -3, -3, -3
           );
           sprite_lamb->clone_frame(1, 0);
-          sprite_lamb->set_sprite_chars_horiz(1, 2, 2, 5,
+          sprite_lamb->set_sprite_glyphs_horiz(1, 2, 2, 5,
             'u', ' ', 'u', 'u'
           );
           sprite_lamb->clone_frame(2, 0);
-          sprite_lamb->set_sprite_chars_horiz(2, 2, 2, 5,
+          sprite_lamb->set_sprite_glyphs_horiz(2, 2, 2, 5,
             'u', 'u', ' ', 'u'
           );
           sprite_lamb_arr = sprh.clone_sprite_array<3>("lamb", "lamb");
@@ -2240,7 +2240,7 @@ private:
           );
           sprite_bethlehem_star->fill_sprite_bg_colors(0, Color16::Transparent2);
           sprite_bethlehem_star->clone_frame(1, 0);
-          sprite_bethlehem_star->set_sprite_chars(1, { 2, 3, 5, 1 },
+          sprite_bethlehem_star->set_sprite_glyphs(1, { 2, 3, 5, 1 },
             'v', '|', '*', '|', '^'
           );
           sprite_bethlehem_star->func_calc_anim_frame = [](auto sim_frame)
@@ -2440,8 +2440,6 @@ int main(int argc, char** argv)
     return EXIT_SUCCESS;
   }
   
-  game.init();
-  game.generate_data();
   game.run();
 
   return EXIT_SUCCESS;
