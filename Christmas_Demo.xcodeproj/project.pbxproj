@@ -156,6 +156,7 @@
 				078885062CDD4F960068F108 /* Sources */,
 				078885072CDD4F960068F108 /* Frameworks */,
 				078885082CDD4F960068F108 /* CopyFiles */,
+				07C80E342FCD500100106C83 /* Copy Runtime Assets */,
 			);
 			buildRules = (
 			);
@@ -197,6 +198,38 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		07C80E342FCD500100106C83 /* Copy Runtime Assets */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Christmas_Demo/deck_the_halls.ct",
+				"$(SRCROOT)/Christmas_Demo/silent_night.ct",
+				"$(SRCROOT)/Christmas_Demo/jingle_bells.ct",
+				"$(SRCROOT)/Christmas_Demo/nigh_bethlehem.ct",
+				"$(SRCROOT)/../lib/Termin8or/include/Termin8or/title/fonts",
+			);
+			name = "Copy Runtime Assets";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/deck_the_halls.ct",
+				"$(TARGET_BUILD_DIR)/silent_night.ct",
+				"$(TARGET_BUILD_DIR)/jingle_bells.ct",
+				"$(TARGET_BUILD_DIR)/nigh_bethlehem.ct",
+				"$(TARGET_BUILD_DIR)/fonts",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nmkdir -p \"$TARGET_BUILD_DIR/fonts\"\ncp \"$SRCROOT/Christmas_Demo/deck_the_halls.ct\" \"$TARGET_BUILD_DIR/\"\ncp \"$SRCROOT/Christmas_Demo/silent_night.ct\" \"$TARGET_BUILD_DIR/\"\ncp \"$SRCROOT/Christmas_Demo/jingle_bells.ct\" \"$TARGET_BUILD_DIR/\"\ncp \"$SRCROOT/Christmas_Demo/nigh_bethlehem.ct\" \"$TARGET_BUILD_DIR/\"\ncp \"$SRCROOT/../lib/Termin8or/include/Termin8or/title/fonts/\"* \"$TARGET_BUILD_DIR/fonts/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		078885062CDD4F960068F108 /* Sources */ = {
@@ -247,7 +280,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -312,7 +345,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

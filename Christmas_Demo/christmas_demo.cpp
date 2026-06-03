@@ -43,12 +43,6 @@ class Game : public t8x::GameEngine<>, public beat::ChipTuneEngineListener
     try
     {
       std::string tune_path = get_exe_folder();
-#ifndef _WIN32
-      const char* xcode_env = std::getenv("RUNNING_FROM_XCODE");
-      if (xcode_env != nullptr)
-        tune_path = "../../../../../../../../Documents/xcode/Christmas_Demo/Christmas_Demo/"; // #FIXME: Find a better solution!
-#endif
-      
       if (chip_tune->load_tune(folder::join_path({ tune_path, tune_filename })))
       {
         chip_tune->play_tune_async();
@@ -608,7 +602,7 @@ public:
   
   virtual void generate_data() override
   {
-    font_data_path = t8x::get_path_to_font_data(get_exe_folder());
+    font_data_path = folder::join_path({ get_exe_folder(), "fonts" });
     std::cout << font_data_path << std::endl;
     
     t8::Style style_0 { Color16::White, Color16::Red };
