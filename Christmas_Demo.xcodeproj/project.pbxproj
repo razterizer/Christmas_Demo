@@ -382,6 +382,7 @@
 					../lib/Termin8or/include/,
 					../lib/8Beat/include/,
 					../lib/AudioLibSwitcher_applaudio/include,
+					../lib/AudioLibSwitcher/include,
 					../lib/applaudio/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -400,6 +401,7 @@
 					../lib/Termin8or/include/,
 					../lib/8Beat/include/,
 					../lib/AudioLibSwitcher_applaudio/include,
+					../lib/AudioLibSwitcher/include
 					../lib/applaudio/include/,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
