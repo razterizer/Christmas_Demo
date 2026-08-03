@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 REPO_DIR="Christmas_Demo"
 
 # sudo apt install libopenal-dev
