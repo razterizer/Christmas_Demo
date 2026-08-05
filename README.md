@@ -23,6 +23,24 @@
 
 ## Build & Run Instructions
 
+### Forge (recommended)
+
+With [Forge](https://github.com/razterizer/forge) installed, a fresh checkout uses the locked applaudio packages by default:
+
+```sh
+forge build
+forge run
+```
+
+Use `--config=release` for an optimized build. To build against local sibling checkouts under `../lib`, use `--style=local-source`.
+
+OpenAL is deliberately source-only and is not part of the published package or release path. After installing OpenAL Soft for your system, select it explicitly:
+
+```sh
+forge build --style=git-source --profile=openal
+forge run
+```
+
 There are two options on dealing with repo dependencies:
 
 ### Repo Dependencies Option 1

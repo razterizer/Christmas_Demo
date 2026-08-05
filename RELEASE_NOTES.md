@@ -1,5 +1,10 @@
 # Release Notes
 
+## Next
+- Adopted Forge with applaudio cboxes as the default dependency style and reproducible release locks.
+- Added an opt-in OpenAL build through `--style=git-source --profile=openal` without publishing OpenAL cboxes.
+- Declared all chiptune files as runtime assets for Forge builds and release archives.
+
 ## 1.3.0.6
 - Bumped Termin8or dependency to 3.0.0.6.
 - Updated compatibility with Termin8or's Unicode/glyph API changes.

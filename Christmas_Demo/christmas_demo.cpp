@@ -602,7 +602,10 @@ public:
   
   virtual void generate_data() override
   {
-    font_data_path = folder::join_path({ get_exe_folder(), "fonts" });
+    const auto exe_folder = get_exe_folder();
+    font_data_path = folder::join_path({ exe_folder, "Termin8or", "fonts" });
+    if (!std::filesystem::is_directory(font_data_path))
+      font_data_path = folder::join_path({ exe_folder, "fonts" });
     std::cout << font_data_path << std::endl;
     
     t8::Style style_0 { Color16::White, Color16::Red };
@@ -2438,4 +2441,3 @@ int main(int argc, char** argv)
 
   return EXIT_SUCCESS;
 }
-
