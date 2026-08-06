@@ -2,7 +2,7 @@
 
 [project]
 name = "Christmas_Demo"
-version = "1.3.0"
+version = "1.3.1"
 type = "executable"
 cpp_std = 20
 
@@ -10,7 +10,7 @@ cpp_std = 20
 paths = ["Christmas_Demo/christmas_demo.cpp"]
 
 [build]
-number = 6
+number = 7
 
 [defaults]
 style = "github-package"

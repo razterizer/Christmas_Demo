@@ -1,8 +1,10 @@
 # Release Notes
 
-## Next
+## 1.3.1.7
+
 - Adopted Forge with applaudio cboxes as the default dependency style and reproducible release locks.
 - Added an opt-in OpenAL build through `--style=git-source --profile=openal` without publishing OpenAL cboxes.
+- Updated hosted applaudio builds to 8Beat 1.0.4.7 with asynchronous chiptune playback and shutdown fixes.
 - Pinned OpenAL source builds to adapter release 1.0.1.14 through 8Beat.
 - Documented Forge build modes for applaudio, OpenAL, Release, and local development.
 - Declared all chiptune files as runtime assets for Forge builds and release archives.
