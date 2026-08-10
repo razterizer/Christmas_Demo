@@ -1,0 +1,59 @@
+#:schema https://raw.githubusercontent.com/razterizer/forge/main/schemas/forge.recipe.schema.json
+
+[project]
+name = "Christmas_Demo"
+version = "1.3.2"
+type = "executable"
+cpp_std = 20
+
+[sources]
+paths = ["Christmas_Demo/christmas_demo.cpp"]
+
+[build]
+number = 8
+
+[defaults]
+style = "github-package"
+profile = "applaudio"
+
+[runtime]
+files = [{ source = "Christmas_Demo/deck_the_halls.ct", destination = "deck_the_halls.ct" }, { source = "Christmas_Demo/jingle_bells.ct", destination = "jingle_bells.ct" }, { source = "Christmas_Demo/nigh_bethlehem.ct", destination = "nigh_bethlehem.ct" }, { source = "Christmas_Demo/silent_night.ct", destination = "silent_night.ct" }]
+
+[release]
+build_number_format = "dotted"
+
+[dependencies.style.local-source]
+8Beat = { path = "../lib/8Beat" }
+Core = { path = "../lib/Core" }
+Termin8or = { path = "../lib/Termin8or" }
+
+[dependencies.style.git-source]
+8Beat = { git = "https://github.com/razterizer/8Beat.git", commit = "fd1c58fd0886e4ed088d3c8af2d8932924f399a8" }
+Core = { git = "https://github.com/razterizer/Core.git", commit = "2164a84e18fbb8fed18d318c7253f9a7a8d5c287" }
+Termin8or = { git = "https://github.com/razterizer/Termin8or.git", commit = "7fde54f2e8866df2299535802ff152f019a904b4" }
+
+[dependencies.style.github-package]
+Core = { github = "razterizer/Core", version = "1.5.1+build.9" }
+Termin8or = { github = "razterizer/Termin8or", version = "3.0.4+build.10" }
+
+[dependencies.style.github-package.profile.applaudio]
+8Beat = { github = "razterizer/8Beat", version = "1.0.5+build.8", variant = "applaudio" }
+
+[profile.workflow-release.dependencies]
+Core = { github = "razterizer/Core", version = "1.5.1+build.9" }
+8Beat = { github = "razterizer/8Beat", version = "1.0.5+build.8", variant = "applaudio" }
+Termin8or = { github = "razterizer/Termin8or", version = "3.0.4+build.10" }
+
+[profile.workflow-release.build]
+configuration = "Release"
+defines = ["USE_APPLAUDIO"]
+
+[build.config.debug]
+configuration = "Debug"
+defines = ["DEBUG=1"]
+
+[build.config.release]
+configuration = "Release"
+
+[build.profile.applaudio]
+defines = ["USE_APPLAUDIO"]
